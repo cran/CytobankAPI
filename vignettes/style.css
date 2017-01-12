@@ -1,0 +1,62 @@
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Regular.ttf');
+}
+
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Bold.ttf');
+    font-weight: bold;
+}
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Italic.ttf');
+    font-style: italic;
+}
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Bold-Italic.ttf');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Light.ttf');
+    font-weight: 300;
+}
+@font-face {
+    font-family: CronosPro;
+    src: url('cronos-pro/Cronos-Pro_Light-Italic.ttf');
+    font-style: italic;
+    font-weight: 300;
+}
+
+/* Whole document: */
+body {
+  font-family: CronosPro;
+  font-size: 14pt;
+}
+
+/* Headers */
+h1 {
+  font-family: CronosPro;
+  font-size: 24pt;
+  color: #002855;
+}
+
+h2 {
+  font-family: CronosPro;
+  font-size: 20pt;
+  color: #002855;
+}
+
+h3 {
+  font-family: CronosPro;
+  font-size: 18pt;
+  color: #002855;
+}
+
+a {
+  color: #307FE2;
+}
+

@@ -1,0 +1,344 @@
+---
+title: "CytobankAPI quickstart guide"
+output: 
+    html_document:
+        toc: true
+        number_sections: true
+        toc_depth: 3
+        css: style.css
+        theme: cerulean
+vignette: >
+  %\VignetteIndexEntry{CytobankAPI quickstart guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(CytobankAPI)
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+***
+
+The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/api-endpoint-reference.html) for a comprehensive list of API endpoints for Cytobank.
+
+This guide will cover all components necessary from installation to using the `CytobankAPI` package:
+
+1. **Installation**: walkthrough for installing the package via github
+1. **Authentication**: generate an authentication token that must accompany every call to the Cytobank API
+1. **Requests**: functions for operations and data exchange with Cytobank via the API
+1. **Timeouts**: information about short and long timeout request times
+
+
+# Installation
+***
+
+To install this package via CRAN, start R and enter:
+
+```r
+install.packages("CytobankAPI")
+```
+
+To install this package from its source file, start R and enter:
+
+```r
+install.packages("/PATH/TO/CytobankAPI_1.0.0.tar.gz", repos = NULL, type="source")
+```
+
+
+# Authentication
+***
+
+Authentication should always be the first step when using the `CytobankAPI` package. When authenticating, save the returned authentication object to a variable. This variable will be passed as an argument to all other functions that use API endpoints.
+
+To authenticate, first load the `CytobankAPI` package, then call the authenticate function while providing site name and choice of credentials.
+
+```r
+# Load in 'CytobankAPI' package
+library(CytobankAPI)
+```
+
+There are two ways to authenticate:
+
+1. **username/password**: username (or email) and password combination to normally login to the site
+
+```r
+# Authenticate via username/password combination
+cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
+```
+
+2. **Authenticate with authentication token**: authentication tokens can be generated from the user profile page within the Cytobank web interface
+
+```{r}
+# Authenticate via authentication token
+cyto_session <- authenticate(site="premium", auth_token="secret_auth_token")
+```
+
+The authentication object also holds two other variables that control default timeout length for API requests. These variables can be set when calling the authenticate function. [Read more about timeouts below](#timeouts).
+
+```{r}
+cyto_session
+```
+
+
+# Requests
+***
+
+Interactions with the Cytobank API are mediated via requests through the `CytobankAPI` package. Individual requests are organized into different endpoint groups according to similar functionality within Cytobank. The general form of any request is `endpoint.method`. Current endpoint groups are as follows:
+
+* attachments
+* compensations
+* experiments
+* FCS files
+* gates
+* panels
+* populations
+* scales
+* statistics
+* users
+
+Each endpoint group and each function within the groups has low level documentation viewable while working with the package in R.
+
+## Making a request
+***
+
+Requests to Cytobank API endpoints can only be made after authenticating (see above). The authentication object will be passed as the first parameter of any endpoint request.
+
+```r
+# Making a request to the 'experiments' endpoint to create a new experiment
+new_experiment <- experiments.new(cyto_session, experiment_name="My New Experiment", purpose="CytobankAPI quickstart vignette")
+
+View(new_experiment)
+```
+
+```{r, echo=FALSE, message=FALSE}
+c1 <- c(1, 0.007, 0, 0.0023, 0, 0.0026)
+
+new_experiment_dataframe <- data.frame(id=c(1),
+                                       version=c(42),
+                                       purpose=c("CytobankAPI quickstart vignette"),
+                                       comments=c(""),
+                                       public=c(FALSE),
+                                       deleted=c(FALSE),
+                                       sources=c(""),
+                                       experimentName=c("My New Experiment"),
+                                       ...=c("..."),
+                                       stringsAsFactors=FALSE)
+
+knitr::kable(new_experiment_dataframe)
+```
+
+The default return option within this package is a **formatted** response (usually in the form of a dataframe) that represents the endpoint response. [Read more about return types and output options below](#return-types-and-output-options).
+
+```r
+# Raw list endpoint response
+new_experiment <- experiments.new(cyto_session, experiment_name="My New Experiment", purpose="For the CytobankAPI quickstart vignette", output="raw")
+
+#> $experiment
+#> $experiment$id
+#> [1] 22
+#> 
+#> $experiment$purpose
+#> [1] "For the CytobankAPI quickstart vignette"
+#> 
+#> $experiment$comments
+#> NULL
+#> 
+#> $experiment$public
+#> [1] FALSE
+#> 
+#> $experiment$experimentName
+#> [1] "My New Experiment"
+#> ...
+```
+
+Note that the new experiment was returned as a list object. The various attributes of the experiment object are named items in the list. See section below for discussion on changing output type.
+
+
+## Return types and output options
+***
+
+Functions within this package return output of dataframes, characters (strings), and lists. Each function will support different output options depending on the type of data it returns. Available output options are specified on a per-function basis within the low-level package documentation.
+
+### Default output
+***
+
+Generally, the default return type for most functions in this package is a dataframe object. This object is a **formatted** conversion from the JSON objects returned from the API over HTTP. Attributes of the dataframe can be accessed by name in typical fashion. An example of information returned by default can be seen directly above with the creation of a new experiment without any output option. 
+
+Some functions, such as for downloading an FCS file or attachment, will instead return a string representing the filepath of the downloaded file on the local computer.
+
+In other cases, there are special return structures that provide better access to data such as complex lists (i.e. returned via panel endpoints) and class objects (i.e. returned via [advanced analyses endpoints](cytobank-advanced-analyses.html)).
+
+```r
+# Download an FCS file with ID 10, from experiment 22
+downloaded_fcs_file <- fcs_files.download(cyto_session, experiment_id=22, fcs_file_id=10, directory="/my/specified/directory")
+
+downloaded_fcs_file
+#> [1] "/my/specified/directory/my_file.fcs"
+```
+
+### Dataframes
+***
+
+Special dataframes output mode can be chosen for endpoints that return **compensations** or **statistics**.
+
+In the case of compensations, the default return object is a list that contains the compensation matrix, with the addition of extra compensation data. With the 'dataframe' output option, only the compensation matrix dataframe is returned.
+
+See section below for more discussion on other return types available from functions within this package.
+
+
+### Compensations dataframes
+***
+
+Dataframes representing compensation matrices allow for easier viewing and editing compared to the default list return type. It is also useful for combining `CytobankAPI` with other 3rd party tools such as [FlowCore](http://bioconductor.org/packages/release/bioc/html/flowCore.html).
+
+`compensations.show` and `fcs_files.file_internal_comp_show` are the two endpoints that can return dataframes of a compensation matrix. Use a value of 'dataframe' for the output argument in the function call:
+
+```r
+# Dataframe representing compensation matrix 8 for experiment 22
+compensation_matrix_dataframe <- compensations.show(cyto_session, experiment_id=22, compensation_id=8, output="dataframe")
+
+# Dataframe representing FCS file 8 internal compensation matrix for experiment 22
+fi_compensation_matrix_dataframe <- fcs_files.file_internal_comp_show(cyto_session, fcs_file_id=8, output="dataframe")
+
+View(compensation_matrix_dataframe)
+```
+
+```{r, echo=FALSE, message=FALSE}
+c1 <- c(1, 0.007, 0, 0.0023, 0, 0.0026)
+c2 <- c(0.2986, 1, 0, 0.0703, 0, 0.002)
+c3 <- c(0.0165, 0.0726, 1, 0.015, 0.0039, 0)
+c4 <- c(0, 0.0055, 0.134, 1, 0, 0)
+c5 <- c(0, 0, 0.0495, 0, 1, 0)
+c6 <- c(0, 0.0017, 0.012, 0.0034, 0, 1)
+
+compensation_matrix_dataframe <- data.frame(c1, c2, c3, c4, c5, c6, row.names=c("channel1", "channel2", "channel3", "channel4", "channel5", "channel6"))
+colnames(compensation_matrix_dataframe) <- c("channel1", "channel2", "channel3", "channel4", "channel5", "channel6")
+
+knitr::kable(compensation_matrix_dataframe)
+```
+
+
+### Statistics dataframes
+***
+
+There are different output options for each statistics endpoint:
+
+* `statistics.event_counts`: use the 'dataframe' output option
+    * **dataframe**: visualize all event count statistics for the data provided
+* `statistics.general`: use either the 'dataframe_col' or 'dataframe_row' output option
+    * **dataframe_col**: in cases where there are statistics for multiple channels, accumulate serially by column
+    * **dataframe_row**: in cases where there are statistics for multiple channels, accumulate serially by row
+
+```r
+View(statistics_dataframe_proliferate_by_row)
+```
+
+```{r, echo=FALSE, message=FALSE}
+statistics_dataframe_proliferate_by_row <- data.frame(matrix(vector(), 0, 4, dimnames=list(c(), c("File/Population information", "Channel 1 statistics", "Channel 2 statistics", "Channel 3 statistics"))), check.names=FALSE)
+
+new_row <- c("File 1/ Population 1 info", "F1/P1/Ch1 statistics", "F1/P1/Ch2 statistics", "F1/P1/Ch3 statistics")
+statistics_dataframe_proliferate_by_row[nrow(statistics_dataframe_proliferate_by_row)+1,] <- new_row
+new_row <- c("File 1/ Population 2 info", "F1/P2/Ch1 statistics", "F1/P2/Ch2 statistics", "F1/P2/Ch3 statistics")
+statistics_dataframe_proliferate_by_row[nrow(statistics_dataframe_proliferate_by_row)+1,] <- new_row
+new_row <- c("File 2/ Population 1 info", "F2/P1/Ch1 statistics", "F2/P1/Ch2 statistics", "F2/P1/Ch3 statistics")
+statistics_dataframe_proliferate_by_row[nrow(statistics_dataframe_proliferate_by_row)+1,] <- new_row
+new_row <- c("File 2/ Population 2 info", "F2/P2/Ch1 statistics", "F2/P2/Ch2 statistics", "F2/P2/Ch3 statistics")
+statistics_dataframe_proliferate_by_row[nrow(statistics_dataframe_proliferate_by_row)+1,] <- new_row
+
+# statistics_dataframe_proliferate_by_row <- data.frame(matrix(vector(), 0, 30, dimnames=list(c(), c("experimentId", "gateVersion", "compensationId", "fcsFileId", "fcsFileName", "gateSetId", "gateSetName", "eventCounts", "channelShortNameId", "shortChannelName", "longChannelName", "minimums", "maximums", "means", "medians", "variances", "standardDeviations", "secondPercentiles", "ninetyEighthPercentiles", "channelShortNameId", "shortChannelName", "longChannelName", "minimums", "maximums", "means", "medians", "variances", "standardDeviations", "secondPercentiles", "ninetyEighthPercentiles"))))
+# 
+# new_row <- c(1208, 1, -2, 41514, "il10.fcs", 6, "CD3+CD4- T cells", 3383, 15, "PacBlu-A", "CD4", -143.701830921412, 386.655349398012, 97.602683405189, 94.5949940144421, 6484.29057677642, 80.5250928392909, -60.9314555262346, 273.152308001343, 8, "PE-A", "CD33", -296.74658042302, 505.623054043652, 63.9457311236668, 61.3383712370893, 11847.6907259889, 108.847097921758, -151.388970866581, 306.168386826939)
+# statistics_dataframe_proliferate_by_row[nrow(statistics_dataframe_proliferate_by_row)+1,] <- new_row
+
+knitr::kable(statistics_dataframe_proliferate_by_row)
+```
+
+*Each row represents a file/population combination's channel statistics for the channels selected.*
+
+
+```r
+View(statistics_dataframe_proliferate_by_col)
+```
+
+```{r, echo=FALSE, message=FALSE}
+statistics_dataframe_proliferate_by_col <- data.frame(matrix(vector(), 0, 2, dimnames=list(c(), c("File/Population information", "Channel statistics"))), check.names=FALSE)
+new_row <- c("File 1/ Population 1 info", "Ch1 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 1/ Population 1 info", "Ch2 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 1/ Population 1 info", "Ch3 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+
+new_row <- c("File 1/ Population 2 info", "Ch1 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 1/ Population 2 info", "Ch2 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 1/ Population 2 info", "Ch3 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+
+new_row <- c("File 2/ Population 1 info", "Ch1 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 2/ Population 1 info", "Ch2 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 2/ Population 1 info", "Ch3 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+
+new_row <- c("File 2/ Population 2 info", "Ch1 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 2/ Population 2 info", "Ch2 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+new_row <- c("File 2/ Population 2 info", "Ch3 statistics")
+statistics_dataframe_proliferate_by_col[nrow(statistics_dataframe_proliferate_by_col)+1,] <- new_row
+
+knitr::kable(statistics_dataframe_proliferate_by_col)
+```
+
+*A set of rows represent a single file/population combination's channel statistics.*
+
+
+In the examples above, the information and statistics included within the columns has been abridged. Here is a full description of the columns present in a statistics data frame:
+
+* **File/Population information**
+```{r, echo=FALSE, message=FALSE}
+file_population_information <- data.frame(matrix(vector(), 0, 8, dimnames=list(c(), c("expId", "gateVersion", "compId", "fcsFileId", "fcsFileName", "gateSetId", "gateSetName", "eventCounts"))), check.names=FALSE)
+
+new_row <- c("22", "1", "-2", "8", "il10.fcs", "5", "CD20+ B cells", "10000")
+file_population_information[nrow(file_population_information)+1,] <- new_row
+new_row <- c("22", "1", "-2", "9", "il6.fcs", "5", "CD20+ B cells", "20000")
+file_population_information[nrow(file_population_information)+1,] <- new_row
+new_row <- c("22", "1", "-2", "10", "lps.fcs", "5", "CD20+ B cells", "30000")
+file_population_information[nrow(file_population_information)+1,] <- new_row
+
+knitr::kable(file_population_information, align="c")
+```
+
+> *File/Population information names are abbreviated to fit table*
+
+* **Channel statistics**
+```{r, echo=FALSE, message=FALSE}
+channel_statistics <- data.frame(matrix(vector(), 0, 11, dimnames=list(c(), c("chId", "short", "long", "mins", "maxs", "means", "medians", "variances", "stdDev", "2nd", "98th"))), check.names=FALSE)
+
+new_row <- c("7", "PacBlu-A", "CD4", "-143.70", "386.65", "97.60", "94.59", "6484.29", "80.52", "-60.93", "273.15")
+channel_statistics[nrow(channel_statistics)+1,] <- new_row
+
+knitr::kable(channel_statistics, align="c")
+```
+
+> *Channel statistics names are abbreviated to fit table*
+
+
+### Raw lists
+***
+
+This object is a **direct** conversion from the JSON objects returned from the API over HTTP. Attributes of the raw list can be accessed by name in typical fashion. An examples of information returned as a raw list can be seen directly above with the creation of a new experiment, using the "raw" output option.
+
+
+# Timeouts
+***
+
+Each function that makes a call to the Cytobank API is bounded by a timeout. If the wait time of the function call exceeds the timeout value, the call will be abandoned. Custom values for timeout can be passed as an argument to each function call, but in the absence of this argument default values are pulled from the authentication object. Each function uses either the **short_timeout** or the **long_timeout** attribute from the authentication object as a default value. Simple requests that are expected to return quickly (such as retrieving a list of FCS files in an experiment) use **short_timeout**. Requests that could take longer to return (such as statistics) use **long_timeout**.
+
+    * **short timeout**: change the default timeout time for short requests (*default = 30 seconds*)
+    * **long timeout**: change the default timeout time for long requests (*default = 60 seconds*)
+

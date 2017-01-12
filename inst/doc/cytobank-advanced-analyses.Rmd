@@ -1,0 +1,332 @@
+---
+title: "CytobankAPI advanced analysis guide"
+output: 
+    html_document:
+        toc: true
+        number_sections: true
+        toc_depth: 3
+        css: style.css
+        theme: cerulean
+vignette: >
+  %\VignetteIndexEntry{CytobankAPI advanced analysis guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(CytobankAPI)
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+
+SPADE_object <- new("SPADE")
+viSNE_object <- new("viSNE")
+CITRUS_object <- new("CITRUS")
+```
+
+***
+
+The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/api-endpoint-reference.html) for a comprehensive list of API endpoints for Cytobank.
+
+Within the `CytobankAPI` package, there are endpoints to interact with advanced analyses via R. This documentation is an overview of the different ways to utilize advanced analyses. To find more general documentation on using the `CytobankAPI` package, view the [Cytobank quickstart guide](cytobank-quickstart.html).
+
+All advanced analyses are encapsulated within an _object_. This guide will be an overview of advanced analyses _object_ structures:
+
+1. **Advanced Analyses _Objects_**: What are advanced analyses _objects_
+1. **Interactions**: How to interact with the advanced analyses _objects_
+
+
+# Advanced Analyses _Objects_
+***
+
+## Representation
+***
+
+Every advanced analysis is represented as an _object_. Creating a new advanced analysis will return an object that is passed to all of their other respective advanced analysis endpoints.
+
+Important information to note:
+
+1. Each advanced analysis object returned can be edited directly
+1. Each advanced analysis object is a **representation**, but does not necessarily mean it is the same as what is seen in the GUI. In order to get the most current settings, utilize the `show` endpoint, or update the advanced analysis with the current settings using the `update` endpoint
+1. When the update method is called on the advanced analysis object, the existing record for the run on the Cytobank is overwritten according to the settings in the object
+    
+```r
+viSNE_analysis <- visne.show(cyto_session, experiment_id=22, visne_id=214)
+viSNE_analysis@name
+#>  [1] "My viSNE analysis example"
+
+# Update the viSNE analysis object name directly
+viSNE_analysis@name <- "My updated viSNE analysis name"
+# Update the viSNE analysis using the 'visne.update' endpoint
+updated_viSNE <- visne.update(cyto_session, viSNE_analysis)
+updated_viSNE@name
+#>  [1] "My updated viSNE analysis name"
+```
+
+## Common features
+***
+
+There are common features for all advanced analyses:
+
+1. **Name**: The name of the advanced analysis
+1. **Compensation ID**: The compensation ID used for the advanced analysis
+1. **Channels**: The channels being analyzed within the algorithm (clustering or for general analysis)
+1. **Source Experiment**: The experiment the advanced analysis belongs to (all advanced analyses belong to an experiment)
+1. **Status**: The state of the advanced analysis (_new, running, done, canceled, etc._)
+1. **Available FCS files, channels, and populations**: Available data that is useful for the advanced analysis (this is retrieved by the fcs_files.list, panels.list, and populations.list endpoints)
+
+## Unique features for each advanced analysis method
+***
+
+There are special settings that pertain to each advanced analysis algorithm. These settings affect how the advanced analysis algorithm is ran. For each advanced analysis, you can view their respective settings and slots as shown below.
+
+```r
+SPADE_object <- spade.new(cyto_session, experiment_id=22, spade_name="My new Cytobank SPADE analysis")
+```
+
+```{r}
+slotNames(SPADE_object)
+```
+
+[Learn more about SPADE settings](https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis).
+
+```r
+viSNE_object <- visne.new(cyto_session, experiment_id, visne_name="My new Cytobank viSNE analysis")
+```
+
+```{r}
+slotNames(viSNE_object)
+```
+
+[Learn more about viSNE settings](https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis).
+
+```r
+CITRUS_object <- citrus.new(cyto_session, experiment_id, citrus_name="My new Cytobank CITRUS analysis")
+```
+
+```{r}
+slotNames(CITRUS_object)
+```
+
+[Learn more about CITRUS settings](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis).
+
+# Interacting with advanced analyses objects
+***
+
+See each section below for instructions on how to interact with the object for each advanced analysis.
+
+## SPADE
+***
+
+### Updating general SPADE settings
+
+Directly update SPADE settings via their slot names. 
+
+The following slots can be updated directly:
+
+* population_id
+* channels
+* compensation
+* target_number_nodes
+* down_sampled_events_target
+* fold_change_groups ([_see the next section for how to update SPADE fold change groups_](#updating-spade-fold-change-groups))
+
+```r
+# Set a new population, target number of nodes, and compensation
+SPADE_object@population_id <- 2
+SPADE_object@target_number_nodes <- 150
+SPADE_object@compensation_id <- 22
+
+# Update channels
+channels_vector <- c(2, 3, 5, 8)
+SPADE_object@channels <- channels_vector
+
+# Bulk update the changes made to the SPADE object
+SPADE_object <- spade.update(cyto_session, SPADE_object)
+
+SPADE_object@population_id
+#> [1] 2
+SPADE_object@target_number_nodes
+#> [1] 150
+SPADE_object@compensation_id
+#> [1] 22
+SPADE_object@channels
+#> [[1]]
+#> [1] 2
+#>
+#> [[2]]
+#> ...
+```
+
+### Updating SPADE fold change groups
+***
+
+SPADE fold change groups are used to categorize different files into separate collections that will be compared amongst each other. There are 2 important settings to pay attention to:
+
+1. group_name: The group a specific file belongs to
+1. baseline: The file(s) used as the baseline in order to calculate fold change
+
+**Directly update SPADE fold change groups data.**
+
+```r
+# Set 'file6.fcs' and 'file7.fcs' as the baseline for 'Group 1'
+SPADE_object@fold_change_groups[grep("my_file6|my_file7", 
+    SPADE_object@fold_change_groups$name),]$baseline <- TRUE
+
+# Set 'file2.fcs', 'file4.fcs', and 'file8.fcs' as part of 'Group 2', and set 'file2.fcs' as the baseline
+SPADE_object@fold_change_groups[grep("file2|file4|file8", 
+    SPADE_object@fold_change_groups$name),]$group_name <- "Group 2"
+SPADE_object@fold_change_groups[SPADE_object@fold_change_groups$name=="file2.fcs",]$baseline <- TRUE
+
+View(SPADE_object@fold_change_groups)
+```
+
+```{r, echo=FALSE, message=FALSE}
+fold_change_groups <- data.frame(id=c(44853, 44854, 44855, 44856, 44857, 44858, 44859, 44860),
+                                 name=c("file1.fcs", "file2.fcs", "file3.fcs", "file4.fcs", "file5.fcs", "file6.fcs", "file7.fcs", "file8.fcs"),
+                                 baseline=c(FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE),
+                                 group_name=c("Group 1", "Group 2", "Group 1", "Group 2", "Group 1", "Group 1", "Group 1", "Group 2"),
+                                 stringsAsFactors=FALSE)
+
+knitr::kable(fold_change_groups)
+```
+
+[Learn more about SPADE fold change groups](https://support.cytobank.org/hc/en-us/articles/206145497-SPADE-with-fold-change-overview-setup-and-analysis).
+
+## viSNE
+***
+
+### Updating general viSNE settings
+
+Directly update viSNE settings via their slot names.
+
+The following slots can be updated directly:
+
+* sampling_target_type
+* sampling_total_count
+* channels
+* compensation_id
+* iterations
+* perplexity
+* theta
+
+The following slots must be updated via helper functions:
+
+* population_selections ([_see the next section for how to update viSNE population selections_](#updating-visne-population-selections))
+    * visne.helper.set_populations
+
+```r
+# Set a new sampling target type, sampling total count, and compensation
+viSNE_object@sampling_target_type <- "equal"
+viSNE_object@sampling_total_count <- 150000
+viSNE_object@compensation_id <- 22
+
+# Bulk update the changes made to the viSNE object
+viSNE_object <- visne.update(cyto_session, viSNE_object)
+```
+
+### Updating viSNE population selections
+***
+
+Adding viSNE population selections is slightly more difficult because the same file can be used in the analysis in combination with multiple populations. Because of this complexity, the `visne.helper.set_populations` helper function is used to set files for a selected population.
+
+Parameters for `visne.helper.set_populations`:
+
+1. visne: The viSNE object to set populations for
+1. population_id: The gate set ID for the specified population (different than the actual population ID, and can be obtained by looking at the `.available_populations` slot)
+1. fcs_files: A vector/list of FCS files to set for the population
+
+**Set files for a specific population through the `visne.helper.set_populations` helper function.**
+
+Setting files for a specific population will overwrite the files previously set for the population in question.
+
+```r
+# Set files for different populations
+viSNE_object <- visne.helper.set_populations(viSNE_object, population_id=1, fcs_files=c(44853))
+viSNE_object <- visne.helper.set_populations(viSNE_object, population_id=2, fcs_files=c(44867,44868))
+viSNE_object <- visne.helper.set_populations(viSNE_object, population_id=4, fcs_files=unlist(visne@.available_files[grep("file4|file5|file6", visne@.available_files$filename),]$id))
+# Overwrite 'population_id=2' FCS file selection, note that 'file1.fcs' and 'file2.fcs' are in both 'Population 1', as well as 'Population 2'
+viSNE_object <- visne.helper.set_populations(viSNE_object, population_id=2, fcs_files=c(44854,44855, 44853, 44867))
+
+# Update the changes made to viSNE population selections
+viSNE_object <- visne.update(cyto_session, viSNE_object)
+
+View(viSNE_object@population_selections)
+```
+
+```{r, echo=FALSE, message=FALSE}
+fold_change_groups <- data.frame(id=c(44853, 44856, 44857, 44858, 44854, 44855, 44853, 44856),
+                                 name=c("file1.fcs", "file4.fcs", "file5.fcs", "file6.fcs", "file2.fcs", "file3.fcs", "file1.fcs", "file4.fcs"),
+                                 samplingCount=c(NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_),
+                                 eventCount=c(NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_),
+                                 populationId=c(1, 4, 4, 4, 2, 2, 2, 2),
+                                 populationName=c("Population 1", "Population 4", "Population 4", "Population 4", "Population 2", "Population 2", "Population 2", "Population 2"),
+                                 stringsAsFactors=FALSE)
+
+knitr::kable(fold_change_groups)
+```
+
+[Learn more about selecting viSNE populations](https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#populations).
+
+## CITRUS
+***
+
+### Updating general CITRUS settings
+
+Directly update CITRUS settings via their slot names.
+
+The following slots can be updated directly:
+
+* population_id
+* channels
+* file_grouping ([_see the next section for how to update CITRUS file grouping_](#updating-citrus-file-grouping))
+* compensation_id
+* association_models
+* cluster_characterization
+* event_sampling_method
+* events_per_file
+* minimum_cluster_size
+* cross_validation_folds
+* false_discovery_rate
+* normalize_scales
+* plot_theme
+
+```r
+# Set a new plot theme, association models, and compensation
+CITRUS_object@plot_theme <- "black"
+CITRUS_object@association_models <- c("pamr", "glmnet")
+CITRUS_object@compensation_id <- 22
+
+# Bulk update the changes made to the CITRUS object
+CITRUS_object <- citrus.update(cyto_session, CITRUS_object)
+```
+
+### Updating CITRUS file grouping
+***
+
+The core functionality of CITRUS is establishing biological explanations for why samples between two or more groups differ from each other. CITRUS file grouping is used to categorize different files into these groups. There is 1 important setting to pay attention to:
+
+1. group_name: The group that each file is associated with
+
+    * Each file must be associated with a group, if any file is 'Unassigned', the CITRUS analysis cannot be ran
+    * There must be at least 2 groups in order to run a CITRUS analysis
+    
+**Directly update CITRUS file grouping data.**
+    
+```r
+# Set 'file1.fcs' through 'file4.fcs' to 'Group 1' and 'file5.fcs' through 'file8.fcs' to 'Group 2'
+CITRUS_object@file_grouping[CITRUS_object@file_grouping$id <= 44856,]$group_name <- "Group 1"
+CITRUS_object@file_grouping[is.element(c(44857, 44858, 44859, 44860), CITRUS_object@file_grouping$id),]$group_name <- "Group 2"
+
+View(CITRUS_object@file_grouping)
+```
+
+```{r, echo=FALSE, message=FALSE}
+fold_change_groups <- data.frame(id=c(44853, 44854, 44855, 44856, 44857, 44858, 44859, 44860, 44861),
+                                 name=c("file1.fcs", "file2.fcs", "file3.fcs", "file4.fcs", "file5.fcs", "file6.fcs", "file7.fcs", "file8.fcs", "file9.fcs"),
+                                 group_name=c("Group 1", "Group 1", "Group 1", "Group 1", "Group 2", "Group 2", "Group 2", "Group 2", "Unassigned"),
+                                 stringsAsFactors=FALSE)
+
+knitr::kable(fold_change_groups)
+```
+
+[Learn more about CITRUS file grouping](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups).
+
