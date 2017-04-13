@@ -9,7 +9,7 @@ A CITRUS advanced analysis object
 }
 \description{
 A CITRUS object that holds pertinent CITRUS advanced analysis run information, \href{https://support.cytobank.org/hc/en-us/articles/226940667-Overview-of-CITRUS}{learn more about CITRUS}.
-This class should never be called explicitly. If a user would like to create a new Cytobank CITRUS object, utilize the \link{citrus.new} function.
+This class should never be called explicitly. If a user would like to create a new Cytobank CITRUS object, utilize the \link{citrus.new} function, or any other \link[=citrus]{CITRUS endpoints that return CITRUS objects documented in the 'Details' section}.
 }
 \section{Slots}{
 
@@ -26,7 +26,7 @@ This class should never be called explicitly. If a user would like to create a n
 \item{\code{cluster_characterization}}{character representing the principle for analyzing and quantifying individual samples, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Cluster_Characterization}{learn more about CITRUS cluster characterization}\cr
 \emph{- choose one of the following : \code{("abundance" [default], "medians")}}}
 
-\item{\code{event_sampling_method}}{numeric representing the sampling method, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Event_Sampling}{learn more about CITRUS event sampling methods}\cr
+\item{\code{event_sampling_method}}{character representing the sampling method, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Event_Sampling}{learn more about CITRUS event sampling methods}\cr
 \emph{- choose one of the following : \code{("equal" [default], "max-per-file")}}}
 
 \item{\code{events_per_file}}{numeric representing the number of events taken from each sample}

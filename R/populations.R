@@ -1,6 +1,6 @@
 #' Population Endpoints
 #'
-#' Interact with population (aka gate sets) endpoints. (More descriptive text goes here)
+#' Interact with population (aka gate sets) endpoints. A population is a set of \link[=gates]{gates} and can have parents and children. \href{https://support.cytobank.org/hc/en-us/articles/204765578-The-Difference-Between-a-Gate-and-a-Population-Using-the-Population-Manager-and-considerations-for-deleting-and-renaming-gates}{Learn more about gates and populations}.
 #' @name populations
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID
 #' @param output character representing the output format \strong{[optional]}\cr

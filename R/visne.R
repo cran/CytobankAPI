@@ -16,6 +16,9 @@
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+#'
+#' # cyto_visne refers to a viSNE object that is created from viSNE endpoints
+#' #   examples: visne.new, visne.show (see details section for more)
 #' }
 NULL
 
@@ -228,7 +231,7 @@ setGeneric("visne.status", function(UserSession, visne, output="default", timeou
 #' @rdname visne
 #' @aliases visne.status
 #'
-#' @details \code{visne.status} Run a viSNE advanced analysis from an experiment.
+#' @details \code{visne.status} Show the status of a viSNE advanced analysis from an experiment.
 #' @examples \donttest{visne.status(cyto_session, visne=cyto_visne)
 #' }
 #' @export
@@ -339,10 +342,14 @@ create_visne_object <- function(UserSession, visne_response)
             name=visne_response$visne$name,
             status=visne_response$visne$status,
             source_experiment=visne_response$visne$sourceExperiment,
+            created_experiment=if (!is.null(visne_response$visne$createdExperiment)) visne_response$visne$createdExperiment else NA_integer_,
             sampling_total_count=visne_response$visne$settings$samplingTotalCount,
             sampling_target_type=visne_response$visne$settings$samplingTargetType,
             compensation_id=visne_response$visne$settings$compensationId,
             channels=visne_response$visne$settings$channelIds,
+            iterations=visne_response$visne$settings$iterations,
+            perplexity=visne_response$visne$settings$perplexity,
+            theta=visne_response$visne$settings$theta,
             population_selections=create_population_selections(visne_response$visne$settings$populationSelections),
             .available_channels=panels.list(UserSession, visne_response$visne$sourceExperiment),
             .available_files=fcs_files.list(UserSession, visne_response$visne$sourceExperiment),

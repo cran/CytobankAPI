@@ -15,6 +15,9 @@
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+#'
+#' # cyto_citrus refers to a CITRUS object that is created from CITRUS endpoints
+#' #   examples: citrus.new, citrus.show (see details section for more)
 #' }
 NULL
 
@@ -271,7 +274,7 @@ setGeneric("citrus.status", function(UserSession, citrus, output="default", time
 #' @rdname citrus
 #' @aliases citrus.status
 #'
-#' @details \code{citrus.status} Run a CITRUS advanced analysis from an experiment.
+#' @details \code{citrus.status} Show the status of a CITRUS advanced analysis from an experiment.
 #' @examples \donttest{citrus.status(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export

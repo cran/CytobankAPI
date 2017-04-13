@@ -1,6 +1,6 @@
 #' Sample Tag Endpoints
 #'
-#' Interact with sample tag endpoints. (More descriptive text goes here)
+#' Interact with sample tag endpoints. Download and upload sample tags to save time during the annotation process. \href{https://support.cytobank.org/hc/en-us/articles/206148017-Overview-of-Sample-Tags-annotating-scientific-and-experimental-variables-in-Cytobank}{Learn more about sample tags here}.
 #' @name sample_tags
 #' @param directory character representing a specific directory to which the file will be downloaded (optional ending directory slash), if left empty, the default will be the current working directory \strong{[optional]}
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID

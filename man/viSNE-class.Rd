@@ -9,7 +9,7 @@ A viSNE advanced analysis object
 }
 \description{
 A viSNE object that holds pertinent viSNE advanced analysis run information.
-This class should never be called explicitly. If a user would like to create a new Cytobank viSNE object, utilize the \link{visne.new} function.
+This class should never be called explicitly. If a user would like to create a new Cytobank viSNE object, utilize the \link{visne.new} function, or any other \link[=visne]{viSNE endpoints that return viSNE objects documented in the 'Details' section}.
 }
 \section{Slots}{
 

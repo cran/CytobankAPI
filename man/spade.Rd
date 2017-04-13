@@ -15,6 +15,8 @@
 \alias{spade.copy_settings,UserSession,SPADE-method}
 \alias{spade.delete}
 \alias{spade.delete,UserSession,SPADE-method}
+\alias{spade.download_all}
+\alias{spade.download_all,UserSession,SPADE-method}
 \alias{spade.download_clusters_table}
 \alias{spade.download_clusters_table,UserSession,SPADE-method}
 \alias{spade.download_global_boundaries_table}
@@ -58,6 +60,9 @@
 
 \S4method{spade.delete}{UserSession,SPADE}(UserSession, spade,
   timeout = UserSession@short_timeout)
+
+\S4method{spade.download_all}{UserSession,SPADE}(UserSession, spade,
+  directory = getwd(), timeout = UserSession@long_timeout)
 
 \S4method{spade.download_clusters_table}{UserSession,SPADE}(UserSession, spade,
   directory = getwd(), timeout = UserSession@long_timeout)
@@ -132,6 +137,8 @@ Interact with SPADE advanced analyses using these endpoints.
 
 \code{spade.delete} Delete a SPADE advanced analysis from an experiment.
 
+\code{spade.download_all} Download a SPADE advanced analysis with all data included from an experiment.
+
 \code{spade.download_clusters_table} Download a SPADE advanced analysis global clusters table from an experiment.
 
 \code{spade.download_global_boundaries_table} Download a SPADE advanced analysis global boundaries table from an experiment.
@@ -153,7 +160,7 @@ Interact with SPADE advanced analyses using these endpoints.
 
 \code{spade.show} Show SPADE advanced analysis details from an experiment and returns a SPADE object.
 
-\code{spade.status} Run a SPADE advanced analysis from an experiment.
+\code{spade.status} Show the status of a SPADE advanced analysis from an experiment.
 
 \code{spade.update} Update a SPADE advanced analysis from an experiment and returns the new SPADE object.
 }
@@ -162,6 +169,9 @@ Interact with SPADE advanced analyses using these endpoints.
 cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 # Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+
+# cyto_spade refers to a SPADE object that is created from SPADE endpoints
+#   examples: spade.new, spade.show (see details section for more)
 }
 \donttest{spade.bubbles_export(cyto_session, spade=cyto_spade, bubbles=c("bubble1", "bubble2"))
 }
@@ -174,6 +184,8 @@ cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 \donttest{spade.copy_settings(cyto_session, spade=cyto_spade)
 }
 \donttest{spade.delete(cyto_session, spade=cyto_spade)
+}
+\donttest{spade.download_all(cyto_session, spade=cyto_spade, directory="/my/new/download/directory/")
 }
 \donttest{spade.download_clusters_table(cyto_session, spade=cyto_spade,
   directory="/my/new/download/directory/")

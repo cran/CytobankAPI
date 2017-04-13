@@ -2,7 +2,7 @@
 #'
 # NEED TO UPDATE DESCRIPTION/SLOTS/EXAMPLES
 #' @description A CITRUS object that holds pertinent CITRUS advanced analysis run information, \href{https://support.cytobank.org/hc/en-us/articles/226940667-Overview-of-CITRUS}{learn more about CITRUS}.
-#' This class should never be called explicitly. If a user would like to create a new Cytobank CITRUS object, utilize the \link{citrus.new} function.
+#' This class should never be called explicitly. If a user would like to create a new Cytobank CITRUS object, utilize the \link{citrus.new} function, or any other \link[=citrus]{CITRUS endpoints that return CITRUS objects documented in the 'Details' section}.
 #' @slot associated_models list representing statistical methods used to discover stratifying signatures from clustered data features that explain differences between sample groups, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Association_Models}{learn more about CITRUS association models}\cr
 #' \emph{- choose one of the following : \code{("sam", "pamr" [default], "glmnet")}}
 #' @slot attachment_id numeric representing the CITRUS attachment ID
@@ -10,7 +10,7 @@
 #' @slot citrus_id numeric representing the CITRUS analysis ID
 #' @slot cluster_characterization character representing the principle for analyzing and quantifying individual samples, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Cluster_Characterization}{learn more about CITRUS cluster characterization}\cr
 #' \emph{- choose one of the following : \code{("abundance" [default], "medians")}}
-#' @slot event_sampling_method numeric representing the sampling method, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Event_Sampling}{learn more about CITRUS event sampling methods}\cr
+#' @slot event_sampling_method character representing the sampling method, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Event_Sampling}{learn more about CITRUS event sampling methods}\cr
 #' \emph{- choose one of the following : \code{("equal" [default], "max-per-file")}}
 #' @slot events_per_file numeric representing the number of events taken from each sample
 #' @slot false_discovery_rate numeric representing the false discovery rate (only applies to PAM, SAM), \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#False_Discovery_Rate_(FDR)}{learn more about CITRUS false discovery rate}

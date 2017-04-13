@@ -92,7 +92,7 @@ Interact with viSNE advanced analyses using these endpoints.
 
 \code{visne.show} Show viSNE advanced analysis details from an experiment and returns a viSNE object.
 
-\code{visne.status} Run a viSNE advanced analysis from an experiment.
+\code{visne.status} Show the status of a viSNE advanced analysis from an experiment.
 
 \code{visne.update} Update a viSNE advanced analysis from an experiment and returns the new viSNE object.
 
@@ -103,6 +103,9 @@ Interact with viSNE advanced analyses using these endpoints.
 cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 # Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+
+# cyto_visne refers to a viSNE object that is created from viSNE endpoints
+#   examples: visne.new, visne.show (see details section for more)
 }
 \donttest{visne.copy_settings(cyto_session, visne=cyto_visne)
 }

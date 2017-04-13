@@ -3,7 +3,7 @@ NULL
 
 #' FCS File Endpoints
 #'
-#' Interact with FCS file endpoints. (More descriptive text goes here)
+#' Interact with FCS file endpoints.
 #' @name fcs_files
 #' @param directory character representing a specific directory to which the file will be downloaded (optional ending directory slash), if left empty, the default will be the current working directory \strong{[optional]}
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID

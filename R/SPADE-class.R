@@ -2,7 +2,7 @@
 #'
 # NEED TO UPDATE DESCRIPTION/SLOTS/EXAMPLES
 #' @description A SPADE object that holds pertinent SPADE advanced analysis run information.
-#' This class should never be called explicitly. If a user would like to create a new Cytobank SPADE object, utilize the \link{spade.new} function.
+#' This class should never be called explicitly. If a user would like to create a new Cytobank SPADE object, utilize the \link{spade.new} function, or any other \link[=spade]{SPADE endpoints that return SPADE objects documented in the 'Details' section}.
 #' @slot down_sampled_events_target numeric representing the percent of downsampling occurring within the SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis#Downsampling-Target}{learn more about SPADE density-dependent downsampling}
 #' @slot fold_change_groups dataframe representing the fold change groups within a SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/206145497-SPADE-with-fold-change-overview-setup-and-analysis}{learn more about SPADE fold change groups}
 #' @slot population_id numeric representing the population to run the SPADE analysis on, \href{https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis#Selecting-a-Population}{learn more about choosing a population for SPADE}

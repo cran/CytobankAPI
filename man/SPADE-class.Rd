@@ -9,7 +9,7 @@ A SPADE advanced analysis object
 }
 \description{
 A SPADE object that holds pertinent SPADE advanced analysis run information.
-This class should never be called explicitly. If a user would like to create a new Cytobank SPADE object, utilize the \link{spade.new} function.
+This class should never be called explicitly. If a user would like to create a new Cytobank SPADE object, utilize the \link{spade.new} function, or any other \link[=spade]{SPADE endpoints that return SPADE objects documented in the 'Details' section}.
 }
 \section{Slots}{
 

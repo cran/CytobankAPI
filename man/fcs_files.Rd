@@ -62,7 +62,7 @@
 \item{file_path}{character representing a file path}
 }
 \description{
-Interact with FCS file endpoints. (More descriptive text goes here)
+Interact with FCS file endpoints.
 }
 \details{
 \code{fcs_files.download} Download an FCS file from an experiment.

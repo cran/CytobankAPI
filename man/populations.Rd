@@ -28,7 +28,7 @@
 \item{population_id}{integer representing a population ID}
 }
 \description{
-Interact with population (aka gate sets) endpoints. (More descriptive text goes here)
+Interact with population (aka gate sets) endpoints. A population is a set of \link[=gates]{gates} and can have parents and children. \href{https://support.cytobank.org/hc/en-us/articles/204765578-The-Difference-Between-a-Gate-and-a-Population-Using-the-Population-Manager-and-considerations-for-deleting-and-renaming-gates}{Learn more about gates and populations}.
 }
 \details{
 \code{populations.list} List all populations from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr

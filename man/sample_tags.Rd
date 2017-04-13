@@ -27,7 +27,7 @@
 \item{file_path}{character representing a file path}
 }
 \description{
-Interact with sample tag endpoints. (More descriptive text goes here)
+Interact with sample tag endpoints. Download and upload sample tags to save time during the annotation process. \href{https://support.cytobank.org/hc/en-us/articles/206148017-Overview-of-Sample-Tags-annotating-scientific-and-experimental-variables-in-Cytobank}{Learn more about sample tags here}.
 }
 \details{
 \code{sample_tags.download} Download the sample tags from an experiment.

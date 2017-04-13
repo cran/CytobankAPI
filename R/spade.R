@@ -16,6 +16,9 @@
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+#'
+#' # cyto_spade refers to a SPADE object that is created from SPADE endpoints
+#' #   examples: spade.new, spade.show (see details section for more)
 #' }
 NULL
 
@@ -200,6 +203,36 @@ setMethod("spade.delete", signature(UserSession="UserSession", spade="SPADE"), f
     }
 
     return(paste("SPADE (ID=", spade@spade_id, ") successfully deleted.", sep=""))
+})
+
+
+setGeneric("spade.download_all", function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
+{
+    standardGeneric("spade.download_all")
+})
+#' @rdname spade
+#' @aliases spade.download_all
+#'
+#' @details \code{spade.download_all} Download a SPADE advanced analysis with all data included from an experiment.
+#' @examples \donttest{spade.download_all(cyto_session, spade=cyto_spade, directory="/my/new/download/directory/")
+#' }
+#' @export
+setMethod("spade.download_all", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
+{
+    temp_directory <- directory_file_join(directory, "tmp.part")
+
+    resp <- GET(paste(UserSession@site, "/experiments/", spade@source_experiment, "/advanced_analyses/spade/", spade@spade_id, "/download?item=full_data", sep=""),
+                add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
+                write_disk(temp_directory, overwrite=TRUE),
+                timeout(timeout)
+    )
+
+    if (http_error(resp))
+    {
+        error_parse(resp, "SPADE")
+    }
+
+    return(rename_temp_file(resp, directory))
 })
 
 
@@ -501,7 +534,7 @@ setGeneric("spade.status", function(UserSession, spade, output="default", timeou
 #' @rdname spade
 #' @aliases spade.status
 #'
-#' @details \code{spade.status} Run a SPADE advanced analysis from an experiment.
+#' @details \code{spade.status} Show the status of a SPADE advanced analysis from an experiment.
 #' @examples \donttest{spade.status(cyto_session, spade=cyto_spade)
 #' }
 #' @export

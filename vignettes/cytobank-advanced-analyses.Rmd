@@ -306,7 +306,8 @@ The core functionality of CITRUS is establishing biological explanations for why
 
 1. group_name: The group that each file is associated with
 
-    * Each file must be associated with a group, if any file is 'Unassigned', the CITRUS analysis cannot be ran
+    * The minimum number of samples per group is three
+        * However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group ([see documentation for more information here](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups))
     * There must be at least 2 groups in order to run a CITRUS analysis
     
 **Directly update CITRUS file grouping data.**

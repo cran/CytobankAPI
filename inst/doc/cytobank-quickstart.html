@@ -169,7 +169,10 @@ library(CytobankAPI)</code></pre>
 <pre class="r"><code># Authenticate via username/password combination
 cyto_session &lt;- authenticate(site=&quot;premium&quot;, username=&quot;cyril_cytometry&quot;, password=&quot;cytobank_rocks!&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>Authenticate with authentication token</strong>: authentication tokens can be generated from the user profile page within the Cytobank web interface</li>
+<li><p><strong>Authenticate with authentication token</strong>: authentication tokens can be generated from the user profile page within the Cytobank web interface</p>
+<ul>
+<li><em>SAML/SSO users <strong>must</strong> generate a token on the profile page after logging into Cytobank.</em></li>
+</ul></li>
 </ol>
 <pre class="r"><code># Authenticate via authentication token
 cyto_session &lt;- authenticate(site=&quot;premium&quot;, auth_token=&quot;secret_auth_token&quot;)</code></pre>

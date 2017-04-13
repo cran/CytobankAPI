@@ -69,6 +69,8 @@ cyto_session <- authenticate(site="premium", username="cyril_cytometry", passwor
 
 2. **Authenticate with authentication token**: authentication tokens can be generated from the user profile page within the Cytobank web interface
 
+    * _SAML/SSO users **must** generate a token on the profile page after logging into Cytobank._
+
 ```{r}
 # Authenticate via authentication token
 cyto_session <- authenticate(site="premium", auth_token="secret_auth_token")

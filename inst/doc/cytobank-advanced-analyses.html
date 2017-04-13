@@ -205,14 +205,14 @@ updated_viSNE@name
 <p><a href="https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis">Learn more about SPADE settings</a>.</p>
 <pre class="r"><code>viSNE_object &lt;- visne.new(cyto_session, experiment_id, visne_name=&quot;My new Cytobank viSNE analysis&quot;)</code></pre>
 <pre class="r"><code>slotNames(viSNE_object)
-#&gt;  [1] &quot;iterations&quot;             &quot;perplexity&quot;            
-#&gt;  [3] &quot;population_selections&quot;  &quot;sampling_total_count&quot;  
-#&gt;  [5] &quot;sampling_target_type&quot;   &quot;theta&quot;                 
-#&gt;  [7] &quot;visne_id&quot;               &quot;channels&quot;              
-#&gt;  [9] &quot;compensation_id&quot;        &quot;name&quot;                  
-#&gt; [11] &quot;source_experiment&quot;      &quot;status&quot;                
-#&gt; [13] &quot;.available_channels&quot;    &quot;.available_files&quot;      
-#&gt; [15] &quot;.available_populations&quot;</code></pre>
+#&gt;  [1] &quot;created_experiment&quot;     &quot;iterations&quot;            
+#&gt;  [3] &quot;perplexity&quot;             &quot;population_selections&quot; 
+#&gt;  [5] &quot;sampling_total_count&quot;   &quot;sampling_target_type&quot;  
+#&gt;  [7] &quot;theta&quot;                  &quot;visne_id&quot;              
+#&gt;  [9] &quot;channels&quot;               &quot;compensation_id&quot;       
+#&gt; [11] &quot;name&quot;                   &quot;source_experiment&quot;     
+#&gt; [13] &quot;status&quot;                 &quot;.available_channels&quot;   
+#&gt; [15] &quot;.available_files&quot;       &quot;.available_populations&quot;</code></pre>
 <p><a href="https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis">Learn more about viSNE settings</a>.</p>
 <pre class="r"><code>CITRUS_object &lt;- citrus.new(cyto_session, experiment_id, citrus_name=&quot;My new Cytobank CITRUS analysis&quot;)</code></pre>
 <pre class="r"><code>slotNames(CITRUS_object)
@@ -528,7 +528,10 @@ CITRUS_object &lt;- citrus.update(cyto_session, CITRUS_object)</code></pre>
 <ol style="list-style-type: decimal">
 <li><p>group_name: The group that each file is associated with</p>
 <ul>
-<li>Each file must be associated with a group, if any file is ‘Unassigned’, the CITRUS analysis cannot be ran</li>
+<li>The minimum number of samples per group is three
+<ul>
+<li>However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group (<a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups">see documentation for more information here</a>)</li>
+</ul></li>
 <li>There must be at least 2 groups in order to run a CITRUS analysis</li>
 </ul></li>
 </ol>

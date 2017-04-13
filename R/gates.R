@@ -169,8 +169,15 @@ build_gate <- function(gate_info)
 {
     # Create dataframe without definition
     gate <- cyto_dataframe(list(gate_info[-which(names(gate_info) == "definition")]))
+
+    # Add yShortName for 1D gates as NA
+    if (is.null(gate[["yShortName"]]))
+    {
+        gate[["yShortName"]] <- NA
+    }
+
     # Add definition as a list
-    gate$definition <- apply(gate, 1, function(row) gate_info$definition)
+    gate$definition <- apply(gate, 1, function(row) list(gate_info$definition))
 
     return(gate)
 }

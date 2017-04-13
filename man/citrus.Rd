@@ -94,7 +94,7 @@ Interact with CITRUS advanced analyses using these endpoints.
 
 \code{citrus.show} Show CITRUS advanced analysis details from an experiment and returns a CITRUS object.
 
-\code{citrus.status} Run a CITRUS advanced analysis from an experiment.
+\code{citrus.status} Show the status of a CITRUS advanced analysis from an experiment.
 
 \code{citrus.update} Update a CITRUS advanced analysis from an experiment and returns the new CITRUS object.
 }
@@ -103,6 +103,9 @@ Interact with CITRUS advanced analyses using these endpoints.
 cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 # Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
+
+# cyto_citrus refers to a CITRUS object that is created from CITRUS endpoints
+#   examples: citrus.new, citrus.show (see details section for more)
 }
 \donttest{citrus.copy_settings(cyto_session, citrus=cyto_citrus)
 }
