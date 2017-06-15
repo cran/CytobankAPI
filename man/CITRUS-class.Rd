@@ -15,7 +15,7 @@ This class should never be called explicitly. If a user would like to create a n
 
 \describe{
 \item{\code{associated_models}}{list representing statistical methods used to discover stratifying signatures from clustered data features that explain differences between sample groups, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Association_Models}{learn more about CITRUS association models}\cr
-\emph{- choose one of the following : \code{("sam", "pamr" [default], "glmnet")}}}
+\emph{- choose from the following : \code{("sam", "pamr" [default], "glmnet")}}}
 
 \item{\code{attachment_id}}{numeric representing the CITRUS attachment ID}
 

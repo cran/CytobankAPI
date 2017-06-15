@@ -4,7 +4,7 @@
 #' @description A CITRUS object that holds pertinent CITRUS advanced analysis run information, \href{https://support.cytobank.org/hc/en-us/articles/226940667-Overview-of-CITRUS}{learn more about CITRUS}.
 #' This class should never be called explicitly. If a user would like to create a new Cytobank CITRUS object, utilize the \link{citrus.new} function, or any other \link[=citrus]{CITRUS endpoints that return CITRUS objects documented in the 'Details' section}.
 #' @slot associated_models list representing statistical methods used to discover stratifying signatures from clustered data features that explain differences between sample groups, \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Association_Models}{learn more about CITRUS association models}\cr
-#' \emph{- choose one of the following : \code{("sam", "pamr" [default], "glmnet")}}
+#' \emph{- choose from the following : \code{("sam", "pamr" [default], "glmnet")}}
 #' @slot attachment_id numeric representing the CITRUS attachment ID
 #' @slot cross_validation_folds numeric representing the regulation threshold, controlling the number of features in the model (only applies to PAM, LASSO), \href{https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#cross_validation_fold}{learn more about CITRUS cross validation folds}
 #' @slot citrus_id numeric representing the CITRUS analysis ID

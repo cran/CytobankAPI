@@ -1,4 +1,4 @@
-#' @import methods httr
+#' @import httr methods
 NULL
 
 #' S4 Cytobank UserSession Class

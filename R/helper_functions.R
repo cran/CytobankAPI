@@ -2,33 +2,12 @@
 #'
 #' Various helper functions to utilize within the Cytobank API.
 #' @name helper_functions
-#' @param ids_names_list list of lists containing both IDs and their associated names
+#' @param fcs_files vector of integers representing a list of FCS file IDs
 #' @param ids_names_df dataframe containing both IDs and their associated names
-#' @param key character representing a key to sort by, specify one of the following: ("id", "name")
+#' @param long_channel_names vector of character representing long channel names
 #' @param names_array vector or list of character regular expressions to use
-#' @param reverse boolean to sort in descending order instead of ascending
+#' @param panels_list list provided from the \link[=panels]{panels.list} endpoint
 NULL
-
-
-#' @rdname helper_functions
-#' @details \code{helper.filter_names_to_ids} Compile a vector of IDs from an array of regular expressions.
-#' @examples \donttest{helper.filter_to_ids(ids_and_names_list, names_list=c("CD.*", "Time", "pp38"))
-#' }
-#' @export
-helper.filter_names_to_ids <- function(ids_names_list, names_array=c("*"))
-{
-    ids <- c()
-
-    for (regex in names_array)
-    {
-        for(item in grep(regex, ids_names_list))
-        {
-            ids <- c(ids, ids_names_list[[item]]$id)
-        }
-    }
-
-    return(unique(ids))
-}
 
 
 #' @rdname helper_functions
@@ -50,24 +29,53 @@ helper.filter_names_to_ids_from_df <- function(ids_names_df, names_array=c("*"))
 
 
 #' @rdname helper_functions
-#' @details \code{helper.print_ids_names_list} Print a list of IDs and their associated names. Optional ability to sort based off of IDs or names.
-#' @examples \donttest{# Print IDs and associated names as is
-#' helper.print_ids_names_list(arbitrary_endpoint_ids_names_list)
-#' # Print IDs and associated names, sorted by ID, in descending order
-#' helper.print_ids_names_list(arbitrary_endpoint_ids_names_list, key="id", reverse=TRUE)
+#' @details \code{helper.channel_ids_from_long_names} Compile a vector of IDs from an array of regular expressions.
+#' @examples \donttest{helper.channel_ids_from_long_names(panels.list(cyto_session, 22),
+#'   fcs_files=c(1,2,3,4,5), long_channel_names=c("long_channel1", "long_channel2"))
 #' }
 #' @export
-helper.print_ids_names <- function(ids_names_list, key=NA, reverse=FALSE)
+helper.channel_ids_from_long_names <- function(panels_list, fcs_files, long_channel_names)
 {
-    # Sorting
-    if (!is.na(key))
+    unique_channels <- get_unique_channels(panels_list, fcs_files)
+
+    normalized_short_name_ids <- c()
+    for (channel in long_channel_names)
     {
-        ids_names_list <- ids_names_list[order(sapply(ids_names_list, "[[", key), decreasing=reverse)]
+        ids <- unique_channels[unique_channels$longName %in% channel,]
+        # Error out if multiple Short Names associated with a Long Name
+        if (nrow(ids) > 1)
+        {
+            stop(
+                sprintf (
+                    paste("Cytobank API 'helper.channel_ids_from_long_names' request failed [client]\n    Same long name ['%s'] for the following short names:\n    - %s\n", sep=""),
+                    channel,
+                    paste(unlist(unique_channels[unique_channels$longName %in% channel,]$shortName), collapse="\n    - ")
+                ),
+                call. = FALSE
+            )
+        }
+
+        normalized_short_name_ids <- c(normalized_short_name_ids, unlist(ids$normalizedShortNameId))
     }
 
-    for (pair in ids_names_list)
+    return(normalized_short_name_ids)
+}
+
+
+# Get panels for specific files chosen
+get_unique_channels <- function(panels, fcs_files)
+{
+    panels_list <- c()
+    for (panel in panels)
     {
-        print(paste(pair$id, ": ", pair$name, sep=""))
+        if (any(is.element(fcs_files, panel$fcs_files)))
+        {
+            panels_list[[length(panels_list)+1]] <- list(panel$channels[c("shortName", "longName", "normalizedShortNameId")])
+        }
     }
+
+    concatenated_panels <- Reduce(function(...) merge(..., all=TRUE, sort=FALSE), panels_list)
+
+    return(unique(concatenated_panels[c("shortName", "longName", "normalizedShortNameId")]))
 }
 

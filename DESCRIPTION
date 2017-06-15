@@ -1,6 +1,6 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 1.0.1
+Version: 1.0.1.1
 Author: Preston Ng
 Maintainer: Preston Ng <preston@cytobank.org>
 Description: Tools to interface with Cytobank's API via R, organized by various
@@ -11,9 +11,9 @@ Imports: jsonlite, methods, stats
 License: Artistic-2.0
 LazyData: FALSE
 RoxygenNote: 5.0.1
-Suggests: testthat, knitr, rmarkdown
+Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-04-13 00:55:25 UTC; preston
+Packaged: 2017-06-15 01:54:51 UTC; preston
 Repository: CRAN
-Date/Publication: 2017-04-13 17:44:00 UTC
+Date/Publication: 2017-06-15 13:43:07 UTC

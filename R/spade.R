@@ -67,12 +67,13 @@ setGeneric("spade.bubbles_set", function(UserSession, spade, bubbles, output="de
 #' @aliases spade.bubbles_set
 #'
 #' @details \code{spade.bubbles_set} Set SPADE advanced analysis bubbles from an experiment.
-#' @examples \donttest{spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_node_vectors)
+#' @examples \donttest{named_bubble_list_of_node_vectors <- list("bubble_1"=c(1,2,4), "bubble_2"=8, "bubble_4"=c(10,12))
+#' spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_node_vectors)
 #' }
 #' @export
 setMethod("spade.bubbles_set", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, bubbles, output="default", timeout=UserSession@long_timeout)
 {
-    resp <- POST(paste(UserSession@site, "/experiments/", spade@source_experiment, "/advanced_analyses/spade/", spade@spade_id, "/add_bubbles", sep=""),
+    resp <- POST(paste(UserSession@site, "/experiments/", spade@source_experiment, "/advanced_analyses/spade/", spade@spade_id, "/set_bubbles", sep=""),
                  add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
                  body=list(spade=list(bubbles=unformat_bubbles(bubbles))),
                  encode="json",
@@ -574,6 +575,22 @@ setMethod("spade.update", signature(UserSession="UserSession", spade="SPADE"), f
     # Convert fold change groups dataframe -> list readable by update endpoint
     fold_change_groups <- fold_change_groups_dataframe_to_list(spade@fold_change_groups)
 
+    down_sampling <- list()
+    if (spade@down_sampled_events_type=="percent")
+    {
+        down_sampling <- list(percent=spade@down_sampled_events_target)
+    }
+    else if (spade@down_sampled_events_type=="absolute_number")
+    {
+        down_sampling <- list(absoluteNumber=spade@down_sampled_events_target)
+    }
+    else
+    {
+        stop(
+            paste("Cytobank API 'spade.update' request failed [client]\n    Please provide a valid 'down_sampled_events_type' argument\n    - percent\n    - absolute_number\n", sep="")
+        )
+    }
+
     resp <- PUT(paste(UserSession@site, "/experiments/", spade@source_experiment, "/advanced_analyses/spade/", spade@spade_id, sep=""),
                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
                 body=list(spade=list(
@@ -582,7 +599,7 @@ setMethod("spade.update", signature(UserSession="UserSession", spade="SPADE"), f
                     targetNumberOfNodes=spade@target_number_nodes,
                     population=spade@population_id,
                     clusteringChannels=spade@channels,
-                    downSampledEventsTarget=list(percent=spade@down_sampled_events_target),
+                    downSampledEventsTarget=down_sampling,
                     foldChangeGroups=fold_change_groups
                 )
                 ),
@@ -611,12 +628,14 @@ create_spade_object <- function(UserSession, spade_response)
         new("SPADE", name=spade_response$spade$name,
             target_number_nodes=spade_response$spade$settings$targetNumberOfNodes,
             population_id=spade_response$spade$settings$population,
-            down_sampled_events_target=spade_response$spade$settings$downSampledEventsTarget$percent,
+            down_sampled_events_target=spade_response$spade$settings$downSampledEventsTarget[[1]],
+            down_sampled_events_type=names(spade_response$spade$settings$downSampledEventsTarget),
             fold_change_groups=create_fold_change_groups(spade_response$spade$settings$foldChangeGroups),
             spade_id=spade_response$spade$id,
             channels=spade_response$spade$settings$clusteringChannels,
             compensation_id=spade_response$spade$settings$compensation,
             source_experiment=spade_response$spade$sourceExperiment,
+            created_experiment=if (!is.null(spade_response$spade$createdExperiment)) spade_response$spade$createdExperiment else NA_integer_,
             status=spade_response$spade$status,
             .available_channels=panels.list(UserSession, spade_response$spade$sourceExperiment),
             .available_files=fcs_files.list(UserSession, spade_response$spade$sourceExperiment),
@@ -694,7 +713,7 @@ unformat_bubbles <- function(spade_bubbles)
     bubble_list <- list()
     for (bubble in names(spade_bubbles))
     {
-        bubble_list <- c(bubble_list, list(list(name=bubble, nodes=spade_bubbles[[bubble]])))
+        bubble_list <- c(bubble_list, list(list(name=bubble, nodes=as.list(spade_bubbles[[bubble]]))))
     }
 
     return(bubble_list)

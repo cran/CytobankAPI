@@ -14,6 +14,8 @@ This class should never be called explicitly. If a user would like to create a n
 \section{Slots}{
 
 \describe{
+\item{\code{created_experiment}}{numeric representing the experiment that gets created from the viSNE analysis}
+
 \item{\code{iterations}}{numeric representing the number of times viSNE processes the dataset using its step-wise optimization algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#iterations}{learn more about how iterations affect viSNE results}}
 
 \item{\code{perplexity}}{dataframe representing a rough guess for the number of close neighbors any given cellular event will have, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#perplexity}{learn more about viSNE perplexity}}

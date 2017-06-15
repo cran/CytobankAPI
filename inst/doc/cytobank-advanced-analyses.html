@@ -195,13 +195,14 @@ updated_viSNE@name
 <p>There are special settings that pertain to each advanced analysis algorithm. These settings affect how the advanced analysis algorithm is ran. For each advanced analysis, you can view their respective settings and slots as shown below.</p>
 <pre class="r"><code>SPADE_object &lt;- spade.new(cyto_session, experiment_id=22, spade_name=&quot;My new Cytobank SPADE analysis&quot;)</code></pre>
 <pre class="r"><code>slotNames(SPADE_object)
-#&gt;  [1] &quot;down_sampled_events_target&quot; &quot;fold_change_groups&quot;        
-#&gt;  [3] &quot;population_id&quot;              &quot;spade_id&quot;                  
-#&gt;  [5] &quot;target_number_nodes&quot;        &quot;channels&quot;                  
-#&gt;  [7] &quot;compensation_id&quot;            &quot;name&quot;                      
-#&gt;  [9] &quot;source_experiment&quot;          &quot;status&quot;                    
-#&gt; [11] &quot;.available_channels&quot;        &quot;.available_files&quot;          
-#&gt; [13] &quot;.available_populations&quot;</code></pre>
+#&gt;  [1] &quot;created_experiment&quot;         &quot;down_sampled_events_target&quot;
+#&gt;  [3] &quot;down_sampled_events_type&quot;   &quot;fold_change_groups&quot;        
+#&gt;  [5] &quot;population_id&quot;              &quot;spade_id&quot;                  
+#&gt;  [7] &quot;target_number_nodes&quot;        &quot;channels&quot;                  
+#&gt;  [9] &quot;compensation_id&quot;            &quot;name&quot;                      
+#&gt; [11] &quot;source_experiment&quot;          &quot;status&quot;                    
+#&gt; [13] &quot;.available_channels&quot;        &quot;.available_files&quot;          
+#&gt; [15] &quot;.available_populations&quot;</code></pre>
 <p><a href="https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis">Learn more about SPADE settings</a>.</p>
 <pre class="r"><code>viSNE_object &lt;- visne.new(cyto_session, experiment_id, visne_name=&quot;My new Cytobank viSNE analysis&quot;)</code></pre>
 <pre class="r"><code>slotNames(viSNE_object)

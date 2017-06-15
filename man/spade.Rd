@@ -175,7 +175,8 @@ cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 }
 \donttest{spade.bubbles_export(cyto_session, spade=cyto_spade, bubbles=c("bubble1", "bubble2"))
 }
-\donttest{spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_node_vectors)
+\donttest{named_bubble_list_of_node_vectors <- list("bubble_1"=c(1,2,4), "bubble_2"=8, "bubble_4"=c(10,12))
+spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_node_vectors)
 }
 \donttest{spade.bubbles_show(cyto_session, spade=cyto_spade)
 }

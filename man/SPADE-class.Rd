@@ -14,7 +14,12 @@ This class should never be called explicitly. If a user would like to create a n
 \section{Slots}{
 
 \describe{
-\item{\code{down_sampled_events_target}}{numeric representing the percent of downsampling occurring within the SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis#Downsampling-Target}{learn more about SPADE density-dependent downsampling}}
+\item{\code{created_experiment}}{numeric representing the experiment that gets created from the SPADE analysis}
+
+\item{\code{down_sampled_events_target}}{numeric representing the percent OR absolute number (depends on 'down_sampled_events_type' slot) for downsampling occurring within the SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis#Downsampling-Target}{learn more about SPADE density-dependent downsampling}}
+
+\item{\code{down_sampled_events_type}}{character representing the downsampling type for down_sampled_events_target, \href{https://support.cytobank.org/hc/en-us/articles/115000597188-How-to-Configure-and-Run-a-SPADE-Analysis#Downsampling-Target}{learn more about SPADE density-dependent downsampling types}
+\emph{- choose one of the following : \code{("percent" [default], "absolute_number")}}}
 
 \item{\code{fold_change_groups}}{dataframe representing the fold change groups within a SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/206145497-SPADE-with-fold-change-overview-setup-and-analysis}{learn more about SPADE fold change groups}}
 

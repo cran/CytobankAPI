@@ -1,0 +1,35 @@
+####################################################################################################
+
+# CytobankAPI 1.0.1.1
+
+* Bug fixes:
+    * spade.bubbles_set endpoint correctly sending API requests using named named bubble list of node vectors
+
+* SPADE endpoint changes:
+    * Allow 'absolute number' settings for Downsampled Events Target
+    * Exposing 'created experiment' for SPADE analyses
+
+* Helper functions:
+    * Added `helper.channel_ids_from_long_names`
+        * Allow short channel names to be used instead of IDs
+
+* Implementing startup message to view CytobankAPI NEWS (via the 'CytobankAPI_news()' function)
+
+
+---
+
+
+# CytobankAPI 1.0.1
+
+* Added a `NEWS.md` file to track changes to the package.
+
+* SPADE endpoint changes:
+    * Added downloading GML support
+    * Added downloading full SPADE analysis support
+    * Support updating the SPADE name directly via the `spade.update` method
+
+* viSNE endpoint changes:
+    * Added viSNE 2.0 settings
+
+* Updated general documentation
+
