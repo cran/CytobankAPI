@@ -124,6 +124,7 @@ The following slots can be updated directly:
 
 * population_id
 * channels
+    * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
 * compensation
 * target_number_nodes
 * down_sampled_events_target
@@ -136,8 +137,12 @@ SPADE_object@target_number_nodes <- 150
 SPADE_object@compensation_id <- 22
 
 # Update channels
-channels_vector <- c(2, 3, 5, 8)
-SPADE_object@channels <- channels_vector
+channel_ids_list <- list(2, 3, 5, 8)
+SPADE_object@channels <- channel_ids_list
+
+# Update channels by long channel names
+channel_names_list <- list("channel1", "channel2", "channel3")
+SPADE_object@channels <- channel_names_list
 
 # Bulk update the changes made to the SPADE object
 SPADE_object <- spade.update(cyto_session, SPADE_object)
@@ -150,7 +155,7 @@ SPADE_object@compensation_id
 #> [1] 22
 SPADE_object@channels
 #> [[1]]
-#> [1] 2
+#> [1] "channel1"
 #>
 #> [[2]]
 #> ...
@@ -203,6 +208,7 @@ The following slots can be updated directly:
 * sampling_target_type
 * sampling_total_count
 * channels
+    * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
 * compensation_id
 * iterations
 * perplexity
@@ -277,6 +283,7 @@ The following slots can be updated directly:
 
 * population_id
 * channels
+    * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
 * file_grouping ([_see the next section for how to update CITRUS file grouping_](#updating-citrus-file-grouping))
 * compensation_id
 * association_models

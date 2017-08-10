@@ -271,6 +271,11 @@ setMethod("visne.update", signature(UserSession="UserSession", visne="viSNE"), f
     # Convert population selections dataframe -> list readable by update endpoint
     population_selections <- population_selections_dataframe_to_list(visne@population_selections)
 
+    if (is.character(visne@channels[[1]]))
+    {
+        visne@channels <- as.list(helper.channel_ids_from_long_names(visne@.available_channels, visne@channels))
+    }
+
     resp <- PUT(paste(UserSession@site, "/experiments/", visne@source_experiment, "/advanced_analyses/visne/", visne@visne_id, sep=""),
                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
                 body=list(visne=list(

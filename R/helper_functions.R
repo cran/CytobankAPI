@@ -29,12 +29,12 @@ helper.filter_names_to_ids_from_df <- function(ids_names_df, names_array=c("*"))
 
 
 #' @rdname helper_functions
-#' @details \code{helper.channel_ids_from_long_names} Compile a vector of IDs from an array of regular expressions.
+#' @details \code{helper.channel_ids_from_long_names} Compile a vector of IDs based on long channel names for specific FCS files from an experiment. If no FCS files are provided, IDs will be retrieved based on unique short channel / long channel combinations across all FCS files.
 #' @examples \donttest{helper.channel_ids_from_long_names(panels.list(cyto_session, 22),
-#'   fcs_files=c(1,2,3,4,5), long_channel_names=c("long_channel1", "long_channel2"))
+#'   long_channel_names=c("long_channel1", "long_channel2"), fcs_files=c(1,2,3,4,5))
 #' }
 #' @export
-helper.channel_ids_from_long_names <- function(panels_list, fcs_files, long_channel_names)
+helper.channel_ids_from_long_names <- function(panels_list, long_channel_names, fcs_files=c())
 {
     unique_channels <- get_unique_channels(panels_list, fcs_files)
 
@@ -68,13 +68,20 @@ get_unique_channels <- function(panels, fcs_files)
     panels_list <- c()
     for (panel in panels)
     {
-        if (any(is.element(fcs_files, panel$fcs_files)))
+        if (any(is.element(fcs_files, panel$fcs_files)) || is.null(fcs_files))
         {
             panels_list[[length(panels_list)+1]] <- list(panel$channels[c("shortName", "longName", "normalizedShortNameId")])
         }
     }
 
-    concatenated_panels <- Reduce(function(...) merge(..., all=TRUE, sort=FALSE), panels_list)
+    if (length(panels_list)==1)
+    {
+        concatenated_panels <- panels_list[[1]][[1]]
+    }
+    else
+    {
+        concatenated_panels <- Reduce(function(...) merge(..., all=TRUE, sort=FALSE), panels_list)
+    }
 
     return(unique(concatenated_panels[c("shortName", "longName", "normalizedShortNameId")]))
 }

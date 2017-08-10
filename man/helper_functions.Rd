@@ -8,7 +8,8 @@
 \usage{
 helper.filter_names_to_ids_from_df(ids_names_df, names_array = c("*"))
 
-helper.channel_ids_from_long_names(panels_list, fcs_files, long_channel_names)
+helper.channel_ids_from_long_names(panels_list, long_channel_names,
+  fcs_files = c())
 }
 \arguments{
 \item{ids_names_df}{dataframe containing both IDs and their associated names}
@@ -17,9 +18,9 @@ helper.channel_ids_from_long_names(panels_list, fcs_files, long_channel_names)
 
 \item{panels_list}{list provided from the \link[=panels]{panels.list} endpoint}
 
-\item{fcs_files}{vector of integers representing a list of FCS file IDs}
-
 \item{long_channel_names}{vector of character representing long channel names}
+
+\item{fcs_files}{vector of integers representing a list of FCS file IDs}
 }
 \description{
 Various helper functions to utilize within the Cytobank API.
@@ -27,13 +28,13 @@ Various helper functions to utilize within the Cytobank API.
 \details{
 \code{helper.filter_names_to_ids_from_df} Compile a vector of IDs from an array of regular expressions.
 
-\code{helper.channel_ids_from_long_names} Compile a vector of IDs from an array of regular expressions.
+\code{helper.channel_ids_from_long_names} Compile a vector of IDs based on long channel names for specific FCS files from an experiment. If no FCS files are provided, IDs will be retrieved based on unique short channel / long channel combinations across all FCS files.
 }
 \examples{
 \donttest{helper.filter_names_to_ids_from_df(id_and_names_dataframe, names_list=c("CD.*", "Time", "pp38"))
 }
 \donttest{helper.channel_ids_from_long_names(panels.list(cyto_session, 22),
-  fcs_files=c(1,2,3,4,5), long_channel_names=c("long_channel1", "long_channel2"))
+  long_channel_names=c("long_channel1", "long_channel2"), fcs_files=c(1,2,3,4,5))
 }
 }
 

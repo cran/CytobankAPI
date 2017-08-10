@@ -2,7 +2,7 @@
 #'
 #' @description An Advanced Analysis object that is a parent class to all advanced analysis algorithms.
 #' This class should never be called explicitly. Its purpose is to act as a parent class for advanced analyses.
-#' @slot channels the channels selected for the advanced analysis
+#' @slot channels the channels selected for the advanced analysis, this can be either a list of short channel IDs (integer) OR long channel names (character)
 #' @slot compensation_id the compensation ID selected for the advanced analysis
 #' @slot name the name of the advanced analysis
 #' @slot source_experiment the source experiment ID the advanced analysis is associated with

@@ -1,5 +1,22 @@
 ####################################################################################################
 
+# CytobankAPI 1.1.0
+
+* DROP endpoints added:
+    * drop.upload & drop.upload_zip allow users to upload DROP files (CSV, TSV, TXT, FCS) to Cytobank
+
+* Statistics endpoint changes:
+    * Allow long channel names to be used instead of channel IDs via the statistics.general endpoint
+    * Get experiment version for user
+    * Fixed bug involving experiments with no gates (was not able to gather statistics because no populations present in API response)
+        * Now experiments with no gates are correctly gathering statistics
+
+* Advanced Analyses:
+    * Allow long channel names to be used for advanced analyses objects
+
+---
+
+
 # CytobankAPI 1.0.1.1
 
 * Bug fixes:

@@ -2,10 +2,9 @@
 #'
 #' Interact with statistic endpoints. Gather data about event counts and general channel statistics. Create dataframes of statistics to help with visualization and downstream analysis.
 #' @name statistics
-#' @param channels vector/list of integers representing a list of channel IDs
+#' @param channels vector/list of integers or character representing a list of channel IDs (integers) or long channel names (character)
 #' @param compensation_id integer representing a \link[=compensations]{compensation} ID (use -2 for file-internal compensation, -1 for uncompensated)
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID
-#' @param experiment_version integer representing an experiment version, must be set to the current version of the experiment, which can be seen as the \strong{version} attribute returned from a call to the \link[=experiments]{Show Experiment Details} endpoint
 #' @param fcs_files vector/list of integers representing a list of \link[=fcs_files]{FCS file} IDs
 #' @param gate_version integer representing an experiment gate version, an integer of -1 corresponds to the state of \link{gates} and \link{populations} in the gating interface. Faster performance can be achieved by using the maximum gate version from the experiment \href{https://support.cytobank.org/hc/en-us/articles/205399487-The-Apply-and-Apply-and-Return-buttons-and-gate-versioning}{(learn more about gate versions)}. Maximum gate version can be seen as the \strong{gateVersion} attribute returned from a call to the \link[=experiments]{Show Experiment Details} endpoint \strong{[optional]}
 #' @param output character representing the output format \strong{[optional]}\cr
@@ -25,7 +24,7 @@
 NULL
 
 
-setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_version=-1, experiment_version, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
+setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
 {
     standardGeneric("statistics.event_counts")
 })
@@ -35,17 +34,17 @@ setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_
 #' @details \code{statistics.event_counts} Get event count statistics from an experiment. In the absence of channel information, only event count data are returned. If only event count data are needed, this approach can be faster than retrieving all statistics by avoiding unnecessary computation.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("full" [default], "dataframe")}}\cr
 #' \emph{- \code{dataframe}: converts the output to a dataframe for the event count statistics}\cr
-#' @examples \donttest{statistics.event_counts(cyto_session, 22, experiment_version=22, compensation_id=-2,
+#' @examples \donttest{statistics.event_counts(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 #' }
 #' @export
-setMethod("statistics.event_counts", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, experiment_version, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
+setMethod("statistics.event_counts", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
 {
     output_check(output, "statistics", possible_outputs=c("dataframe"))
 
     resp <- GET(paste(UserSession@site, "/statistics?experimentId=", experiment_id,
                       "&gateVersion=", gate_version,
-                      "&experimentVersion=", experiment_version,
+                      "&experimentVersion=", get_experiment_version(UserSession, experiment_id),
                       "&compensationId=", compensation_id,
                       array_extension_builder("fcsFileIds", fcs_files),
                       array_extension_builder("gateSetIds", populations),
@@ -68,7 +67,7 @@ setMethod("statistics.event_counts", signature(UserSession="UserSession"), funct
 })
 
 
-setGeneric("statistics.general", function(UserSession, experiment_id, gate_version=-1, experiment_version, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
+setGeneric("statistics.general", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
 {
     standardGeneric("statistics.general")
 })
@@ -80,15 +79,15 @@ setGeneric("statistics.general", function(UserSession, experiment_id, gate_versi
 #' \emph{- \code{dataframe_col}: for statistics data on multiple channels, proliferate channel statistics as columns}\cr
 #' \emph{- \code{dataframe_row}: for statistics data on multiple channels, proliferate channel statistics as rows}
 #' @examples \donttest{# Full list with all fields present
-#' statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+#' statistics.general(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 #'
 #' # Statistics list transformed into a dataframe, proliferating channel statistics by column
-#' statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+#' statistics.general(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33), output="dataframe_col")
 #'
 #' # Statistics list transformed into a dataframe, proliferating channel statistics by row
-#' statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+#' statistics.general(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33), output="dataframe_row")
 #'
 #' # Statistics list transformed into a dataframe, using helper functions (names_to_ids)
@@ -107,17 +106,22 @@ setGeneric("statistics.general", function(UserSession, experiment_id, gate_versi
 #' populations <- populations[,c("gateSetId", "name")]
 #' populations <- populations$id[grep("CD.*", populations$name)]
 #'
-#' statistics.general(cyto_session, 22, experiment_version=61, compensation_id=-2,
+#' statistics.general(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=fcs_files, channels=channels, populations=populations, output="dataframe_row")
 #' }
 #' @export
-setMethod("statistics.general", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, experiment_version, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
+setMethod("statistics.general", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
 {
     output_check(output, "statistics", possible_outputs=c("dataframe_col", "dataframe_row"))
 
+    if (is.character(channels))
+    {
+        channels <- helper.channel_ids_from_long_names(panels.list(UserSession, experiment_id), channels, fcs_files)
+    }
+
     resp <- GET(paste(UserSession@site, "/statistics?experimentId=", experiment_id,
                       "&gateVersion=", gate_version,
-                      "&experimentVersion=", experiment_version,
+                      "&experimentVersion=", get_experiment_version(UserSession, experiment_id),
                       "&compensationId=", compensation_id,
                       array_extension_builder("fcsFileIds", fcs_files),
                       array_extension_builder("channelIds", channels),
@@ -193,6 +197,13 @@ add_file_population_statistics <- function(file_population_statistics, fcs_files
                             file_population_statistics[["eventCount"]]))
 
     return(new_row)
+}
+
+
+# Get experiment version
+get_experiment_version <- function(UserSession, experiment_id)
+{
+    return(unlist(experiments.show(UserSession, experiment_id)$version))
 }
 
 

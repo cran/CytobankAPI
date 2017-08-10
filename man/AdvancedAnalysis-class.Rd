@@ -14,7 +14,7 @@ This class should never be called explicitly. Its purpose is to act as a parent 
 \section{Slots}{
 
 \describe{
-\item{\code{channels}}{the channels selected for the advanced analysis}
+\item{\code{channels}}{the channels selected for the advanced analysis, this can be either a list of short channel IDs (integer) OR long channel names (character)}
 
 \item{\code{compensation_id}}{the compensation ID selected for the advanced analysis}
 

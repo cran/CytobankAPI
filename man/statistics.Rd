@@ -10,12 +10,11 @@
 \title{Statistic Endpoints}
 \usage{
 \S4method{statistics.event_counts}{UserSession}(UserSession, experiment_id,
-  gate_version = -1, experiment_version, compensation_id, fcs_files,
-  populations = c(), output = "default",
-  timeout = UserSession@long_timeout)
+  gate_version = -1, compensation_id, fcs_files, populations = c(),
+  output = "default", timeout = UserSession@long_timeout)
 
 \S4method{statistics.general}{UserSession}(UserSession, experiment_id,
-  gate_version = -1, experiment_version, compensation_id, fcs_files, channels,
+  gate_version = -1, compensation_id, fcs_files, channels,
   populations = c(), output = "default",
   timeout = UserSession@long_timeout)
 }
@@ -25,8 +24,6 @@
 \item{experiment_id}{integer representing an \link[=experiments]{experiment} ID}
 
 \item{gate_version}{integer representing an experiment gate version, an integer of -1 corresponds to the state of \link{gates} and \link{populations} in the gating interface. Faster performance can be achieved by using the maximum gate version from the experiment \href{https://support.cytobank.org/hc/en-us/articles/205399487-The-Apply-and-Apply-and-Return-buttons-and-gate-versioning}{(learn more about gate versions)}. Maximum gate version can be seen as the \strong{gateVersion} attribute returned from a call to the \link[=experiments]{Show Experiment Details} endpoint \strong{[optional]}}
-
-\item{experiment_version}{integer representing an experiment version, must be set to the current version of the experiment, which can be seen as the \strong{version} attribute returned from a call to the \link[=experiments]{Show Experiment Details} endpoint}
 
 \item{compensation_id}{integer representing a \link[=compensations]{compensation} ID (use -2 for file-internal compensation, -1 for uncompensated)}
 
@@ -43,7 +40,7 @@
 
 \item{timeout}{integer representing the request timeout time in seconds}
 
-\item{channels}{vector/list of integers representing a list of channel IDs}
+\item{channels}{vector/list of integers or character representing a list of channel IDs (integers) or long channel names (character)}
 }
 \description{
 Interact with statistic endpoints. Gather data about event counts and general channel statistics. Create dataframes of statistics to help with visualization and downstream analysis.
@@ -64,19 +61,19 @@ cyto_session <- authenticate(site="premium", username="cyril_cytometry", passwor
 # Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 }
-\donttest{statistics.event_counts(cyto_session, 22, experiment_version=22, compensation_id=-2,
+\donttest{statistics.event_counts(cyto_session, 22, compensation_id=-2,
   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 }
 \donttest{# Full list with all fields present
-statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+statistics.general(cyto_session, 22, compensation_id=-2,
   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 
 # Statistics list transformed into a dataframe, proliferating channel statistics by column
-statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+statistics.general(cyto_session, 22, compensation_id=-2,
   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33), output="dataframe_col")
 
 # Statistics list transformed into a dataframe, proliferating channel statistics by row
-statistics.general(cyto_session, 22, experiment_version=22, compensation_id=-2,
+statistics.general(cyto_session, 22, compensation_id=-2,
   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33), output="dataframe_row")
 
 # Statistics list transformed into a dataframe, using helper functions (names_to_ids)
@@ -95,7 +92,7 @@ populations <- populations.list(cyto_session, 22)
 populations <- populations[,c("gateSetId", "name")]
 populations <- populations$id[grep("CD.*", populations$name)]
 
-statistics.general(cyto_session, 22, experiment_version=61, compensation_id=-2,
+statistics.general(cyto_session, 22, compensation_id=-2,
   fcs_files=fcs_files, channels=channels, populations=populations, output="dataframe_row")
 }
 }

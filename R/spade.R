@@ -575,6 +575,11 @@ setMethod("spade.update", signature(UserSession="UserSession", spade="SPADE"), f
     # Convert fold change groups dataframe -> list readable by update endpoint
     fold_change_groups <- fold_change_groups_dataframe_to_list(spade@fold_change_groups)
 
+    if (is.character(spade@channels[[1]]))
+    {
+        spade@channels <- as.list(helper.channel_ids_from_long_names(spade@.available_channels, spade@channels))
+    }
+
     down_sampling <- list()
     if (spade@down_sampled_events_type=="percent")
     {

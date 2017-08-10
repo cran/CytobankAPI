@@ -39,13 +39,6 @@ To install this package via CRAN, start R and enter:
 install.packages("CytobankAPI")
 ```
 
-To install this package from its source file, start R and enter:
-
-```r
-install.packages("/PATH/TO/CytobankAPI_1.0.0.tar.gz", repos = NULL, type="source")
-```
-
-
 # Authentication
 ***
 
@@ -60,7 +53,7 @@ library(CytobankAPI)
 
 There are two ways to authenticate:
 
-1. **username/password**: username (or email) and password combination to normally login to the site
+1. **username/password**: username (or email) and password combination used to normally login to the site
 
 ```r
 # Authenticate via username/password combination
@@ -89,15 +82,19 @@ cyto_session
 Interactions with the Cytobank API are mediated via requests through the `CytobankAPI` package. Individual requests are organized into different endpoint groups according to similar functionality within Cytobank. The general form of any request is `endpoint.method`. Current endpoint groups are as follows:
 
 * attachments
+* CITRUS
 * compensations
+* DROP
 * experiments
 * FCS files
 * gates
 * panels
 * populations
 * scales
+* SPADE
 * statistics
 * users
+* viSNE
 
 Each endpoint group and each function within the groups has low level documentation viewable while working with the package in R.
 

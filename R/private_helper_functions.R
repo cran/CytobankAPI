@@ -227,8 +227,8 @@ filter_ids_names <- function(generic_list, name_keyword)
 add_generic_id_name <- function(generic_list, name_keyword, endpoint, generic_list_index)
 {
     # Use gate set IDs for populations, rather than the actual population ID, otherwise, get normal ID
-    id <- if (endpoint != "populations") generic_list[[endpoint]][[generic_list_index]]$id else generic_list[[endpoint]][[generic_list_index]]$gateSetId
-    name <- generic_list[[endpoint]][[generic_list_index]][[name_keyword]]
+    id <- if (endpoint != "populations") generic_list[[endpoint]][[generic_list_index]]$id else if (length(generic_list[[endpoint]])) generic_list[[endpoint]][[generic_list_index]]$gateSetId else c()
+    name <- if (length(generic_list[[endpoint]])) generic_list[[endpoint]][[generic_list_index]][[name_keyword]] else c()
     return(list(id=id, name=name))
 }
 
