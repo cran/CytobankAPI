@@ -3,10 +3,10 @@
 \docType{methods}
 \name{populations}
 \alias{populations}
-\alias{populations.list}
 \alias{populations.list,UserSession-method}
-\alias{populations.show}
+\alias{populations.list}
 \alias{populations.show,UserSession-method}
+\alias{populations.show}
 \title{Population Endpoints}
 \usage{
 \S4method{populations.list}{UserSession}(UserSession, experiment_id,
@@ -52,4 +52,3 @@ populations.list(cyto_session, 22, output="raw")
 \donttest{populations.show(cyto_session, 22, population_id=2)
 }
 }
-

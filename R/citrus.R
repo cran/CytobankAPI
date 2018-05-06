@@ -315,7 +315,7 @@ setMethod("citrus.update", signature(UserSession="UserSession", citrus="CITRUS")
     file_group_names <- unique(citrus@file_grouping$group_name[citrus@file_grouping$group_name != "Unassigned"]) # Must remove "Unassigned" from file group names
     file_grouping <- file_grouping_dataframe_to_list(citrus@file_grouping, file_group_names)
 
-    if (is.character(citrus@channels[[1]]))
+    if (length(citrus@channels) && is.character(citrus@channels[[1]]))
     {
         citrus@channels <- as.list(helper.channel_ids_from_long_names(citrus@.available_channels, citrus@channels))
     }

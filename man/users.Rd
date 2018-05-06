@@ -3,10 +3,10 @@
 \docType{methods}
 \name{users}
 \alias{users}
-\alias{users.list}
 \alias{users.list,UserSession-method}
-\alias{users.show}
+\alias{users.list}
 \alias{users.show,UserSession-method}
+\alias{users.show}
 \title{User Endpoints}
 \usage{
 \S4method{users.list}{UserSession}(UserSession, output = "default",
@@ -50,4 +50,3 @@ users.list(cyto_session, output="raw")
 \donttest{users.show(cyto_session, user_id=2)
 }
 }
-

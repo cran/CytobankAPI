@@ -10,7 +10,7 @@ NULL
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID
 #' @param file_path character representing a file path
 #' @param output character representing the output format \strong{[optional]}\cr
-#' \emph{- drop.upload, drop.upload_zip : \code{("default", "raw")}}\cr
+#' \emph{- drop.upload : \code{("default", "raw")}}\cr
 #' \emph{- \code{dataframe}: converts the file internal compensation matrix output to a dataframe}
 #' @param skipped_columns integer vector representing the channels to skip within the DROP file(s)
 #' @param timeout integer representing the request timeout time in seconds \strong{[optional]}
@@ -51,51 +51,6 @@ setMethod("drop.upload", signature(UserSession="UserSession"), function(UserSess
     h <- curl::new_handle()
     curl::handle_setheaders(h, "Authorization"=paste("Bearer", UserSession@auth_token))
     curl::handle_setform(h, file=curl::form_file(file_path), .list=form_data)
-    con <- curl::curl(url, handle = h)
-    resp <- paste(readLines(con), sep = "\n")[[1]]
-    close(con)
-    options(warn=0)
-
-    if (output == "default")
-    {
-        return(jsonlite::fromJSON(resp[[1]])[[1]])
-    }
-    else # if (output == "raw")
-    {
-        return(resp[[1]])
-    }
-})
-
-
-setGeneric("drop.upload_zip", function(UserSession, experiment_id, file_path, data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(), output="default", timeout=UserSession@long_timeout)
-{
-    standardGeneric("drop.upload_zip")
-})
-#' @rdname drop
-#' @aliases drop.upload_zip
-#'
-#' @details \code{drop.upload_zip} Upload a zip of DROP file(s) to an experiment.
-#' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{drop.upload_zip(cyto_session, 22, file_path="/path/to/my_drop.zip",
-#'   data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(4,8))
-#' }
-#' @export
-setMethod("drop.upload_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(), output="default", timeout=UserSession@long_timeout)
-{
-    output_check(output, "fcs_files", possible_outputs=c("raw"))
-
-    skipped_columns <- add_skipped_columns(skipped_columns)
-    form_data <- list(convertDelimitedFiles="true", dataMatrixStartRow=as.character(data_matrix_start_row), dataMatrixStartColumn=as.character(data_matrix_start_column))
-    form_data <- c(form_data, skipped_columns)
-
-    options(warn=-1)
-    # Have to use lower level 'curl' package because httr cannot send both multipart form file AND form data
-    # - Set form directly via the curl::handle_setform function, which allows for adding form file and form data together (form file + json)
-    # - Need to specify MIME type for zip files for some reason
-    url <- paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/upload_zip", sep="")
-    h <- curl::new_handle()
-    curl::handle_setheaders(h, "Authorization"=paste("Bearer", UserSession@auth_token))
-    curl::handle_setform(h, file=curl::form_file(file_path, "application/zip"), .list=form_data)
     con <- curl::curl(url, handle = h)
     resp <- paste(readLines(con), sep = "\n")[[1]]
     close(con)

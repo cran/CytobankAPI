@@ -3,10 +3,10 @@
 \docType{methods}
 \name{panels}
 \alias{panels}
-\alias{panels.list}
 \alias{panels.list,UserSession-method}
-\alias{panels.show}
+\alias{panels.list}
 \alias{panels.show,UserSession-method}
+\alias{panels.show}
 \title{Panel Endpoints}
 \usage{
 \S4method{panels.list}{UserSession}(UserSession, experiment_id,
@@ -53,4 +53,3 @@ panels.list(cyto_session, 22, output="raw")
 panels.show(cyto_session, 22, panel_id=2)
 }
 }
-

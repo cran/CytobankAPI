@@ -3,14 +3,14 @@
 \docType{methods}
 \name{gates}
 \alias{gates}
-\alias{gates.gatingML_download}
 \alias{gates.gatingML_download,UserSession-method}
-\alias{gates.gatingML_upload}
+\alias{gates.gatingML_download}
 \alias{gates.gatingML_upload,UserSession-method}
-\alias{gates.list}
+\alias{gates.gatingML_upload}
 \alias{gates.list,UserSession-method}
-\alias{gates.show}
+\alias{gates.list}
 \alias{gates.show,UserSession-method}
+\alias{gates.show}
 \title{Gate Endpoints}
 \usage{
 \S4method{gates.gatingML_download}{UserSession}(UserSession, experiment_id,
@@ -74,4 +74,3 @@ gates.list(cyto_session, 22, output="raw")
 \donttest{gates.show(cyto_session, 22, gate_id=2)
 }
 }
-

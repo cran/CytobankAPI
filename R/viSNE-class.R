@@ -11,6 +11,7 @@
 #' @slot sampling_total_count numeric representing the total number of events to sample for the viSNE analysis
 #' @slot sampling_target_type character representing the event sampling type\cr
 #' \emph{- choose one of the following : \code{("proportional", "equal")}}
+#' @slot seed character representing the seed, viSNE picks a random seed each run, but if users want reproducible data, setting the same seed will allow them to do this
 #' @slot theta numeric representing the balance of speed and accuracy in the viSNE run compared to the original tSNE algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#theta}{learn more about viSNE theta}
 #' @return A viSNE advanced analysis object
 setClass("viSNE", contains="AdvancedAnalysis",
@@ -20,6 +21,7 @@ setClass("viSNE", contains="AdvancedAnalysis",
                         population_selections="data.frame",
                         sampling_total_count="numeric",
                         sampling_target_type="character",
+                        seed="character",
                         theta="numeric",
                         visne_id="numeric"
 
@@ -32,6 +34,7 @@ setClass("viSNE", contains="AdvancedAnalysis",
                  typeof(object@population_selections) != "list" ||
                  typeof(object@sampling_total_count) != "integer" ||
                  typeof(object@sampling_target_type) != "character" ||
+                 typeof(object@seed) != "character" ||
                  typeof(object@theta) != "double" ||
                  typeof(object@visne_id) != "integer"
 

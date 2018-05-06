@@ -3,20 +3,20 @@
 \docType{methods}
 \name{fcs_files}
 \alias{fcs_files}
-\alias{fcs_files.download}
 \alias{fcs_files.download,UserSession-method}
-\alias{fcs_files.download_zip}
+\alias{fcs_files.download}
 \alias{fcs_files.download_zip,UserSession-method}
-\alias{fcs_files.file_internal_comp_show}
+\alias{fcs_files.download_zip}
 \alias{fcs_files.file_internal_comp_show,UserSession-method}
-\alias{fcs_files.list}
+\alias{fcs_files.file_internal_comp_show}
 \alias{fcs_files.list,UserSession-method}
-\alias{fcs_files.show}
+\alias{fcs_files.list}
 \alias{fcs_files.show,UserSession-method}
-\alias{fcs_files.upload}
+\alias{fcs_files.show}
 \alias{fcs_files.upload,UserSession-method}
-\alias{fcs_files.upload_zip}
+\alias{fcs_files.upload}
 \alias{fcs_files.upload_zip,UserSession-method}
+\alias{fcs_files.upload_zip}
 \title{FCS File Endpoints}
 \usage{
 \S4method{fcs_files.download}{UserSession}(UserSession, experiment_id,
@@ -125,4 +125,3 @@ fcs_files.list(cyto_session, 22, output="raw")
 \donttest{fcs_files.upload_zip(cyto_session, 22, file_path="/path/to/my_fcs_files.zip")
 }
 }
-

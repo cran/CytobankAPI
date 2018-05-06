@@ -3,26 +3,26 @@
 \docType{methods}
 \name{citrus}
 \alias{citrus}
-\alias{citrus.copy_settings}
 \alias{citrus.copy_settings,UserSession,CITRUS-method}
-\alias{citrus.delete}
+\alias{citrus.copy_settings}
 \alias{citrus.delete,UserSession,CITRUS-method}
-\alias{citrus.download}
+\alias{citrus.delete}
 \alias{citrus.download,UserSession,CITRUS-method}
-\alias{citrus.list}
+\alias{citrus.download}
 \alias{citrus.list,UserSession-method}
-\alias{citrus.new}
+\alias{citrus.list}
 \alias{citrus.new,UserSession-method}
-\alias{citrus.rename}
+\alias{citrus.new}
 \alias{citrus.rename,UserSession,CITRUS-method}
-\alias{citrus.run}
+\alias{citrus.rename}
 \alias{citrus.run,UserSession,CITRUS-method}
-\alias{citrus.show}
+\alias{citrus.run}
 \alias{citrus.show,UserSession-method}
-\alias{citrus.status}
+\alias{citrus.show}
 \alias{citrus.status,UserSession,CITRUS-method}
-\alias{citrus.update}
+\alias{citrus.status}
 \alias{citrus.update,UserSession,CITRUS-method}
+\alias{citrus.update}
 \title{CITRUS Endpoints}
 \usage{
 \S4method{citrus.copy_settings}{UserSession,CITRUS}(UserSession, citrus,
@@ -136,4 +136,3 @@ citrus.list(cyto_session, 22, output="raw")
 \donttest{citrus.update(cyto_session, citrus=cyto_citrus)
 }
 }
-

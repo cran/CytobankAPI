@@ -1,5 +1,20 @@
 ####################################################################################################
 
+# CytobankAPI 1.1.1
+
+* DROP endpoint removed:
+    * drop.upload_zip
+
+* Advanced Analyses:
+    * viSNE: add advanced settings
+        * seed, iterations, perplexity, and theta
+
+* Bug fixes:
+    * Allow advanced analyses updates to have empty channels
+
+---
+
+
 # CytobankAPI 1.1.0
 
 * DROP endpoints added:
@@ -13,6 +28,7 @@
 
 * Advanced Analyses:
     * Allow long channel names to be used for advanced analyses objects
+
 
 ---
 

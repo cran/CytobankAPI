@@ -3,10 +3,10 @@
 \docType{methods}
 \name{sample_tags}
 \alias{sample_tags}
-\alias{sample_tags.download}
 \alias{sample_tags.download,UserSession-method}
-\alias{sample_tags.upload}
+\alias{sample_tags.download}
 \alias{sample_tags.upload,UserSession-method}
+\alias{sample_tags.upload}
 \title{Sample Tag Endpoints}
 \usage{
 \S4method{sample_tags.download}{UserSession}(UserSession, experiment_id,
@@ -49,4 +49,3 @@ sample_tags.download(cyto_session, 22, directory="/my/new/download/directory/")
 \donttest{sample_tags.upload(cyto_session, 22, file_path="/path/to/my_annotations.tsv")
 }
 }
-

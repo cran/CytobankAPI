@@ -3,25 +3,25 @@
 \docType{methods}
 \name{visne}
 \alias{visne}
-\alias{visne.copy_settings}
 \alias{visne.copy_settings,UserSession,viSNE-method}
-\alias{visne.delete}
+\alias{visne.copy_settings}
 \alias{visne.delete,UserSession,viSNE-method}
-\alias{visne.helper.set_populations}
-\alias{visne.list}
+\alias{visne.delete}
 \alias{visne.list,UserSession-method}
-\alias{visne.new}
+\alias{visne.list}
 \alias{visne.new,UserSession-method}
-\alias{visne.rename}
+\alias{visne.new}
 \alias{visne.rename,UserSession,viSNE-method}
-\alias{visne.run}
+\alias{visne.rename}
 \alias{visne.run,UserSession,viSNE-method}
-\alias{visne.show}
+\alias{visne.run}
 \alias{visne.show,UserSession-method}
-\alias{visne.status}
+\alias{visne.show}
 \alias{visne.status,UserSession,viSNE-method}
-\alias{visne.update}
+\alias{visne.status}
 \alias{visne.update,UserSession,viSNE-method}
+\alias{visne.update}
+\alias{visne.helper.set_populations}
 \title{viSNE Endpoints}
 \usage{
 \S4method{visne.copy_settings}{UserSession,viSNE}(UserSession, visne,
@@ -132,4 +132,3 @@ visne.list(cyto_session, 22, output="raw")
 \donttest{visne.helper.set_populations(visne=cyto_visne, population_id=1, fcs_files=c(1,2,3))
 }
 }
-

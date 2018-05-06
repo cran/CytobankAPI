@@ -24,7 +24,7 @@
 NULL
 
 
-setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
+setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="dataframe", timeout=UserSession@long_timeout)
 {
     standardGeneric("statistics.event_counts")
 })
@@ -32,13 +32,13 @@ setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_
 #' @aliases statistics.event_counts
 #'
 #' @details \code{statistics.event_counts} Get event count statistics from an experiment. In the absence of channel information, only event count data are returned. If only event count data are needed, this approach can be faster than retrieving all statistics by avoiding unnecessary computation.\cr
-#' \emph{- Optional output parameter, specify one of the following: \code{("full" [default], "dataframe")}}\cr
+#' \emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe" [default])}}\cr
 #' \emph{- \code{dataframe}: converts the output to a dataframe for the event count statistics}\cr
 #' @examples \donttest{statistics.event_counts(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 #' }
 #' @export
-setMethod("statistics.event_counts", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="default", timeout=UserSession@long_timeout)
+setMethod("statistics.event_counts", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, populations=c(), output="dataframe", timeout=UserSession@long_timeout)
 {
     output_check(output, "statistics", possible_outputs=c("dataframe"))
 
@@ -67,7 +67,7 @@ setMethod("statistics.event_counts", signature(UserSession="UserSession"), funct
 })
 
 
-setGeneric("statistics.general", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
+setGeneric("statistics.general", function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="dataframe_row", timeout=UserSession@long_timeout)
 {
     standardGeneric("statistics.general")
 })
@@ -75,7 +75,7 @@ setGeneric("statistics.general", function(UserSession, experiment_id, gate_versi
 #' @aliases statistics.general
 #'
 #' @details \code{statistics.general} Get a batch of common statistics for specific channels on populations from an experiment.\cr
-#' \emph{- Optional output parameter, specify one of the following: \code{("full" [default], "dataframe_col", "dataframe_row")}}\cr
+#' \emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe_col", "dataframe_row" [default])}}\cr
 #' \emph{- \code{dataframe_col}: for statistics data on multiple channels, proliferate channel statistics as columns}\cr
 #' \emph{- \code{dataframe_row}: for statistics data on multiple channels, proliferate channel statistics as rows}
 #' @examples \donttest{# Full list with all fields present
@@ -110,7 +110,7 @@ setGeneric("statistics.general", function(UserSession, experiment_id, gate_versi
 #'   fcs_files=fcs_files, channels=channels, populations=populations, output="dataframe_row")
 #' }
 #' @export
-setMethod("statistics.general", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="default", timeout=UserSession@long_timeout)
+setMethod("statistics.general", signature(UserSession="UserSession"), function(UserSession, experiment_id, gate_version=-1, compensation_id, fcs_files, channels, populations=c(), output="dataframe_row", timeout=UserSession@long_timeout)
 {
     output_check(output, "statistics", possible_outputs=c("dataframe_col", "dataframe_row"))
 

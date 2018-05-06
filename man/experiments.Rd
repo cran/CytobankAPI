@@ -3,28 +3,28 @@
 \docType{methods}
 \name{experiments}
 \alias{experiments}
-\alias{experiments.clone_full}
 \alias{experiments.clone_full,UserSession-method}
-\alias{experiments.clone_selective}
+\alias{experiments.clone_full}
 \alias{experiments.clone_selective,UserSession-method}
-\alias{experiments.delete}
+\alias{experiments.clone_selective}
 \alias{experiments.delete,UserSession-method}
-\alias{experiments.full_access_users_add}
-\alias{experiments.full_access_users_add,UserSession-method}
-\alias{experiments.full_access_users_list}
+\alias{experiments.delete}
 \alias{experiments.full_access_users_list,UserSession-method}
-\alias{experiments.full_access_users_remove}
+\alias{experiments.full_access_users_list}
+\alias{experiments.full_access_users_add,UserSession-method}
+\alias{experiments.full_access_users_add}
 \alias{experiments.full_access_users_remove,UserSession-method}
-\alias{experiments.list}
+\alias{experiments.full_access_users_remove}
 \alias{experiments.list,UserSession-method}
-\alias{experiments.new}
+\alias{experiments.list}
 \alias{experiments.new,UserSession-method}
-\alias{experiments.show}
+\alias{experiments.new}
 \alias{experiments.show,UserSession-method}
-\alias{experiments.trash}
+\alias{experiments.show}
 \alias{experiments.trash,UserSession-method}
-\alias{experiments.update}
+\alias{experiments.trash}
 \alias{experiments.update,UserSession-method}
+\alias{experiments.update}
 \title{Experiment Endpoints}
 \usage{
 \S4method{experiments.clone_full}{UserSession}(UserSession, experiment_id,
@@ -192,4 +192,3 @@ experiments.list(cyto_session, output="raw")
 \donttest{experiments.update(cyto_session, experiment=cyto_experiment)
 }
 }
-

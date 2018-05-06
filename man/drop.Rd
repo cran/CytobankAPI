@@ -3,18 +3,11 @@
 \docType{methods}
 \name{drop}
 \alias{drop}
-\alias{drop.upload}
 \alias{drop.upload,UserSession-method}
-\alias{drop.upload_zip}
-\alias{drop.upload_zip,UserSession-method}
+\alias{drop.upload}
 \title{DROP File Endpoints}
 \usage{
 \S4method{drop.upload}{UserSession}(UserSession, experiment_id, file_path,
-  data_matrix_start_row = 2, data_matrix_start_column = 1,
-  skipped_columns = c(), output = "default",
-  timeout = UserSession@long_timeout)
-
-\S4method{drop.upload_zip}{UserSession}(UserSession, experiment_id, file_path,
   data_matrix_start_row = 2, data_matrix_start_column = 1,
   skipped_columns = c(), output = "default",
   timeout = UserSession@long_timeout)
@@ -33,7 +26,7 @@
 \item{skipped_columns}{integer vector representing the channels to skip within the DROP file(s)}
 
 \item{output}{character representing the output format \strong{[optional]}\cr
-\emph{- drop.upload, drop.upload_zip : \code{("default", "raw")}}\cr
+\emph{- drop.upload : \code{("default", "raw")}}\cr
 \emph{- \code{dataframe}: converts the file internal compensation matrix output to a dataframe}}
 
 \item{timeout}{integer representing the request timeout time in seconds \strong{[optional]}}
@@ -43,9 +36,6 @@ Upload DROP file(s) into Cytobank. A DROP file consists of any CSV, TSV, TXT, or
 }
 \details{
 \code{drop.upload} Upload a DROP file (CSV, TSV, TXT, FCS) to an experiment.
-\emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-
-\code{drop.upload_zip} Upload a zip of DROP file(s) to an experiment.
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 }
 \examples{
@@ -57,8 +47,4 @@ cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 \donttest{drop.upload(cyto_session, 22, file_path="/path/to/my_drop_file.type",
   data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(4,8))
 }
-\donttest{drop.upload_zip(cyto_session, 22, file_path="/path/to/my_drop.zip",
-  data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(4,8))
 }
-}
-

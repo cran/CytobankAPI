@@ -2,14 +2,14 @@
 % Please edit documentation in R/authenticate.R
 \docType{methods}
 \name{authentication}
-\alias{authenticate}
 \alias{authentication}
-\alias{authentication.logout}
+\alias{authenticate}
 \alias{authentication.logout,UserSession-method}
-\alias{authentication.revoke_all_tokens}
+\alias{authentication.logout}
 \alias{authentication.revoke_all_tokens,UserSession-method}
-\alias{authentication.revoke_all_tokens_user}
+\alias{authentication.revoke_all_tokens}
 \alias{authentication.revoke_all_tokens_user,UserSession-method}
+\alias{authentication.revoke_all_tokens_user}
 \title{Authentication Endpoints}
 \usage{
 authenticate(site, username = NA, password = NA, auth_token = NA,
@@ -68,4 +68,3 @@ cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 \donttest{authentication.revoke_all_tokens_user(cyto_session)
 }
 }
-

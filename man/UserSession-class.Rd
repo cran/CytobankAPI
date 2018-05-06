@@ -22,7 +22,7 @@ This class should never be called explicitly. If a user would like to create a n
 
 \item{\code{site}}{character representing Cytobank user's site}
 }}
+
 \examples{
 cytobank_user <- new("UserSession", auth_token="my_auth_token", site="premium")
 }
-

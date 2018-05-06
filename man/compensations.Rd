@@ -3,12 +3,12 @@
 \docType{methods}
 \name{compensations}
 \alias{compensations}
-\alias{compensations.list}
-\alias{compensations.list,UserSession-method}
-\alias{compensations.show}
-\alias{compensations.show,UserSession-method}
-\alias{compensations.upload_csv}
 \alias{compensations.upload_csv,UserSession-method}
+\alias{compensations.upload_csv}
+\alias{compensations.list,UserSession-method}
+\alias{compensations.list}
+\alias{compensations.show,UserSession-method}
+\alias{compensations.show}
 \title{Compensation Endpoints}
 \usage{
 \S4method{compensations.upload_csv}{UserSession}(UserSession, experiment_id,
@@ -70,4 +70,3 @@ compensations.show(cyto_session, 22, compensation_id=2)
 compensations.show(cyto_session, 22, compensation_id=2, output="dataframe")
 }
 }
-

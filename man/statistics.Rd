@@ -3,19 +3,19 @@
 \docType{methods}
 \name{statistics}
 \alias{statistics}
-\alias{statistics.event_counts}
 \alias{statistics.event_counts,UserSession-method}
-\alias{statistics.general}
+\alias{statistics.event_counts}
 \alias{statistics.general,UserSession-method}
+\alias{statistics.general}
 \title{Statistic Endpoints}
 \usage{
 \S4method{statistics.event_counts}{UserSession}(UserSession, experiment_id,
   gate_version = -1, compensation_id, fcs_files, populations = c(),
-  output = "default", timeout = UserSession@long_timeout)
+  output = "dataframe", timeout = UserSession@long_timeout)
 
 \S4method{statistics.general}{UserSession}(UserSession, experiment_id,
   gate_version = -1, compensation_id, fcs_files, channels,
-  populations = c(), output = "default",
+  populations = c(), output = "dataframe_row",
   timeout = UserSession@long_timeout)
 }
 \arguments{
@@ -47,11 +47,11 @@ Interact with statistic endpoints. Gather data about event counts and general ch
 }
 \details{
 \code{statistics.event_counts} Get event count statistics from an experiment. In the absence of channel information, only event count data are returned. If only event count data are needed, this approach can be faster than retrieving all statistics by avoiding unnecessary computation.\cr
-\emph{- Optional output parameter, specify one of the following: \code{("full" [default], "dataframe")}}\cr
+\emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe" [default])}}\cr
 \emph{- \code{dataframe}: converts the output to a dataframe for the event count statistics}\cr
 
 \code{statistics.general} Get a batch of common statistics for specific channels on populations from an experiment.\cr
-\emph{- Optional output parameter, specify one of the following: \code{("full" [default], "dataframe_col", "dataframe_row")}}\cr
+\emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe_col", "dataframe_row" [default])}}\cr
 \emph{- \code{dataframe_col}: for statistics data on multiple channels, proliferate channel statistics as columns}\cr
 \emph{- \code{dataframe_row}: for statistics data on multiple channels, proliferate channel statistics as rows}
 }
@@ -96,4 +96,3 @@ statistics.general(cyto_session, 22, compensation_id=-2,
   fcs_files=fcs_files, channels=channels, populations=populations, output="dataframe_row")
 }
 }
-

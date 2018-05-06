@@ -271,7 +271,7 @@ setMethod("visne.update", signature(UserSession="UserSession", visne="viSNE"), f
     # Convert population selections dataframe -> list readable by update endpoint
     population_selections <- population_selections_dataframe_to_list(visne@population_selections)
 
-    if (is.character(visne@channels[[1]]))
+    if (length(visne@channels) && is.character(visne@channels[[1]]))
     {
         visne@channels <- as.list(helper.channel_ids_from_long_names(visne@.available_channels, visne@channels))
     }
@@ -283,7 +283,11 @@ setMethod("visne.update", signature(UserSession="UserSession", visne="viSNE"), f
                     compensationId=visne@compensation_id,
                     samplingTotalCount=visne@sampling_total_count,
                     samplingTargetType=visne@sampling_target_type,
-                    channels=visne@channels,
+                    iterations=visne@iterations,
+                    perplexity=visne@perplexity,
+                    theta=visne@theta,
+                    seed=visne@seed,
+                    channels=if (length(visne@channels)) visne@channels else list(),
                     populationSelections=population_selections
                 )),
                 encode="json",
@@ -355,6 +359,7 @@ create_visne_object <- function(UserSession, visne_response)
             iterations=visne_response$visne$settings$iterations,
             perplexity=visne_response$visne$settings$perplexity,
             theta=visne_response$visne$settings$theta,
+            seed=visne_response$visne$settings$seed,
             population_selections=create_population_selections(visne_response$visne$settings$populationSelections),
             .available_channels=panels.list(UserSession, visne_response$visne$sourceExperiment),
             .available_files=fcs_files.list(UserSession, visne_response$visne$sourceExperiment),

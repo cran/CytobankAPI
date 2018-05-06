@@ -3,20 +3,20 @@
 \docType{methods}
 \name{attachments}
 \alias{attachments}
-\alias{attachments.delete}
 \alias{attachments.delete,UserSession-method}
-\alias{attachments.download}
+\alias{attachments.delete}
 \alias{attachments.download,UserSession-method}
-\alias{attachments.download_zip}
+\alias{attachments.download}
 \alias{attachments.download_zip,UserSession-method}
-\alias{attachments.list}
+\alias{attachments.download_zip}
 \alias{attachments.list,UserSession-method}
-\alias{attachments.show}
+\alias{attachments.list}
 \alias{attachments.show,UserSession-method}
-\alias{attachments.update}
+\alias{attachments.show}
 \alias{attachments.update,UserSession-method}
-\alias{attachments.upload}
+\alias{attachments.update}
 \alias{attachments.upload,UserSession-method}
+\alias{attachments.upload}
 \title{Attachment Endpoints}
 \usage{
 \S4method{attachments.delete}{UserSession}(UserSession, experiment_id,
@@ -112,4 +112,3 @@ attachments.list(cyto_session, 22, output="raw")
 \donttest{attachments.upload(cyto_session, 22, file_path="/path/to/my_attachment.txt")
 }
 }
-

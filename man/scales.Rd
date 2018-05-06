@@ -3,12 +3,12 @@
 \docType{methods}
 \name{scales}
 \alias{scales}
-\alias{scales.list}
 \alias{scales.list,UserSession-method}
-\alias{scales.show}
+\alias{scales.list}
 \alias{scales.show,UserSession-method}
-\alias{scales.update}
+\alias{scales.show}
 \alias{scales.update,UserSession-method}
+\alias{scales.update}
 \title{Scale Endpoints}
 \usage{
 \S4method{scales.list}{UserSession}(UserSession, experiment_id,
@@ -68,4 +68,3 @@ scales.list(cyto_session, 22, output="raw")
 scales.update(cyto_session, scale=cyto_scale)
 }
 }
-

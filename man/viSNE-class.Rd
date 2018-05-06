@@ -29,6 +29,8 @@ This class should never be called explicitly. If a user would like to create a n
 \item{\code{sampling_target_type}}{character representing the event sampling type\cr
 \emph{- choose one of the following : \code{("proportional", "equal")}}}
 
+\item{\code{seed}}{character representing the seed, viSNE picks a random seed each run, but if users want reproducible data, setting the same seed will allow them to do this}
+
 \item{\code{theta}}{numeric representing the balance of speed and accuracy in the viSNE run compared to the original tSNE algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#theta}{learn more about viSNE theta}}
 }}
 

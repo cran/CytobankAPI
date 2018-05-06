@@ -213,6 +213,7 @@ The following slots can be updated directly:
 * iterations
 * perplexity
 * theta
+* seed
 
 The following slots must be updated via helper functions:
 
