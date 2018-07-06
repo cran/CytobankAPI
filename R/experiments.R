@@ -2,10 +2,16 @@
 #'
 #' Interact with experiment endpoints. An Experiment is a container for data and analyses in Cytobank. If data are on Cytobank, they must be within an Experiment. Configurations such as \link{gates}, \link{compensations}, \link{scales}, Sample Tags, and illustrations are also linked to an individual Experiment. Within the Cytobank interface, the \href{https://support.cytobank.org/hc/en-us/articles/206946617-The-Experiment-Summary-page}{Experiment Summary Page} is a useful integration point for information about an Experiment.
 #' @name experiments
+#' @param allow_full_access_pi boolean denoting to allow full access to PI option \strong{[optional]}
 #' @param clone_annotations boolean denoting cloning annotations option \strong{[optional]}
 #' @param clone_attachments boolean denoting cloning attachments option \strong{[optional]}
+#' @param clone_compensations boolean denoting cloning compensations option \strong{[optional]}
 #' @param clone_gates boolean denoting cloning gates option \strong{[optional]}
+#' @param clone_illustrations boolean denoting cloning illustrations option \strong{[optional]}
+#' @param clone_panels boolean denoting cloning panels option \strong{[optional]}
+#' @param clone_project boolean denoting cloning project option \strong{[optional]}
 #' @param clone_reagents boolean denoting cloning reagents option \strong{[optional]}
+#' @param clone_user_access boolean denoting cloning user access option \strong{[optional]}
 #' @param comments character representing an experiment comment \strong{[optional]}
 #' @param experiment dataframe representing an experiment
 #' @param experiment_id integer representing an experiment ID
@@ -61,7 +67,13 @@ setMethod("experiments.clone_full", signature(UserSession="UserSession"), functi
 })
 
 
-setGeneric("experiments.clone_selective", function(UserSession, experiment_id, experiment_name, fcs_files=c(-1), primary_researcher=NA, principal_investigator=NA, clone_gates=FALSE, clone_annotations=FALSE, clone_attachments=FALSE, clone_reagents=FALSE, output="default", timeout=UserSession@long_timeout)
+setGeneric("experiments.clone_selective", function(UserSession, experiment_id, experiment_name, fcs_files=c(-1),
+                                                   primary_researcher=NA, principal_investigator=NA, clone_gates=FALSE,
+                                                   clone_annotations=FALSE, clone_attachments=FALSE, clone_reagents=FALSE,
+                                                   clone_compensations=FALSE, clone_panels=FALSE,
+                                                   clone_illustrations=FALSE, clone_project=FALSE,
+                                                   clone_user_access=FALSE, allow_full_access_pi=FALSE,
+                                                   output="default", timeout=UserSession@long_timeout)
 {
     standardGeneric("experiments.clone_selective")
 })
@@ -74,9 +86,28 @@ setGeneric("experiments.clone_selective", function(UserSession, experiment_id, e
 #'   experiment_name="My New Experiment Name", fcs_files=c(12, 13, 14, 15, 16))
 #' }
 #' @export
-setMethod("experiments.clone_selective", signature(UserSession="UserSession"), function(UserSession, experiment_id, experiment_name, fcs_files=c(-1), primary_researcher=NA, principal_investigator=NA, clone_gates=FALSE, clone_annotations=FALSE, clone_attachments=FALSE, clone_reagents=FALSE, output="default", timeout=UserSession@long_timeout)
+setMethod("experiments.clone_selective", signature(UserSession="UserSession"), function(UserSession, experiment_id, experiment_name, fcs_files=c(-1),
+                                                                                        primary_researcher=NA, principal_investigator=NA, clone_gates=FALSE,
+                                                                                        clone_annotations=FALSE, clone_attachments=FALSE, clone_reagents=FALSE,
+                                                                                        clone_compensations=FALSE, clone_panels=FALSE,
+                                                                                        clone_illustrations=FALSE, clone_project=FALSE,
+                                                                                        clone_user_access=FALSE, allow_full_access_pi=FALSE,
+                                                                                        output="default", timeout=UserSession@long_timeout)
 {
     output_check(output, "experiments", possible_outputs=c("raw"))
+
+    # Clone gates + compensations
+    if (clone_gates)
+    {
+        clone_compensations <- TRUE
+    }
+
+    if (clone_annotations)
+    {
+        clone_panels <- TRUE
+    }
+
+
 
     body <- list(experiment=list(
         experimentName=experiment_name,
@@ -84,7 +115,13 @@ setMethod("experiments.clone_selective", signature(UserSession="UserSession"), f
         cloneGates=clone_gates,
         cloneAnnotations=clone_annotations,
         cloneAttachments=clone_attachments,
-        cloneReagents=clone_reagents
+        cloneReagents=clone_reagents,
+        cloneCompensations=clone_compensations,
+        clonePanels=clone_panels,
+        cloneIllustrations=clone_illustrations,
+        cloneProject=clone_project,
+        cloneUserAccess=clone_user_access,
+        allowFullAccessPi=allow_full_access_pi
     ))
     # Optional primary_researcher & principal_investigator
     if (!is.na(primary_researcher))

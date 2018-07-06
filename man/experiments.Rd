@@ -34,7 +34,10 @@
   experiment_name, fcs_files = c(-1), primary_researcher = NA,
   principal_investigator = NA, clone_gates = FALSE,
   clone_annotations = FALSE, clone_attachments = FALSE,
-  clone_reagents = FALSE, output = "default",
+  clone_reagents = FALSE, clone_compensations = FALSE,
+  clone_panels = FALSE, clone_illustrations = FALSE,
+  clone_project = FALSE, clone_user_access = FALSE,
+  allow_full_access_pi = FALSE, output = "default",
   timeout = UserSession@long_timeout)
 
 \S4method{experiments.delete}{UserSession}(UserSession, experiment_id,
@@ -92,6 +95,18 @@
 \item{clone_attachments}{boolean denoting cloning attachments option \strong{[optional]}}
 
 \item{clone_reagents}{boolean denoting cloning reagents option \strong{[optional]}}
+
+\item{clone_compensations}{boolean denoting cloning compensations option \strong{[optional]}}
+
+\item{clone_panels}{boolean denoting cloning panels option \strong{[optional]}}
+
+\item{clone_illustrations}{boolean denoting cloning illustrations option \strong{[optional]}}
+
+\item{clone_project}{boolean denoting cloning project option \strong{[optional]}}
+
+\item{clone_user_access}{boolean denoting cloning user access option \strong{[optional]}}
+
+\item{allow_full_access_pi}{boolean denoting to allow full access to PI option \strong{[optional]}}
 
 \item{user_id}{integer representing a user's ID}
 

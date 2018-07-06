@@ -1,4 +1,4 @@
-085ca4beee5c39bc46819e0faa3e0bcf *DESCRIPTION
+93f077811eebceaf4a5501bd45f837a0 *DESCRIPTION
 4732e8edf579a5d14e0d6787b15fe087 *NAMESPACE
 98df0216fcddd3662e62d127f8c98e38 *R/AdvancedAnalysis-class.R
 d004a1064e9986cb881daae554e6b451 *R/CITRUS-class.R
@@ -9,7 +9,7 @@ c91958e63f01eeb14e9888144d118268 *R/SPADE-class.R
 157b783f1870ed0c2ea6b2f58c7538ed *R/citrus.R
 78289300983f866a46b37c07656fe605 *R/compensations.R
 c6d5c46250bfc550d1b2d15f5965b4e4 *R/drop.R
-bba28d6a0ac235617085188fe42e4d1b *R/experiments.R
+c4c191134c26fe62eddc0983cb4d8106 *R/experiments.R
 c8b4d81214802c7ff847f042da5e394a *R/fcs_files.R
 c33cada8a1aa225dc4cc5aa82801d74a *R/gates.R
 171e56e11849d648d17296e806985248 *R/helper_functions.R
@@ -25,14 +25,14 @@ b2b6d57f526f8b73adcd91100118ce86 *R/users.R
 d76f63edaaa558db1a618386562621d2 *R/viSNE-class.R
 5fb198bbbcf75ae56db91f3f0320f146 *R/visne.R
 d96ee7fbe7a5466eee50e520300b2e36 *README.md
-c2d3c445a935e537f51b37e674d4280c *build/vignette.rds
-72d2437551b65a3172916d56ccf0ee8a *inst/NEWS
+2e2461b1609cdac232fcc26a045f8c5d *build/vignette.rds
+9545d22582854943f7dbd6e84e336dc3 *inst/NEWS
 bacca46dbed9ed96d6a39b11489a0630 *inst/doc/cytobank-advanced-analyses.R
 0a75740186aa44ba227de51a5cc2a4db *inst/doc/cytobank-advanced-analyses.Rmd
-a4cbdb83fe061c7bb7a77e6706ed4aa7 *inst/doc/cytobank-advanced-analyses.html
+05366a55179578153cc9c35d21b206a7 *inst/doc/cytobank-advanced-analyses.html
 3f02f40b0ceee1ee1d5dbf801093f620 *inst/doc/cytobank-quickstart.R
 120599c8dec38fcb97a96aacc5af06e1 *inst/doc/cytobank-quickstart.Rmd
-330d41c2e17629e1e4b2d78f5a238f33 *inst/doc/cytobank-quickstart.html
+9b32b94af73052f256ce27522b04dc14 *inst/doc/cytobank-quickstart.html
 ec8306d7c71941d5f07a66ce48d6f114 *man/AdvancedAnalysis-class.Rd
 6a256328f699d0454f70be75724f21a0 *man/CITRUS-class.Rd
 25e4813678baa29a929f1ab3f8d8449e *man/SPADE-class.Rd
@@ -42,7 +42,7 @@ d6bd4bb669514ec46d1f69e22a5214ed *man/attachments.Rd
 4bea1a8c2f8ebd92675206757b2ddd07 *man/citrus.Rd
 42736cdd888c95919e4f4a913566a7ba *man/compensations.Rd
 05acdc640fc2cb4c2a5c63c66ad983c3 *man/drop.Rd
-89c2b91cc5cc43bad0446d234f713117 *man/experiments.Rd
+1e43882fd98a5386a4af096cc8cccc71 *man/experiments.Rd
 124a29b509b874a60473b5bab3ed3fc0 *man/fcs_files.Rd
 f8508a7b1d61cd3a161de2393f9a7d93 *man/figures/logo.png
 fcc1bafc9849e52c1f82cb200758cb06 *man/gates.Rd

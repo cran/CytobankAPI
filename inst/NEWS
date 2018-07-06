@@ -1,5 +1,14 @@
 ####################################################################################################
 
+# CytobankAPI 1.2.0
+
+* EXPERIMENTS endpoints changes:
+    * experiments.clone_selective allows more customizability in selective cloning options
+
+
+---
+
+
 # CytobankAPI 1.1.1
 
 * DROP endpoint removed:
@@ -11,6 +20,7 @@
 
 * Bug fixes:
     * Allow advanced analyses updates to have empty channels
+
 
 ---
 
