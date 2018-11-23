@@ -20,11 +20,12 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 SPADE_object <- new("SPADE")
 viSNE_object <- new("viSNE")
 CITRUS_object <- new("CITRUS")
+FlowSOM_object <- new("FlowSOM")
 ```
 
 ***
 
-The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/api-endpoint-reference.html) for a comprehensive list of API endpoints for Cytobank.
+The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/) for a comprehensive list of API endpoints for Cytobank.
 
 Within the `CytobankAPI` package, there are endpoints to interact with advanced analyses via R. This documentation is an overview of the different ways to utilize advanced analyses. To find more general documentation on using the `CytobankAPI` package, view the [Cytobank quickstart guide](cytobank-quickstart.html).
 
@@ -79,6 +80,26 @@ There are common features for all advanced analyses:
 There are special settings that pertain to each advanced analysis algorithm. These settings affect how the advanced analysis algorithm is ran. For each advanced analysis, you can view their respective settings and slots as shown below.
 
 ```r
+CITRUS_object <- citrus.new(cyto_session, experiment_id, citrus_name="My new Cytobank CITRUS analysis")
+```
+
+```{r}
+slotNames(CITRUS_object)
+```
+
+[Learn more about CITRUS settings](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis).
+
+```r
+FlowSOM_object <- flowsom.new(cyto_session, experiment_id, flowsom_name="My new Cytobank FlowSOM analysis")
+```
+
+```{r}
+slotNames(FlowSOM_object)
+```
+
+[Learn more about FlowSOM settings](https://support.cytobank.org/hc/en-us/articles/360015918512-How-to-Configure-and-Run-a-FlowSOM-Analysis).
+
+```r
 SPADE_object <- spade.new(cyto_session, experiment_id=22, spade_name="My new Cytobank SPADE analysis")
 ```
 
@@ -98,20 +119,133 @@ slotNames(viSNE_object)
 
 [Learn more about viSNE settings](https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis).
 
-```r
-CITRUS_object <- citrus.new(cyto_session, experiment_id, citrus_name="My new Cytobank CITRUS analysis")
-```
-
-```{r}
-slotNames(CITRUS_object)
-```
-
-[Learn more about CITRUS settings](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis).
-
 # Interacting with advanced analyses objects
 ***
 
 See each section below for instructions on how to interact with the object for each advanced analysis.
+
+## CITRUS
+***
+
+### Updating general CITRUS settings
+
+Directly update CITRUS settings via their slot names.
+
+The following slots can be updated directly:
+
+* population_id
+* channels
+    * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
+* file_grouping ([_see the next section for how to update CITRUS file grouping_](#updating-citrus-file-grouping))
+* compensation_id
+* association_models
+* cluster_characterization
+* event_sampling_method
+* events_per_file
+* minimum_cluster_size
+* cross_validation_folds
+* false_discovery_rate
+* normalize_scales
+* plot_theme
+
+```r
+# Set a new plot theme, association models, and compensation
+CITRUS_object@plot_theme <- "black"
+CITRUS_object@association_models <- c("pamr", "glmnet")
+CITRUS_object@compensation_id <- 22
+
+# Bulk update the changes made to the CITRUS object
+CITRUS_object <- citrus.update(cyto_session, CITRUS_object)
+```
+
+### Updating CITRUS file grouping
+***
+
+The core functionality of CITRUS is establishing biological explanations for why samples between two or more groups differ from each other. CITRUS file grouping is used to categorize different files into these groups. There is 1 important setting to pay attention to:
+
+1. group_name: The group that each file is associated with
+
+    * The minimum number of samples per group is three
+        * However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group ([see documentation for more information here](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups))
+    * There must be at least 2 groups in order to run a CITRUS analysis
+    
+**Directly update CITRUS file grouping data.**
+    
+```r
+# Set 'file1.fcs' through 'file4.fcs' to 'Group 1' and 'file5.fcs' through 'file8.fcs' to 'Group 2'
+CITRUS_object@file_grouping[CITRUS_object@file_grouping$id <= 44856,]$group_name <- "Group 1"
+CITRUS_object@file_grouping[is.element(c(44857, 44858, 44859, 44860), CITRUS_object@file_grouping$id),]$group_name <- "Group 2"
+
+View(CITRUS_object@file_grouping)
+```
+
+```{r, echo=FALSE, message=FALSE}
+fold_change_groups <- data.frame(id=c(44853, 44854, 44855, 44856, 44857, 44858, 44859, 44860, 44861),
+                                 name=c("file1.fcs", "file2.fcs", "file3.fcs", "file4.fcs", "file5.fcs", "file6.fcs", "file7.fcs", "file8.fcs", "file9.fcs"),
+                                 group_name=c("Group 1", "Group 1", "Group 1", "Group 1", "Group 2", "Group 2", "Group 2", "Group 2", "Unassigned"),
+                                 stringsAsFactors=FALSE)
+
+knitr::kable(fold_change_groups)
+```
+
+[Learn more about CITRUS file grouping](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups).
+
+## FlowSOM
+***
+
+### Updating general FlowSOM settings
+
+Directly update FlowSOM settings via their slot names.
+
+The following slots can be updated directly:
+
+* Required settings
+    * channels
+        * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
+    * fcs_files
+* Event sampling settings
+    * event_sampling_method
+    * desired_events_per_file
+    * desired_total_events
+* Optional basic settings
+    * clustering_method
+    * compensation_id
+    * expected_clusters
+    * expected_metaclusters
+    * iterations
+    * normalize_scales
+    * population_id
+    * random_seed
+    * som_creation_method
+    * external_som_analysis_id
+* Optional advanced output settings
+    * channels_to_plot
+    * cluster_size_type
+    * fixed_cluster_size
+    * gate_set_names_to_label
+    * max_relative_cluster_size
+    * output_file_type
+    * show_background_on_legend
+    * show_background_on_channel_colored_msts
+    * show_background_on_population_pies
+    
+If the required `channels` and `fcs_files` slots are not present, updates will not occur to the FlowSOM analysis.
+
+```r
+# Set a clustering method, target number of nodes, and compensation
+FlowSOM_object@clustering_method <- "kmeans"
+FlowSOM_object@num_expected_clusters <- 144
+FlowSOM_object@compensation_id <- 22
+
+# Update FCS file selection to the first 5 files
+FlowSOM_object@fcs_files <- FlowSOM_object@.available_files$id[1:4]
+
+# Update channel selection
+FlowSOM_object@channels <- list("CD3", "CD4")
+
+# Bulk update the changes made to the FlowSOM object
+FlowSOM_object <- flowsom.update(cyto_session, FlowSOM_object)
+```
 
 ## SPADE
 ***
@@ -272,70 +406,4 @@ knitr::kable(fold_change_groups)
 ```
 
 [Learn more about selecting viSNE populations](https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#populations).
-
-## CITRUS
-***
-
-### Updating general CITRUS settings
-
-Directly update CITRUS settings via their slot names.
-
-The following slots can be updated directly:
-
-* population_id
-* channels
-    * channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)
-* file_grouping ([_see the next section for how to update CITRUS file grouping_](#updating-citrus-file-grouping))
-* compensation_id
-* association_models
-* cluster_characterization
-* event_sampling_method
-* events_per_file
-* minimum_cluster_size
-* cross_validation_folds
-* false_discovery_rate
-* normalize_scales
-* plot_theme
-
-```r
-# Set a new plot theme, association models, and compensation
-CITRUS_object@plot_theme <- "black"
-CITRUS_object@association_models <- c("pamr", "glmnet")
-CITRUS_object@compensation_id <- 22
-
-# Bulk update the changes made to the CITRUS object
-CITRUS_object <- citrus.update(cyto_session, CITRUS_object)
-```
-
-### Updating CITRUS file grouping
-***
-
-The core functionality of CITRUS is establishing biological explanations for why samples between two or more groups differ from each other. CITRUS file grouping is used to categorize different files into these groups. There is 1 important setting to pay attention to:
-
-1. group_name: The group that each file is associated with
-
-    * The minimum number of samples per group is three
-        * However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group ([see documentation for more information here](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups))
-    * There must be at least 2 groups in order to run a CITRUS analysis
-    
-**Directly update CITRUS file grouping data.**
-    
-```r
-# Set 'file1.fcs' through 'file4.fcs' to 'Group 1' and 'file5.fcs' through 'file8.fcs' to 'Group 2'
-CITRUS_object@file_grouping[CITRUS_object@file_grouping$id <= 44856,]$group_name <- "Group 1"
-CITRUS_object@file_grouping[is.element(c(44857, 44858, 44859, 44860), CITRUS_object@file_grouping$id),]$group_name <- "Group 2"
-
-View(CITRUS_object@file_grouping)
-```
-
-```{r, echo=FALSE, message=FALSE}
-fold_change_groups <- data.frame(id=c(44853, 44854, 44855, 44856, 44857, 44858, 44859, 44860, 44861),
-                                 name=c("file1.fcs", "file2.fcs", "file3.fcs", "file4.fcs", "file5.fcs", "file6.fcs", "file7.fcs", "file8.fcs", "file9.fcs"),
-                                 group_name=c("Group 1", "Group 1", "Group 1", "Group 1", "Group 2", "Group 2", "Group 2", "Group 2", "Unassigned"),
-                                 stringsAsFactors=FALSE)
-
-knitr::kable(fold_change_groups)
-```
-
-[Learn more about CITRUS file grouping](https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups).
 

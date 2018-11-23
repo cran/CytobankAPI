@@ -8,7 +8,7 @@ CytobankAPI <img src="man/figures/logo.png" align="right" />
 Overview
 --------
 
-The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/api-endpoint-reference.html) for a comprehensive list of API endpoints for Cytobank.
+The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/) for a comprehensive list of API endpoints for Cytobank.
 
 To find more general documentation on using the `CytobankAPI` package, view the [Cytobank quickstart guide](https://cran.r-project.org/web/packages/CytobankAPI/vignettes/cytobank-quickstart.html).
 

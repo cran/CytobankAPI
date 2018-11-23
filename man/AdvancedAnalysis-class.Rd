@@ -22,6 +22,8 @@ This class should never be called explicitly. Its purpose is to act as a parent 
 
 \item{\code{source_experiment}}{the source experiment ID the advanced analysis is associated with}
 
+\item{\code{status}}{character representing the status of the advanced analysis}
+
 \item{\code{.available_channels}}{the list of available channels based off the \link{panels.list} function}
 
 \item{\code{.available_files}}{the list of available files based off the \link{fcs_files.list} function}

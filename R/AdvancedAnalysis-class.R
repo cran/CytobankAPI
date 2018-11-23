@@ -6,6 +6,7 @@
 #' @slot compensation_id the compensation ID selected for the advanced analysis
 #' @slot name the name of the advanced analysis
 #' @slot source_experiment the source experiment ID the advanced analysis is associated with
+#' @slot status character representing the status of the advanced analysis
 #' @slot .available_channels the list of available channels based off the \link{panels.list} function
 #' @slot .available_files the list of available files based off the \link{fcs_files.list} function
 #' @slot .available_populations the list of available populations based off the \link{populations.list} function

@@ -133,24 +133,27 @@ $(document).ready(function () {
 <li><a href="#unique-features-for-each-advanced-analysis-method"><span class="toc-section-number">1.3</span> Unique features for each advanced analysis method</a></li>
 </ul></li>
 <li><a href="#interacting-with-advanced-analyses-objects"><span class="toc-section-number">2</span> Interacting with advanced analyses objects</a><ul>
-<li><a href="#spade"><span class="toc-section-number">2.1</span> SPADE</a><ul>
-<li><a href="#updating-general-spade-settings"><span class="toc-section-number">2.1.1</span> Updating general SPADE settings</a></li>
-<li><a href="#updating-spade-fold-change-groups"><span class="toc-section-number">2.1.2</span> Updating SPADE fold change groups</a></li>
+<li><a href="#citrus"><span class="toc-section-number">2.1</span> CITRUS</a><ul>
+<li><a href="#updating-general-citrus-settings"><span class="toc-section-number">2.1.1</span> Updating general CITRUS settings</a></li>
+<li><a href="#updating-citrus-file-grouping"><span class="toc-section-number">2.1.2</span> Updating CITRUS file grouping</a></li>
 </ul></li>
-<li><a href="#visne"><span class="toc-section-number">2.2</span> viSNE</a><ul>
-<li><a href="#updating-general-visne-settings"><span class="toc-section-number">2.2.1</span> Updating general viSNE settings</a></li>
-<li><a href="#updating-visne-population-selections"><span class="toc-section-number">2.2.2</span> Updating viSNE population selections</a></li>
+<li><a href="#flowsom"><span class="toc-section-number">2.2</span> FlowSOM</a><ul>
+<li><a href="#updating-general-flowsom-settings"><span class="toc-section-number">2.2.1</span> Updating general FlowSOM settings</a></li>
 </ul></li>
-<li><a href="#citrus"><span class="toc-section-number">2.3</span> CITRUS</a><ul>
-<li><a href="#updating-general-citrus-settings"><span class="toc-section-number">2.3.1</span> Updating general CITRUS settings</a></li>
-<li><a href="#updating-citrus-file-grouping"><span class="toc-section-number">2.3.2</span> Updating CITRUS file grouping</a></li>
+<li><a href="#spade"><span class="toc-section-number">2.3</span> SPADE</a><ul>
+<li><a href="#updating-general-spade-settings"><span class="toc-section-number">2.3.1</span> Updating general SPADE settings</a></li>
+<li><a href="#updating-spade-fold-change-groups"><span class="toc-section-number">2.3.2</span> Updating SPADE fold change groups</a></li>
+</ul></li>
+<li><a href="#visne"><span class="toc-section-number">2.4</span> viSNE</a><ul>
+<li><a href="#updating-general-visne-settings"><span class="toc-section-number">2.4.1</span> Updating general viSNE settings</a></li>
+<li><a href="#updating-visne-population-selections"><span class="toc-section-number">2.4.2</span> Updating viSNE population selections</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
 
 <hr />
-<p>The <code>CytobankAPI</code> package is designed to make interacting with <a href="https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API">Cytobank API</a> endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the <a href="https://developer.cytobank.org/api-endpoint-reference.html">Cytobank API Endpoint Documentation</a> for a comprehensive list of API endpoints for Cytobank.</p>
+<p>The <code>CytobankAPI</code> package is designed to make interacting with <a href="https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API">Cytobank API</a> endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the <a href="https://developer.cytobank.org/">Cytobank API Endpoint Documentation</a> for a comprehensive list of API endpoints for Cytobank.</p>
 <p>Within the <code>CytobankAPI</code> package, there are endpoints to interact with advanced analyses via R. This documentation is an overview of the different ways to utilize advanced analyses. To find more general documentation on using the <code>CytobankAPI</code> package, view the <a href="cytobank-quickstart.html">Cytobank quickstart guide</a>.</p>
 <p>All advanced analyses are encapsulated within an <em>object</em>. This guide will be an overview of advanced analyses <em>object</em> structures:</p>
 <ol style="list-style-type: decimal">
@@ -198,6 +201,67 @@ updated_viSNE@name
 <h2><span class="header-section-number">1.3</span> Unique features for each advanced analysis method</h2>
 <hr />
 <p>There are special settings that pertain to each advanced analysis algorithm. These settings affect how the advanced analysis algorithm is ran. For each advanced analysis, you can view their respective settings and slots as shown below.</p>
+<pre class="r"><code>CITRUS_object &lt;- citrus.new(cyto_session, experiment_id, citrus_name=&quot;My new Cytobank CITRUS analysis&quot;)</code></pre>
+<pre class="r"><code>slotNames(CITRUS_object)
+#&gt;  [1] &quot;citrus_id&quot;                &quot;population_id&quot;           
+#&gt;  [3] &quot;file_grouping&quot;            &quot;association_models&quot;      
+#&gt;  [5] &quot;cluster_characterization&quot; &quot;statistics_channels&quot;     
+#&gt;  [7] &quot;event_sampling_method&quot;    &quot;events_per_file&quot;         
+#&gt;  [9] &quot;minimum_cluster_size&quot;     &quot;cross_validation_folds&quot;  
+#&gt; [11] &quot;false_discovery_rate&quot;     &quot;normalize_scales&quot;        
+#&gt; [13] &quot;plot_theme&quot;               &quot;attachment_id&quot;           
+#&gt; [15] &quot;channels&quot;                 &quot;compensation_id&quot;         
+#&gt; [17] &quot;name&quot;                     &quot;source_experiment&quot;       
+#&gt; [19] &quot;status&quot;                   &quot;.available_channels&quot;     
+#&gt; [21] &quot;.available_files&quot;         &quot;.available_populations&quot;</code></pre>
+<p><a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis">Learn more about CITRUS settings</a>.</p>
+<pre class="r"><code>FlowSOM_object &lt;- flowsom.new(cyto_session, experiment_id, flowsom_name=&quot;My new Cytobank FlowSOM analysis&quot;)</code></pre>
+<pre class="r"><code>slotNames(FlowSOM_object)
+#&gt;  [1] &quot;author&quot;                                 
+#&gt;  [2] &quot;type&quot;                                   
+#&gt;  [3] &quot;flowsom_id&quot;                             
+#&gt;  [4] &quot;selected_population_name&quot;               
+#&gt;  [5] &quot;population_id&quot;                          
+#&gt;  [6] &quot;num_fcs_files&quot;                          
+#&gt;  [7] &quot;fcs_files&quot;                              
+#&gt;  [8] &quot;event_sampling_method&quot;                  
+#&gt;  [9] &quot;desired_events_per_file&quot;                
+#&gt; [10] &quot;desired_total_events&quot;                   
+#&gt; [11] &quot;sampled_event_total&quot;                    
+#&gt; [12] &quot;num_events_to_actually_sample&quot;          
+#&gt; [13] &quot;random_seed&quot;                            
+#&gt; [14] &quot;som_creation_method&quot;                    
+#&gt; [15] &quot;clustering_method&quot;                      
+#&gt; [16] &quot;expected_metaclusters&quot;                  
+#&gt; [17] &quot;expected_clusters&quot;                      
+#&gt; [18] &quot;iterations&quot;                             
+#&gt; [19] &quot;normalize_scales&quot;                       
+#&gt; [20] &quot;created_experiment&quot;                     
+#&gt; [21] &quot;attachment_id&quot;                          
+#&gt; [22] &quot;auto_seed&quot;                              
+#&gt; [23] &quot;external_som_analysis_info&quot;             
+#&gt; [24] &quot;external_som_analysis_id&quot;               
+#&gt; [25] &quot;channels_to_plot&quot;                       
+#&gt; [26] &quot;cluster_size_type&quot;                      
+#&gt; [27] &quot;fixed_cluster_size&quot;                     
+#&gt; [28] &quot;gate_set_names_to_label&quot;                
+#&gt; [29] &quot;max_relative_cluster_size&quot;              
+#&gt; [30] &quot;output_file_type&quot;                       
+#&gt; [31] &quot;show_background_on_legend&quot;              
+#&gt; [32] &quot;show_background_on_channel_colored_msts&quot;
+#&gt; [33] &quot;show_background_on_population_pies&quot;     
+#&gt; [34] &quot;final_result&quot;                           
+#&gt; [35] &quot;completed&quot;                              
+#&gt; [36] &quot;canceled&quot;                               
+#&gt; [37] &quot;channels&quot;                               
+#&gt; [38] &quot;compensation_id&quot;                        
+#&gt; [39] &quot;name&quot;                                   
+#&gt; [40] &quot;source_experiment&quot;                      
+#&gt; [41] &quot;status&quot;                                 
+#&gt; [42] &quot;.available_channels&quot;                    
+#&gt; [43] &quot;.available_files&quot;                       
+#&gt; [44] &quot;.available_populations&quot;</code></pre>
+<p><a href="https://support.cytobank.org/hc/en-us/articles/360015918512-How-to-Configure-and-Run-a-FlowSOM-Analysis">Learn more about FlowSOM settings</a>.</p>
 <pre class="r"><code>SPADE_object &lt;- spade.new(cyto_session, experiment_id=22, spade_name=&quot;My new Cytobank SPADE analysis&quot;)</code></pre>
 <pre class="r"><code>slotNames(SPADE_object)
 #&gt;  [1] &quot;created_experiment&quot;         &quot;down_sampled_events_target&quot;
@@ -221,31 +285,193 @@ updated_viSNE@name
 #&gt; [15] &quot;.available_channels&quot;    &quot;.available_files&quot;      
 #&gt; [17] &quot;.available_populations&quot;</code></pre>
 <p><a href="https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis">Learn more about viSNE settings</a>.</p>
-<pre class="r"><code>CITRUS_object &lt;- citrus.new(cyto_session, experiment_id, citrus_name=&quot;My new Cytobank CITRUS analysis&quot;)</code></pre>
-<pre class="r"><code>slotNames(CITRUS_object)
-#&gt;  [1] &quot;citrus_id&quot;                &quot;population_id&quot;           
-#&gt;  [3] &quot;file_grouping&quot;            &quot;association_models&quot;      
-#&gt;  [5] &quot;cluster_characterization&quot; &quot;statistics_channels&quot;     
-#&gt;  [7] &quot;event_sampling_method&quot;    &quot;events_per_file&quot;         
-#&gt;  [9] &quot;minimum_cluster_size&quot;     &quot;cross_validation_folds&quot;  
-#&gt; [11] &quot;false_discovery_rate&quot;     &quot;normalize_scales&quot;        
-#&gt; [13] &quot;plot_theme&quot;               &quot;attachment_id&quot;           
-#&gt; [15] &quot;channels&quot;                 &quot;compensation_id&quot;         
-#&gt; [17] &quot;name&quot;                     &quot;source_experiment&quot;       
-#&gt; [19] &quot;status&quot;                   &quot;.available_channels&quot;     
-#&gt; [21] &quot;.available_files&quot;         &quot;.available_populations&quot;</code></pre>
-<p><a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis">Learn more about CITRUS settings</a>.</p>
 </div>
 </div>
 <div id="interacting-with-advanced-analyses-objects" class="section level1">
 <h1><span class="header-section-number">2</span> Interacting with advanced analyses objects</h1>
 <hr />
 <p>See each section below for instructions on how to interact with the object for each advanced analysis.</p>
+<div id="citrus" class="section level2">
+<h2><span class="header-section-number">2.1</span> CITRUS</h2>
+<hr />
+<div id="updating-general-citrus-settings" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Updating general CITRUS settings</h3>
+<p>Directly update CITRUS settings via their slot names.</p>
+<p>The following slots can be updated directly:</p>
+<ul>
+<li>population_id</li>
+<li>channels
+<ul>
+<li>channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)</li>
+</ul></li>
+<li>file_grouping (<a href="#updating-citrus-file-grouping"><em>see the next section for how to update CITRUS file grouping</em></a>)</li>
+<li>compensation_id</li>
+<li>association_models</li>
+<li>cluster_characterization</li>
+<li>event_sampling_method</li>
+<li>events_per_file</li>
+<li>minimum_cluster_size</li>
+<li>cross_validation_folds</li>
+<li>false_discovery_rate</li>
+<li>normalize_scales</li>
+<li>plot_theme</li>
+</ul>
+<pre class="r"><code># Set a new plot theme, association models, and compensation
+CITRUS_object@plot_theme &lt;- &quot;black&quot;
+CITRUS_object@association_models &lt;- c(&quot;pamr&quot;, &quot;glmnet&quot;)
+CITRUS_object@compensation_id &lt;- 22
+
+# Bulk update the changes made to the CITRUS object
+CITRUS_object &lt;- citrus.update(cyto_session, CITRUS_object)</code></pre>
+</div>
+<div id="updating-citrus-file-grouping" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Updating CITRUS file grouping</h3>
+<hr />
+<p>The core functionality of CITRUS is establishing biological explanations for why samples between two or more groups differ from each other. CITRUS file grouping is used to categorize different files into these groups. There is 1 important setting to pay attention to:</p>
+<ol style="list-style-type: decimal">
+<li><p>group_name: The group that each file is associated with</p>
+<ul>
+<li>The minimum number of samples per group is three
+<ul>
+<li>However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group (<a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups">see documentation for more information here</a>)</li>
+</ul></li>
+<li>There must be at least 2 groups in order to run a CITRUS analysis</li>
+</ul></li>
+</ol>
+<p><strong>Directly update CITRUS file grouping data.</strong></p>
+<pre class="r"><code># Set 'file1.fcs' through 'file4.fcs' to 'Group 1' and 'file5.fcs' through 'file8.fcs' to 'Group 2'
+CITRUS_object@file_grouping[CITRUS_object@file_grouping$id &lt;= 44856,]$group_name &lt;- &quot;Group 1&quot;
+CITRUS_object@file_grouping[is.element(c(44857, 44858, 44859, 44860), CITRUS_object@file_grouping$id),]$group_name &lt;- &quot;Group 2&quot;
+
+View(CITRUS_object@file_grouping)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">id</th>
+<th align="left">name</th>
+<th align="left">group_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">44853</td>
+<td align="left">file1.fcs</td>
+<td align="left">Group 1</td>
+</tr>
+<tr class="even">
+<td align="right">44854</td>
+<td align="left">file2.fcs</td>
+<td align="left">Group 1</td>
+</tr>
+<tr class="odd">
+<td align="right">44855</td>
+<td align="left">file3.fcs</td>
+<td align="left">Group 1</td>
+</tr>
+<tr class="even">
+<td align="right">44856</td>
+<td align="left">file4.fcs</td>
+<td align="left">Group 1</td>
+</tr>
+<tr class="odd">
+<td align="right">44857</td>
+<td align="left">file5.fcs</td>
+<td align="left">Group 2</td>
+</tr>
+<tr class="even">
+<td align="right">44858</td>
+<td align="left">file6.fcs</td>
+<td align="left">Group 2</td>
+</tr>
+<tr class="odd">
+<td align="right">44859</td>
+<td align="left">file7.fcs</td>
+<td align="left">Group 2</td>
+</tr>
+<tr class="even">
+<td align="right">44860</td>
+<td align="left">file8.fcs</td>
+<td align="left">Group 2</td>
+</tr>
+<tr class="odd">
+<td align="right">44861</td>
+<td align="left">file9.fcs</td>
+<td align="left">Unassigned</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups">Learn more about CITRUS file grouping</a>.</p>
+</div>
+</div>
+<div id="flowsom" class="section level2">
+<h2><span class="header-section-number">2.2</span> FlowSOM</h2>
+<hr />
+<div id="updating-general-flowsom-settings" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Updating general FlowSOM settings</h3>
+<p>Directly update FlowSOM settings via their slot names.</p>
+<p>The following slots can be updated directly:</p>
+<ul>
+<li>Required settings
+<ul>
+<li>channels
+<ul>
+<li>channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)</li>
+</ul></li>
+<li>fcs_files</li>
+</ul></li>
+<li>Event sampling settings
+<ul>
+<li>event_sampling_method</li>
+<li>desired_events_per_file</li>
+<li>desired_total_events</li>
+</ul></li>
+<li>Optional basic settings
+<ul>
+<li>clustering_method</li>
+<li>compensation_id</li>
+<li>expected_clusters</li>
+<li>expected_metaclusters</li>
+<li>iterations</li>
+<li>normalize_scales</li>
+<li>population_id</li>
+<li>random_seed</li>
+<li>som_creation_method</li>
+<li>external_som_analysis_id</li>
+</ul></li>
+<li>Optional advanced output settings
+<ul>
+<li>channels_to_plot</li>
+<li>cluster_size_type</li>
+<li>fixed_cluster_size</li>
+<li>gate_set_names_to_label</li>
+<li>max_relative_cluster_size</li>
+<li>output_file_type</li>
+<li>show_background_on_legend</li>
+<li>show_background_on_channel_colored_msts</li>
+<li>show_background_on_population_pies</li>
+</ul></li>
+</ul>
+<p>If the required <code>channels</code> and <code>fcs_files</code> slots are not present, updates will not occur to the FlowSOM analysis.</p>
+<pre class="r"><code># Set a clustering method, target number of nodes, and compensation
+FlowSOM_object@clustering_method &lt;- &quot;kmeans&quot;
+FlowSOM_object@num_expected_clusters &lt;- 144
+FlowSOM_object@compensation_id &lt;- 22
+
+# Update FCS file selection to the first 5 files
+FlowSOM_object@fcs_files &lt;- FlowSOM_object@.available_files$id[1:4]
+
+# Update channel selection
+FlowSOM_object@channels &lt;- list(&quot;CD3&quot;, &quot;CD4&quot;)
+
+# Bulk update the changes made to the FlowSOM object
+FlowSOM_object &lt;- flowsom.update(cyto_session, FlowSOM_object)</code></pre>
+</div>
+</div>
 <div id="spade" class="section level2">
-<h2><span class="header-section-number">2.1</span> SPADE</h2>
+<h2><span class="header-section-number">2.3</span> SPADE</h2>
 <hr />
 <div id="updating-general-spade-settings" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> Updating general SPADE settings</h3>
+<h3><span class="header-section-number">2.3.1</span> Updating general SPADE settings</h3>
 <p>Directly update SPADE settings via their slot names.</p>
 <p>The following slots can be updated directly:</p>
 <ul>
@@ -289,7 +515,7 @@ SPADE_object@channels
 #&gt; ...</code></pre>
 </div>
 <div id="updating-spade-fold-change-groups" class="section level3">
-<h3><span class="header-section-number">2.1.2</span> Updating SPADE fold change groups</h3>
+<h3><span class="header-section-number">2.3.2</span> Updating SPADE fold change groups</h3>
 <hr />
 <p>SPADE fold change groups are used to categorize different files into separate collections that will be compared amongst each other. There are 2 important settings to pay attention to:</p>
 <ol style="list-style-type: decimal">
@@ -371,10 +597,10 @@ View(SPADE_object@fold_change_groups)</code></pre>
 </div>
 </div>
 <div id="visne" class="section level2">
-<h2><span class="header-section-number">2.2</span> viSNE</h2>
+<h2><span class="header-section-number">2.4</span> viSNE</h2>
 <hr />
 <div id="updating-general-visne-settings" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Updating general viSNE settings</h3>
+<h3><span class="header-section-number">2.4.1</span> Updating general viSNE settings</h3>
 <p>Directly update viSNE settings via their slot names.</p>
 <p>The following slots can be updated directly:</p>
 <ul>
@@ -406,7 +632,7 @@ viSNE_object@compensation_id &lt;- 22
 viSNE_object &lt;- visne.update(cyto_session, viSNE_object)</code></pre>
 </div>
 <div id="updating-visne-population-selections" class="section level3">
-<h3><span class="header-section-number">2.2.2</span> Updating viSNE population selections</h3>
+<h3><span class="header-section-number">2.4.2</span> Updating viSNE population selections</h3>
 <hr />
 <p>Adding viSNE population selections is slightly more difficult because the same file can be used in the analysis in combination with multiple populations. Because of this complexity, the <code>visne.helper.set_populations</code> helper function is used to set files for a selected population.</p>
 <p>Parameters for <code>visne.helper.set_populations</code>:</p>
@@ -507,118 +733,6 @@ View(viSNE_object@population_selections)</code></pre>
 </tbody>
 </table>
 <p><a href="https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#populations">Learn more about selecting viSNE populations</a>.</p>
-</div>
-</div>
-<div id="citrus" class="section level2">
-<h2><span class="header-section-number">2.3</span> CITRUS</h2>
-<hr />
-<div id="updating-general-citrus-settings" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> Updating general CITRUS settings</h3>
-<p>Directly update CITRUS settings via their slot names.</p>
-<p>The following slots can be updated directly:</p>
-<ul>
-<li>population_id</li>
-<li>channels
-<ul>
-<li>channels can be set as a list of channel IDs or a list of channel long names (long names must correlate to a unique short channel name)</li>
-</ul></li>
-<li>file_grouping (<a href="#updating-citrus-file-grouping"><em>see the next section for how to update CITRUS file grouping</em></a>)</li>
-<li>compensation_id</li>
-<li>association_models</li>
-<li>cluster_characterization</li>
-<li>event_sampling_method</li>
-<li>events_per_file</li>
-<li>minimum_cluster_size</li>
-<li>cross_validation_folds</li>
-<li>false_discovery_rate</li>
-<li>normalize_scales</li>
-<li>plot_theme</li>
-</ul>
-<pre class="r"><code># Set a new plot theme, association models, and compensation
-CITRUS_object@plot_theme &lt;- &quot;black&quot;
-CITRUS_object@association_models &lt;- c(&quot;pamr&quot;, &quot;glmnet&quot;)
-CITRUS_object@compensation_id &lt;- 22
-
-# Bulk update the changes made to the CITRUS object
-CITRUS_object &lt;- citrus.update(cyto_session, CITRUS_object)</code></pre>
-</div>
-<div id="updating-citrus-file-grouping" class="section level3">
-<h3><span class="header-section-number">2.3.2</span> Updating CITRUS file grouping</h3>
-<hr />
-<p>The core functionality of CITRUS is establishing biological explanations for why samples between two or more groups differ from each other. CITRUS file grouping is used to categorize different files into these groups. There is 1 important setting to pay attention to:</p>
-<ol style="list-style-type: decimal">
-<li><p>group_name: The group that each file is associated with</p>
-<ul>
-<li>The minimum number of samples per group is three
-<ul>
-<li>However, for more robust statistical analysis and to avoid spurious results, at least eight samples are recommended per group (<a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups">see documentation for more information here</a>)</li>
-</ul></li>
-<li>There must be at least 2 groups in order to run a CITRUS analysis</li>
-</ul></li>
-</ol>
-<p><strong>Directly update CITRUS file grouping data.</strong></p>
-<pre class="r"><code># Set 'file1.fcs' through 'file4.fcs' to 'Group 1' and 'file5.fcs' through 'file8.fcs' to 'Group 2'
-CITRUS_object@file_grouping[CITRUS_object@file_grouping$id &lt;= 44856,]$group_name &lt;- &quot;Group 1&quot;
-CITRUS_object@file_grouping[is.element(c(44857, 44858, 44859, 44860), CITRUS_object@file_grouping$id),]$group_name &lt;- &quot;Group 2&quot;
-
-View(CITRUS_object@file_grouping)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">id</th>
-<th align="left">name</th>
-<th align="left">group_name</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">44853</td>
-<td align="left">file1.fcs</td>
-<td align="left">Group 1</td>
-</tr>
-<tr class="even">
-<td align="right">44854</td>
-<td align="left">file2.fcs</td>
-<td align="left">Group 1</td>
-</tr>
-<tr class="odd">
-<td align="right">44855</td>
-<td align="left">file3.fcs</td>
-<td align="left">Group 1</td>
-</tr>
-<tr class="even">
-<td align="right">44856</td>
-<td align="left">file4.fcs</td>
-<td align="left">Group 1</td>
-</tr>
-<tr class="odd">
-<td align="right">44857</td>
-<td align="left">file5.fcs</td>
-<td align="left">Group 2</td>
-</tr>
-<tr class="even">
-<td align="right">44858</td>
-<td align="left">file6.fcs</td>
-<td align="left">Group 2</td>
-</tr>
-<tr class="odd">
-<td align="right">44859</td>
-<td align="left">file7.fcs</td>
-<td align="left">Group 2</td>
-</tr>
-<tr class="even">
-<td align="right">44860</td>
-<td align="left">file8.fcs</td>
-<td align="left">Group 2</td>
-</tr>
-<tr class="odd">
-<td align="right">44861</td>
-<td align="left">file9.fcs</td>
-<td align="left">Unassigned</td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://support.cytobank.org/hc/en-us/articles/226678087-How-to-Configure-and-Run-a-CITRUS-Analysis#Assigning_Sample_Groups">Learn more about CITRUS file grouping</a>.</p>
 </div>
 </div>
 </div>

@@ -1,5 +1,14 @@
 ####################################################################################################
 
+# CytobankAPI 1.3.0
+
+* Adding new FlowSOM Advanced Analyses endpoints
+    * Includes documentation within vignettes, refer to https://developer.cytobank.org/
+
+
+---
+
+
 # CytobankAPI 1.2.0
 
 * EXPERIMENTS endpoints changes:

@@ -1,6 +1,6 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(
     person("Preston", "Ng", email="preston@cytobank.org", role=c("aut", "cre")),
     person("Chris", "Ciccolella", email="cciccolella@cytobank.org", role="aut"),
@@ -17,9 +17,9 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-07-05 20:11:46 UTC; preston
+Packaged: 2018-11-23 18:49:14 UTC; preston
 Author: Preston Ng [aut, cre],
   Chris Ciccolella [aut],
   Katherine Drake [aut]
 Repository: CRAN
-Date/Publication: 2018-07-06 08:00:08 UTC
+Date/Publication: 2018-11-23 19:40:03 UTC

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 
 ***
 
-The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/api-endpoint-reference.html) for a comprehensive list of API endpoints for Cytobank.
+The `CytobankAPI` package is designed to make interacting with [Cytobank API](https://support.cytobank.org/hc/en-us/articles/206336157-Overview-of-the-Cytobank-API) endpoints easy via R. This document is an accompanying overview of the package to learn concepts and see basic examples. View the [Cytobank API Endpoint Documentation](https://developer.cytobank.org/) for a comprehensive list of API endpoints for Cytobank.
 
 This guide will cover all components necessary from installation to using the `CytobankAPI` package:
 
