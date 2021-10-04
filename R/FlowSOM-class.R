@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' S4 FlowSOM Class
 #'
 # NEED TO UPDATE DESCRIPTION/SLOTS/EXAMPLES
@@ -40,7 +45,7 @@
 #' @slot show_background_on_legend logical representing whether or not to show background on legend, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#cluster-sizing}{learn more about FlowSOM PDF output}
 #' @slot show_background_on_channel_colored_msts logical representing whether or not to show background on channel colored MSTs, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#cluster-sizing}{learn more about FlowSOM PDF output}
 #' @slot show_background_on_population_pies logical representing whether or not to show background on population pies, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#cluster-sizing}{learn more about FlowSOM PDF output}
-#' @slot som_creation_method character representing the FlowSOM creationg method, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#SOM-Creation}{learn more about SOM creationg methods for FlowSOM}\cr
+#' @slot som_creation_method character representing the FlowSOM creation method, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#SOM-Creation}{learn more about SOM creationg methods for FlowSOM}\cr
 #' \emph{- choose from the following : \code{("create_new" [default], "import_existing")}}
 #' @slot type character
 #' @return A FlowSOM advanced analysis object

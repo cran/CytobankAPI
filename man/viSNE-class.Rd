@@ -5,32 +5,34 @@
 \alias{viSNE-class}
 \title{S4 viSNE Class}
 \value{
-A viSNE advanced analysis object
+A Dimensionality Reduction advanced analysis object
 }
 \description{
-A viSNE object that holds pertinent viSNE advanced analysis run information.
-This class should never be called explicitly. If a user would like to create a new Cytobank viSNE object, utilize the \link{visne.new} function, or any other \link[=visne]{viSNE endpoints that return viSNE objects documented in the 'Details' section}.
+A viSNE object that holds pertinent viSNE analysis run information.
+This class should never be called explicitly. If a user would like to create a new Cytobank Dimensionality Reduction object, utilize the \link{dimensionality_reduction.new} function, or any other \link[=dimensionality_reduction]{Dimensionality Reduction endpoints that return Dimensionality Reduction objects documented in the 'Details' section}.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{created_experiment}}{numeric representing the experiment that gets created from the viSNE analysis}
+\item{\code{iterations}}{numeric representing the number of times Dimensionality Reduction processes the dataset using its step-wise optimization algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis}{learn more about how iterations affect Dimensionality Reduction results}}
 
-\item{\code{iterations}}{numeric representing the number of times viSNE processes the dataset using its step-wise optimization algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#iterations}{learn more about how iterations affect viSNE results}}
+\item{\code{perplexity}}{numeric representing a rough guess for the number of close neighbors any given cellular event will have, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis}{learn more about Dimensionality Reduction perplexity}}
 
-\item{\code{perplexity}}{dataframe representing a rough guess for the number of close neighbors any given cellular event will have, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#perplexity}{learn more about viSNE perplexity}}
+\item{\code{channels}}{list the channels selected for the Dimensionality Reduction analysis, this can be either a list of short channel IDs (integer) OR long channel names (character)}
 
-\item{\code{population_selections}}{dataframe representing which population(s) data will be sourced, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#populations}{learn more about selecting populations for viSNE}}
+\item{\code{compensation_id}}{the compensation ID selected for the Dimensionality Reduction analysis}
 
-\item{\code{visne_id}}{numeric representing the viSNE analysis ID}
+\item{\code{population_selections}}{dataframe representing which population(s) data will be sourced, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis#Selecting-Populations-and-Samples}{learn more about selecting populations for Dimensionality Reduction}}
 
-\item{\code{sampling_total_count}}{numeric representing the total number of events to sample for the viSNE analysis}
+\item{\code{sampling_total_count}}{numeric representing the total number of events to sample for the Dimensionality Reduction analysis}
 
 \item{\code{sampling_target_type}}{character representing the event sampling type\cr
 \emph{- choose one of the following : \code{("proportional", "equal")}}}
 
-\item{\code{seed}}{character representing the seed, viSNE picks a random seed each run, but if users want reproducible data, setting the same seed will allow them to do this}
+\item{\code{seed}}{character representing the seed, Dimensionality Reduction picks a random seed each run, but if users want reproducible data, setting the same seed will allow them to do this}
 
-\item{\code{theta}}{numeric representing the balance of speed and accuracy in the viSNE run compared to the original tSNE algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-viSNE-Analysis#theta}{learn more about viSNE theta}}
+\item{\code{theta}}{numeric representing the balance of speed and accuracy in the Dimensionality Reduction run compared to the original tSNE algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis}{learn more about Dimensionality Reduction theta}}
+
+\item{\code{visne_id}}{numeric representing the Dimensionality Reduction analysis ID}
 }}
 

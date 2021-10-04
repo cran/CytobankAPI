@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' @importFrom stats setNames
 NULL
 
@@ -16,7 +21,7 @@ NULL
 #' \emph{- \code{dataframe}: converts the file internal compensation matrix output to a dataframe}
 #' @param timeout integer representing the request timeout time in seconds \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -32,7 +37,7 @@ setGeneric("fcs_files.download", function(UserSession, experiment_id, fcs_file_i
 #' @aliases fcs_files.download
 #'
 #' @details \code{fcs_files.download} Download an FCS file from an experiment.
-#' @examples \donttest{# Download an FCS file to the current working directory
+#' @examples \dontrun{# Download an FCS file to the current working directory
 #' fcs_files.download(cyto_session, 22, fcs_file_id=2)
 #'
 #' # Download an FCS file to a new directory
@@ -66,7 +71,7 @@ setGeneric("fcs_files.download_zip", function(UserSession, experiment_id, fcs_fi
 #' @aliases fcs_files.download_zip
 #'
 #' @details \code{fcs_files.download_zip} Download all or a select set of FCS files as a zip file from an experiment.
-#' @examples \donttest{# Download all files, to the current directory
+#' @examples \dontrun{# Download all files, to the current directory
 #' fcs_files.download_zip(cyto_session, 22)
 #'
 #' # Download specific files, to a new directory
@@ -119,7 +124,7 @@ setGeneric("fcs_files.file_internal_comp_show", function(UserSession, experiment
 #'
 #' @details \code{fcs_files.file_internal_comp_show} Show FCS file internal compensation (aka spillover matrix, spill matrix, spill string) details from an experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "dataframe", "raw")}}
-#' @examples \donttest{# List of a file internal compensation, containing a file internal compensation matrix
+#' @examples \dontrun{# List of a file internal compensation, containing a file internal compensation matrix
 #' fcs_files.file_internal_comp_show(cyto_session, 22, fcs_file_id=2)
 #'
 #' # Dataframe only of a file internal compensation
@@ -162,7 +167,7 @@ setGeneric("fcs_files.list", function(UserSession, experiment_id, output="defaul
 #'
 #' @details \code{fcs_files.list} List all FCS files from an experiment. Outputs a dataframe [default] or raw full list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all FCS files with all fields present
+#' @examples \dontrun{# Dataframe of all FCS files with all fields present
 #' fcs_files.list(cyto_session, 22)
 #'
 #' # Raw list of all FCS files with all fields present
@@ -198,7 +203,7 @@ setGeneric("fcs_files.show", function(UserSession, experiment_id, fcs_file_id, o
 #'
 #' @details \code{fcs_files.show} Show FCS file details from an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{fcs_files.show(cyto_session, 22, fcs_file_id=2)
+#' @examples \dontrun{fcs_files.show(cyto_session, 22, fcs_file_id=2)
 #' }
 #' @export
 setMethod("fcs_files.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, fcs_file_id, output="default", timeout=UserSession@short_timeout)
@@ -230,7 +235,7 @@ setGeneric("fcs_files.upload", function(UserSession, experiment_id, file_path, o
 #'
 #' @details \code{fcs_files.upload} Upload an FCS file to an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{fcs_files.upload(cyto_session, 22, file_path="/path/to/my_fcs_file.fcs")
+#' @examples \dontrun{fcs_files.upload(cyto_session, 22, file_path="/path/to/my_fcs_file.fcs")
 #' }
 #' @export
 setMethod("fcs_files.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)
@@ -264,7 +269,7 @@ setGeneric("fcs_files.upload_zip", function(UserSession, experiment_id, file_pat
 #'
 #' @details \code{fcs_files.upload_zip} Upload a zip of FCS file(s) to an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{fcs_files.upload_zip(cyto_session, 22, file_path="/path/to/my_fcs_files.zip")
+#' @examples \dontrun{fcs_files.upload_zip(cyto_session, 22, file_path="/path/to/my_fcs_files.zip")
 #' }
 #' @export
 setMethod("fcs_files.upload_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)

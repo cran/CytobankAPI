@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' FlowSOM Endpoints
 #'
 #' Interact with FlowSOM advanced analyses using these endpoints.
@@ -11,7 +16,7 @@
 #' \emph{- flowsom.list, flowsom.run, flowsom.status : \code{("default", "raw")}}
 #' @param timeout integer representing the request timeout time in seconds  \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -37,7 +42,7 @@ setGeneric("flowsom.copy_settings", function(UserSession, flowsom, output="defau
 #' @aliases flowsom.copy_settings
 #'
 #' @details \code{flowsom.copy_settings} Copy FlowSOM advanced analysis settings from an experiment and returns a FlowSOM object.
-#' @examples \donttest{flowsom.copy_settings(cyto_session, flowsom=cyto_flowsom)
+#' @examples \dontrun{flowsom.copy_settings(cyto_session, flowsom=cyto_flowsom)
 #' }
 #' @export
 setMethod("flowsom.copy_settings", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, output="default", timeout=UserSession@short_timeout)
@@ -66,7 +71,7 @@ setGeneric("flowsom.delete", function(UserSession, flowsom, timeout=UserSession@
 #' @aliases flowsom.delete
 #'
 #' @details \code{flowsom.delete} Delete a FlowSOM advanced analysis from an experiment.
-#' @examples \donttest{flowsom.delete(cyto_session, flowsom=cyto_flowsom)
+#' @examples \dontrun{flowsom.delete(cyto_session, flowsom=cyto_flowsom)
 #' }
 #' @export
 setMethod("flowsom.delete", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, timeout=UserSession@short_timeout)
@@ -93,7 +98,7 @@ setGeneric("flowsom.download", function(UserSession, flowsom, directory=getwd(),
 #' @aliases flowsom.download
 #'
 #' @details \code{flowsom.download} Download a FlowSOM analysis from an experiment.
-#' @examples \donttest{# Download a FlowSOM analysis to the current working directory
+#' @examples \dontrun{# Download a FlowSOM analysis to the current working directory
 #' flowsom.download(cyto_session, flowsom)
 #'
 #' # Download a FlowSOM analysis to a new directory
@@ -138,7 +143,7 @@ setGeneric("flowsom.list", function(UserSession, experiment_id, output="default"
 #'
 #' @details \code{flowsom.list} List all FlowSOM advanced analyses from an experiment. Outputs a dataframe [default] or list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all FlowSOM advanced analyses with all fields present
+#' @examples \dontrun{# Dataframe of all FlowSOM advanced analyses with all fields present
 #' flowsom.list(cyto_session, 22)
 #'
 #' # Raw list of all FlowSOM advanced analyses with all fields present
@@ -173,7 +178,7 @@ setGeneric("flowsom.new", function(UserSession, experiment_id, flowsom_name, tim
 #' @aliases flowsom.new
 #'
 #' @details \code{flowsom.new} Create a new FlowSOM advanced analysis from an experiment and returns a FlowSOM object.
-#' @examples \donttest{flowsom.new(cyto_session, 22, flowsom_name="My new FlowSOM analysis")
+#' @examples \dontrun{flowsom.new(cyto_session, 22, flowsom_name="My new FlowSOM analysis")
 #' }
 #' @export
 setMethod("flowsom.new", signature(UserSession="UserSession"), function(UserSession, experiment_id, flowsom_name, timeout=UserSession@long_timeout)
@@ -197,7 +202,8 @@ setGeneric("flowsom.rename", function(UserSession, flowsom, flowsom_name, timeou
 #' @aliases flowsom.rename
 #'
 #' @details \code{flowsom.rename} Rename a FlowSOM advanced analysis from an experiment and returns a FlowSOM object.
-#' @examples \donttest{flowsom.rename(cyto_session, flowsom=cyto_flowsom, flowsom_name="My updated FlowSOM name")
+#' @examples \dontrun{flowsom.rename(cyto_session, flowsom=cyto_flowsom, flowsom_name=
+#' "My updated FlowSOM name")
 #' }
 #' @export
 setMethod("flowsom.rename", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, flowsom_name, timeout=UserSession@short_timeout)
@@ -222,7 +228,7 @@ setGeneric("flowsom.run", function(UserSession, flowsom, output="default", timeo
 #' @aliases flowsom.run
 #'
 #' @details \code{flowsom.run} Run a FlowSOM advanced analysis from an experiment.
-#' @examples \donttest{flowsom.run(cyto_session, flowsom=cyto_flowsom)
+#' @examples \dontrun{flowsom.run(cyto_session, flowsom=cyto_flowsom)
 #' }
 #' @export
 setMethod("flowsom.run", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, output="default", timeout=UserSession@long_timeout)
@@ -253,7 +259,7 @@ setGeneric("flowsom.show", function(UserSession, experiment_id, flowsom_id, time
 #' @aliases flowsom.show
 #'
 #' @details \code{flowsom.show} Show FlowSOM advanced analysis details from an experiment and returns a FlowSOM object.
-#' @examples \donttest{flowsom.show(cyto_session, 22, flowsom_id=2)
+#' @examples \dontrun{flowsom.show(cyto_session, 22, flowsom_id=2)
 #' }
 #' @export
 setMethod("flowsom.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, flowsom_id, timeout=UserSession@short_timeout)
@@ -275,7 +281,7 @@ setGeneric("flowsom.status", function(UserSession, flowsom, output="default", ti
 #' @aliases flowsom.status
 #'
 #' @details \code{flowsom.status} Show the status of a FlowSOM advanced analysis from an experiment.
-#' @examples \donttest{flowsom.status(cyto_session, flowsom=cyto_flowsom)
+#' @examples \dontrun{flowsom.status(cyto_session, flowsom=cyto_flowsom)
 #' }
 #' @export
 setMethod("flowsom.status", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, output="default", timeout=UserSession@long_timeout)
@@ -306,7 +312,7 @@ setGeneric("flowsom.update", function(UserSession, flowsom, timeout=UserSession@
 #' @aliases flowsom.update
 #'
 #' @details \code{flowsom.update} Update a FlowSOM advanced analysis from an experiment and returns the new FlowSOM object.
-#' @examples \donttest{flowsom.update(cyto_session, flowsom=cyto_flowsom)
+#' @examples \dontrun{flowsom.update(cyto_session, flowsom=cyto_flowsom)
 #' }
 #' @export
 setMethod("flowsom.update", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, timeout=UserSession@long_timeout)

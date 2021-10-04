@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' viSNE Endpoints
 #'
 #' Interact with viSNE advanced analyses using these endpoints.
@@ -12,7 +17,7 @@
 #' @param visne_name character representing a new viSNE name
 #' @param timeout integer representing the request timeout time in seconds  \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -38,7 +43,7 @@ setGeneric("visne.copy_settings", function(UserSession, visne, output="default",
 #' @aliases visne.copy_settings
 #'
 #' @details \code{visne.copy_settings} Copy viSNE advanced analysis settings from an experiment and returns a viSNE object.
-#' @examples \donttest{visne.copy_settings(cyto_session, visne=cyto_visne)
+#' @examples \dontrun{visne.copy_settings(cyto_session, visne=cyto_visne)
 #' }
 #' @export
 setMethod("visne.copy_settings", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, output="default", timeout=UserSession@short_timeout)
@@ -67,7 +72,7 @@ setGeneric("visne.delete", function(UserSession, visne, timeout=UserSession@shor
 #' @aliases visne.delete
 #'
 #' @details \code{visne.delete} Delete a viSNE advanced analysis from an experiment.
-#' @examples \donttest{visne.delete(cyto_session, visne=cyto_visne)
+#' @examples \dontrun{visne.delete(cyto_session, visne=cyto_visne)
 #' }
 #' @export
 setMethod("visne.delete", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, timeout=UserSession@short_timeout)
@@ -95,7 +100,7 @@ setGeneric("visne.list", function(UserSession, experiment_id, output="default", 
 #'
 #' @details \code{visne.list} List all viSNE advanced analyses from an experiment. Outputs a dataframe [default] or list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all viSNE advanced analyses with all fields present
+#' @examples \dontrun{# Dataframe of all viSNE advanced analyses with all fields present
 #' visne.list(cyto_session, 22)
 #'
 #' # Raw list of all viSNE advanced analyses with all fields present
@@ -130,7 +135,7 @@ setGeneric("visne.new", function(UserSession, experiment_id, visne_name, timeout
 #' @aliases visne.new
 #'
 #' @details \code{visne.new} Create a new viSNE advanced analysis from an experiment and returns a viSNE object.
-#' @examples \donttest{visne.new(cyto_session, 22, visne_name="My new viSNE analysis")
+#' @examples \dontrun{visne.new(cyto_session, 22, visne_name="My new viSNE analysis")
 #' }
 #' @export
 setMethod("visne.new", signature(UserSession="UserSession"), function(UserSession, experiment_id, visne_name, timeout=UserSession@long_timeout)
@@ -154,7 +159,7 @@ setGeneric("visne.rename", function(UserSession, visne, visne_name, timeout=User
 #' @aliases visne.rename
 #'
 #' @details \code{visne.rename} Rename a viSNE advanced analysis from an experiment and returns a viSNE object.
-#' @examples \donttest{visne.rename(cyto_session, visne=cyto_visne, visne_name="My updated viSNE name")
+#' @examples \dontrun{visne.rename(cyto_session, visne=cyto_visne, visne_name="My updated viSNE name")
 #' }
 #' @export
 setMethod("visne.rename", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, visne_name, timeout=UserSession@short_timeout)
@@ -179,7 +184,7 @@ setGeneric("visne.run", function(UserSession, visne, output="default", timeout=U
 #' @aliases visne.run
 #'
 #' @details \code{visne.run} Run a viSNE advanced analysis from an experiment.
-#' @examples \donttest{visne.run(cyto_session, visne=cyto_visne)
+#' @examples \dontrun{visne.run(cyto_session, visne=cyto_visne)
 #' }
 #' @export
 setMethod("visne.run", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, output="default", timeout=UserSession@long_timeout)
@@ -210,7 +215,7 @@ setGeneric("visne.show", function(UserSession, experiment_id, visne_id, timeout=
 #' @aliases visne.show
 #'
 #' @details \code{visne.show} Show viSNE advanced analysis details from an experiment and returns a viSNE object.
-#' @examples \donttest{visne.show(cyto_session, 22, visne_id=2)
+#' @examples \dontrun{visne.show(cyto_session, 22, visne_id=2)
 #' }
 #' @export
 setMethod("visne.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, visne_id, timeout=UserSession@short_timeout)
@@ -232,7 +237,7 @@ setGeneric("visne.status", function(UserSession, visne, output="default", timeou
 #' @aliases visne.status
 #'
 #' @details \code{visne.status} Show the status of a viSNE advanced analysis from an experiment.
-#' @examples \donttest{visne.status(cyto_session, visne=cyto_visne)
+#' @examples \dontrun{visne.status(cyto_session, visne=cyto_visne)
 #' }
 #' @export
 setMethod("visne.status", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, output="default", timeout=UserSession@long_timeout)
@@ -263,7 +268,7 @@ setGeneric("visne.update", function(UserSession, visne, timeout=UserSession@long
 #' @aliases visne.update
 #'
 #' @details \code{visne.update} Update a viSNE advanced analysis from an experiment and returns the new viSNE object.
-#' @examples \donttest{visne.update(cyto_session, visne=cyto_visne)
+#' @examples \dontrun{visne.update(cyto_session, visne=cyto_visne)
 #' }
 #' @export
 setMethod("visne.update", signature(UserSession="UserSession", visne="viSNE"), function(UserSession, visne, timeout=UserSession@long_timeout)
@@ -307,7 +312,7 @@ setMethod("visne.update", signature(UserSession="UserSession", visne="viSNE"), f
 #' @aliases visne.helper.set_populations
 #'
 #' @details \code{visne.helper.set_populations} Set viSNE advanced analysis populations to be selected from an experiment and returns the new viSNE object with the new population selections. The population provided will be overwritten by the newly selected FCS files provided.
-#' @examples \donttest{visne.helper.set_populations(visne=cyto_visne, population_id=1, fcs_files=c(1,2,3))
+#' @examples \dontrun{visne.helper.set_populations(visne=cyto_visne, population_id=1, fcs_files=c(1,2,3))
 #' }
 #' @export
 visne.helper.set_populations <- function(visne, population_id=NA, fcs_files=NA)
@@ -347,7 +352,9 @@ create_visne_object <- function(UserSession, visne_response)
 {
     return(
         new("viSNE",
+            analysis_id=visne_response$visne$id,
             visne_id=visne_response$visne$id,
+            type="viSNE",
             name=visne_response$visne$name,
             status=visne_response$visne$status,
             source_experiment=visne_response$visne$sourceExperiment,
@@ -371,13 +378,18 @@ create_visne_object <- function(UserSession, visne_response)
 # Converts population selections output -> population selections dataframe
 create_population_selections <- function(population_selections_output)
 {
+
     population_selections_list <- list()
 
     # for each population
     for (population in population_selections_output)
     {
         # Create a dataframe
-        temp_data <- do.call(rbind.data.frame, population[[4]])
+        if(length(population[[4]])==0){ # check for the length of the fcsfile slot of the population list object, return a empty dataframe if the fcsfile slot is empty.
+            temp_data <- data.frame(id=integer(),name=character(),samplingCount=integer(),eventCount=integer())
+        }else{
+            temp_data <- do.call(rbind.data.frame, population[[4]])
+        }
         temp_data["name"] <- lapply(temp_data["name"], as.character) # Convert 'names' as factors -> characters
         # Add population ID and name to population-file selection
         temp_data$populationId <- apply(temp_data, 1, function(row) population[[1]])
@@ -395,7 +407,6 @@ create_population_selections <- function(population_selections_output)
                            populationId=integer(),
                            populationName=character(), stringsAsFactors=FALSE))
 }
-
 
 # Convert population selections dataframe -> population selections list for update
 population_selections_dataframe_to_list <- function(population_selections_dataframe)

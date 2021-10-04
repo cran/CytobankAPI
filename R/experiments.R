@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Experiment Endpoints
 #'
 #' Interact with experiment endpoints. An Experiment is a container for data and analyses in Cytobank. If data are on Cytobank, they must be within an Experiment. Configurations such as \link{gates}, \link{compensations}, \link{scales}, Sample Tags, and illustrations are also linked to an individual Experiment. Within the Cytobank interface, the \href{https://support.cytobank.org/hc/en-us/articles/206946617-The-Experiment-Summary-page}{Experiment Summary Page} is a useful integration point for information about an Experiment.
@@ -27,7 +32,7 @@
 #' @param UserSession Cytobank UserSession object
 #' @param user_email character representing a user's email
 #' @param user_id integer representing a user's ID
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -44,7 +49,7 @@ setGeneric("experiments.clone_full", function(UserSession, experiment_id, output
 #'
 #' @details \code{experiments.clone_full} Full clone an experiment. \href{https://support.cytobank.org/hc/en-us/articles/205337847-Clone-an-experiment-to-make-a-copy-for-your-own-use#full_clone}{Learn more about the full clone functionality}.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{experiments.clone_full(cyto_session, 22)
+#' @examples \dontrun{experiments.clone_full(cyto_session, 22)
 #' }
 #' @export
 setMethod("experiments.clone_full", signature(UserSession="UserSession"), function(UserSession, experiment_id, output="default", timeout=UserSession@long_timeout)
@@ -82,7 +87,7 @@ setGeneric("experiments.clone_selective", function(UserSession, experiment_id, e
 #'
 #' @details \code{experiments.clone_selective} Selectively clone an experiment. \href{https://support.cytobank.org/hc/en-us/articles/205337847-Clone-an-experiment-to-make-a-copy-for-your-own-use#selective_clone}{Learn more about the selective clone functionality}\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{experiments.clone_selective(cyto_session, 22,
+#' @examples \dontrun{experiments.clone_selective(cyto_session, 22,
 #'   experiment_name="My New Experiment Name", fcs_files=c(12, 13, 14, 15, 16))
 #' }
 #' @export
@@ -158,8 +163,8 @@ setGeneric("experiments.delete", function(UserSession, experiment_id, timeout=Us
 #' @rdname experiments
 #' @aliases experiments.delete
 #'
-#' @details \code{experiments.delete} Permenantly delete an experiment and all analyses (including SPADE, viSNE, etc.) permanently. This is not reversible.
-#' @examples \donttest{experiments.delete(cyto_session, 22)
+#' @details \code{experiments.delete} Permanently delete an experiment and all analyses (including SPADE, viSNE, etc.) permanently. This is not reversible.
+#' @examples \dontrun{experiments.delete(cyto_session, 22)
 #' }
 #' @export
 setMethod("experiments.delete", signature(UserSession="UserSession"), function(UserSession, experiment_id, timeout=UserSession@short_timeout)
@@ -187,7 +192,7 @@ setGeneric("experiments.full_access_users_list", function(UserSession, experimen
 #'
 #' @details \code{experiments.list} List all full access users from an experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all full access users
+#' @examples \dontrun{# Dataframe of all full access users
 #' experiments.full_access_users_list(cyto_session, 22)
 #'
 #' # List of all full access users
@@ -222,7 +227,7 @@ setGeneric("experiments.full_access_users_add", function(UserSession, experiment
 #' @aliases experiments.full_access_users_add
 #'
 #' @details \code{experiments.list} Add a full access user to an experiment. A full access user can be added by a user ID, email, or username.
-#' @examples \donttest{# Add a user as a full access user by user's ID
+#' @examples \dontrun{# Add a user as a full access user by user's ID
 #' experiments.full_access_users_add(cyto_session, 22, user_id=2)
 #'
 #' # Add a user as a full access user by user's email
@@ -271,7 +276,7 @@ setGeneric("experiments.full_access_users_remove", function(UserSession, experim
 #' @aliases experiments.full_access_users_remove
 #'
 #' @details \code{experiments.list} Remove a full access user from an experiment. A full access user can be removed by a user ID, email, or username.
-#' @examples \donttest{# Remove a user as a full access user by user's ID
+#' @examples \dontrun{# Remove a user as a full access user by user's ID
 #' experiments.full_access_users_remove(cyto_session, 22, user_id=2)
 #'
 #' # Remove a user as a full access user by user's email
@@ -320,9 +325,9 @@ setGeneric("experiments.list", function(UserSession, output="default", timeout=U
 #' @rdname experiments
 #' @aliases experiments.list
 #'
-#' @details \code{experiments.list} List all inbox experiments. Outputs a datframe [default] or raw list with all fields present.\cr
+#' @details \code{experiments.list} List all inbox experiments. Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all inbox experiments with all fields present
+#' @examples \dontrun{# Dataframe of all inbox experiments with all fields present
 #' experiments.list(cyto_session)
 #'
 #' # Raw list of all inbox experiments with all fields present
@@ -358,7 +363,7 @@ setGeneric("experiments.new", function(UserSession, experiment_name, purpose, co
 #'
 #' @details \code{experiments.new} Create a new experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{experiments.new(cyto_session, "My New Experiment Name", "My experiment purpose",
+#' @examples \dontrun{experiments.new(cyto_session, "My New Experiment Name", "My experiment purpose",
 #'   "An optional comment")
 #' }
 #' @export
@@ -412,7 +417,7 @@ setGeneric("experiments.show", function(UserSession, experiment_id, output="defa
 #'
 #' @details \code{experiments.show} Show experiment details.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{experiments.show(cyto_session, 22)
+#' @examples \dontrun{experiments.show(cyto_session, 22)
 #' }
 #' @export
 setMethod("experiments.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, output="default", timeout=UserSession@short_timeout)
@@ -443,7 +448,7 @@ setGeneric("experiments.trash", function(UserSession, experiment_id, output="def
 #' @aliases experiments.trash
 #'
 #' @details \code{experiments.trash} Trash an experiment. This is reversible and not to be confused with permanent deletion.
-#' @examples \donttest{experiments.trash(cyto_session, 22)
+#' @examples \dontrun{experiments.trash(cyto_session, 22)
 #' }
 #' @export
 setMethod("experiments.trash", signature(UserSession="UserSession"), function(UserSession, experiment_id, output="default", timeout=UserSession@short_timeout)
@@ -478,7 +483,7 @@ setGeneric("experiments.update", function(UserSession, experiment, output="defau
 #' @details \code{experiments.update} Update an experiment.
 #' (all parameters are optional, except for experiment_id)\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{experiments.update(cyto_session, experiment=cyto_experiment)
+#' @examples \dontrun{experiments.update(cyto_session, experiment=cyto_experiment)
 #' }
 #' @export
 setMethod("experiments.update", signature(UserSession="UserSession"), function(UserSession, experiment, output="default", timeout=UserSession@short_timeout)

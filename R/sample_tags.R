@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Sample Tag Endpoints
 #'
 #' Interact with sample tag endpoints. Download and upload sample tags to save time during the annotation process. \href{https://support.cytobank.org/hc/en-us/articles/206148017-Overview-of-Sample-Tags-annotating-scientific-and-experimental-variables-in-Cytobank}{Learn more about sample tags here}.
@@ -7,7 +12,7 @@
 #' @param file_path character representing a file path
 #' @param timeout integer representing the request timeout time in seconds
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -23,7 +28,7 @@ setGeneric("sample_tags.download", function(UserSession, experiment_id, director
 #' @aliases sample_tags.download
 #'
 #' @details \code{sample_tags.download} Download the sample tags from an experiment.
-#' @examples \donttest{# Download the experiment sample tags TSV to the current working directory
+#' @examples \dontrun{# Download the experiment sample tags TSV to the current working directory
 #' sample_tags.download(cyto_session, 22)
 #'
 #' # Download the experiment sample tags TSV to a new directory
@@ -57,7 +62,7 @@ setGeneric("sample_tags.upload", function(UserSession, experiment_id, file_path,
 #' @aliases sample_tags.upload
 #'
 #' @details \code{sample_tags.upload} Upload sample tag annotation data TSV to an experiment.
-#' @examples \donttest{sample_tags.upload(cyto_session, 22, file_path="/path/to/my_annotations.tsv")
+#' @examples \dontrun{sample_tags.upload(cyto_session, 22, file_path="/path/to/my_annotations.tsv")
 #' }
 #' @export
 setMethod("sample_tags.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, timeout=UserSession@long_timeout)

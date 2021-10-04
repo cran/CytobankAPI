@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' CITRUS Endpoints
 #'
 #' Interact with CITRUS advanced analyses using these endpoints.
@@ -11,7 +16,7 @@
 #' \emph{- citrus.list, citrus.run, citrus.status : \code{("default", "raw")}}
 #' @param timeout integer representing the request timeout time in seconds  \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -37,7 +42,7 @@ setGeneric("citrus.copy_settings", function(UserSession, citrus, output="default
 #' @aliases citrus.copy_settings
 #'
 #' @details \code{citrus.copy_settings} Copy CITRUS advanced analysis settings from an experiment and returns a CITRUS object.
-#' @examples \donttest{citrus.copy_settings(cyto_session, citrus=cyto_citrus)
+#' @examples \dontrun{citrus.copy_settings(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export
 setMethod("citrus.copy_settings", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, output="default", timeout=UserSession@short_timeout)
@@ -66,7 +71,7 @@ setGeneric("citrus.delete", function(UserSession, citrus, timeout=UserSession@sh
 #' @aliases citrus.delete
 #'
 #' @details \code{citrus.delete} Delete a CITRUS advanced analysis from an experiment.
-#' @examples \donttest{citrus.delete(cyto_session, citrus=cyto_citrus)
+#' @examples \dontrun{citrus.delete(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export
 setMethod("citrus.delete", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, timeout=UserSession@short_timeout)
@@ -93,7 +98,7 @@ setGeneric("citrus.download", function(UserSession, citrus, directory=getwd(), t
 #' @aliases citrus.download
 #'
 #' @details \code{citrus.download} Download a CITRUS analysis from an experiment.
-#' @examples \donttest{# Download a CITRUS analysis to the current working directory
+#' @examples \dontrun{# Download a CITRUS analysis to the current working directory
 #' citrus.download(cyto_session, citrus)
 #'
 #' # Download a CITRUS analysis to a new directory
@@ -138,7 +143,7 @@ setGeneric("citrus.list", function(UserSession, experiment_id, output="default",
 #'
 #' @details \code{citrus.list} List all CITRUS advanced analyses from an experiment. Outputs a dataframe [default] or list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all CITRUS advanced analyses with all fields present
+#' @examples \dontrun{# Dataframe of all CITRUS advanced analyses with all fields present
 #' citrus.list(cyto_session, 22)
 #'
 #' # Raw list of all CITRUS advanced analyses with all fields present
@@ -173,7 +178,7 @@ setGeneric("citrus.new", function(UserSession, experiment_id, citrus_name, timeo
 #' @aliases citrus.new
 #'
 #' @details \code{citrus.new} Create a new CITRUS advanced analysis from an experiment and returns a CITRUS object.
-#' @examples \donttest{citrus.new(cyto_session, 22, citrus_name="My new CITRUS analysis")
+#' @examples \dontrun{citrus.new(cyto_session, 22, citrus_name="My new CITRUS analysis")
 #' }
 #' @export
 setMethod("citrus.new", signature(UserSession="UserSession"), function(UserSession, experiment_id, citrus_name, timeout=UserSession@long_timeout)
@@ -197,7 +202,7 @@ setGeneric("citrus.rename", function(UserSession, citrus, citrus_name, timeout=U
 #' @aliases citrus.rename
 #'
 #' @details \code{citrus.rename} Rename a CITRUS advanced analysis from an experiment and returns a CITRUS object.
-#' @examples \donttest{citrus.rename(cyto_session, citrus=cyto_citrus, citrus_name="My updated CITRUS name")
+#' @examples \dontrun{citrus.rename(cyto_session, citrus=cyto_citrus, citrus_name="My updated CITRUS name")
 #' }
 #' @export
 setMethod("citrus.rename", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, citrus_name, timeout=UserSession@short_timeout)
@@ -222,7 +227,7 @@ setGeneric("citrus.run", function(UserSession, citrus, output="default", timeout
 #' @aliases citrus.run
 #'
 #' @details \code{citrus.run} Run a CITRUS advanced analysis from an experiment.
-#' @examples \donttest{citrus.run(cyto_session, citrus=cyto_citrus)
+#' @examples \dontrun{citrus.run(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export
 setMethod("citrus.run", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, output="default", timeout=UserSession@long_timeout)
@@ -253,7 +258,7 @@ setGeneric("citrus.show", function(UserSession, experiment_id, citrus_id, timeou
 #' @aliases citrus.show
 #'
 #' @details \code{citrus.show} Show CITRUS advanced analysis details from an experiment and returns a CITRUS object.
-#' @examples \donttest{citrus.show(cyto_session, 22, citrus_id=2)
+#' @examples \dontrun{citrus.show(cyto_session, 22, citrus_id=2)
 #' }
 #' @export
 setMethod("citrus.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, citrus_id, timeout=UserSession@short_timeout)
@@ -275,7 +280,7 @@ setGeneric("citrus.status", function(UserSession, citrus, output="default", time
 #' @aliases citrus.status
 #'
 #' @details \code{citrus.status} Show the status of a CITRUS advanced analysis from an experiment.
-#' @examples \donttest{citrus.status(cyto_session, citrus=cyto_citrus)
+#' @examples \dontrun{citrus.status(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export
 setMethod("citrus.status", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, output="default", timeout=UserSession@long_timeout)
@@ -306,7 +311,7 @@ setGeneric("citrus.update", function(UserSession, citrus, timeout=UserSession@lo
 #' @aliases citrus.update
 #'
 #' @details \code{citrus.update} Update a CITRUS advanced analysis from an experiment and returns the new CITRUS object.
-#' @examples \donttest{citrus.update(cyto_session, citrus=cyto_citrus)
+#' @examples \dontrun{citrus.update(cyto_session, citrus=cyto_citrus)
 #' }
 #' @export
 setMethod("citrus.update", signature(UserSession="UserSession", citrus="CITRUS"), function(UserSession, citrus, timeout=UserSession@long_timeout)

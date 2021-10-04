@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Helper Functions
 #'
 #' Various helper functions to utilize within the Cytobank API.
@@ -12,7 +17,8 @@ NULL
 
 #' @rdname helper_functions
 #' @details \code{helper.filter_names_to_ids_from_df} Compile a vector of IDs from an array of regular expressions.
-#' @examples \donttest{helper.filter_names_to_ids_from_df(id_and_names_dataframe, names_list=c("CD.*", "Time", "pp38"))
+#' @examples \dontrun{helper.filter_names_to_ids_from_df(id_and_names_dataframe,
+#' names_list=c("CD.*", "Time", "pp38"))
 #' }
 #' @export
 helper.filter_names_to_ids_from_df <- function(ids_names_df, names_array=c("*"))
@@ -30,7 +36,7 @@ helper.filter_names_to_ids_from_df <- function(ids_names_df, names_array=c("*"))
 
 #' @rdname helper_functions
 #' @details \code{helper.channel_ids_from_long_names} Compile a vector of IDs based on long channel names for specific FCS files from an experiment. If no FCS files are provided, IDs will be retrieved based on unique short channel / long channel combinations across all FCS files.
-#' @examples \donttest{helper.channel_ids_from_long_names(panels.list(cyto_session, 22),
+#' @examples \dontrun{helper.channel_ids_from_long_names(panels.list(cyto_session, 22),
 #'   long_channel_names=c("long_channel1", "long_channel2"), fcs_files=c(1,2,3,4,5))
 #' }
 #' @export

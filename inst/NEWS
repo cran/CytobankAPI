@@ -1,5 +1,17 @@
 ####################################################################################################
 
+# CytobankAPI 1.4.0
+
+* Adding new Dimensionality Reduction Analyses endpoints
+    * Includes documentation within vignettes, refer to https://developer.cytobank.org/
+    * Adding gates.apply function
+* Add support for Cytobank servers in China
+* Bug fixes:
+    * Resolves conflict with viSNE advanced analyses objects and R version 3.5
+
+---
+
+
 # CytobankAPI 1.3.0
 
 * Adding new FlowSOM Advanced Analyses endpoints

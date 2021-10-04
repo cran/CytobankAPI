@@ -24,7 +24,7 @@ The `CytobankAPI` package is designed to make interacting with [Cytobank API](ht
 
 This guide will cover all components necessary from installation to using the `CytobankAPI` package:
 
-1. **Installation**: walkthrough for installing the package via github
+1. **Installation**: walkthrough for installing the package via CRAN
 1. **Authentication**: generate an authentication token that must accompany every call to the Cytobank API
 1. **Requests**: functions for operations and data exchange with Cytobank via the API
 1. **Timeouts**: information about short and long timeout request times
@@ -95,6 +95,7 @@ Interactions with the Cytobank API are mediated via requests through the `Cytoba
 * statistics
 * users
 * viSNE
+* dimensionality_reduction
 
 Each endpoint group and each function within the groups has low level documentation viewable while working with the package in R.
 

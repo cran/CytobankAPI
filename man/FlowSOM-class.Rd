@@ -84,7 +84,7 @@ This class should never be called explicitly. If a user would like to create a n
 
 \item{\code{show_background_on_population_pies}}{logical representing whether or not to show background on population pies, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#cluster-sizing}{learn more about FlowSOM PDF output}}
 
-\item{\code{som_creation_method}}{character representing the FlowSOM creationg method, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#SOM-Creation}{learn more about SOM creationg methods for FlowSOM}\cr
+\item{\code{som_creation_method}}{character representing the FlowSOM creation method, \href{https://support.cytobank.org/hc/en-us/articles/360015918512#SOM-Creation}{learn more about SOM creationg methods for FlowSOM}\cr
 \emph{- choose from the following : \code{("create_new" [default], "import_existing")}}}
 
 \item{\code{type}}{character}

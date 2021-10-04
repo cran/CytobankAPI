@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' @importFrom stats setNames
 NULL
 
@@ -14,7 +19,7 @@ NULL
 #' \emph{- \code{dataframe}: converts the compensation matrix output to a dataframe}
 #' @param timeout integer representing the request timeout time in seconds \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -30,7 +35,7 @@ setGeneric("compensations.upload_csv", function(UserSession, experiment_id, file
 #' @aliases compensations.upload_csv
 #'
 #' @details \code{compensations.upload_csv} Upload a compensation CSV to an experiment.
-#' @examples \donttest{compensations.upload_csv(cyto_session, 22, file_path="/path/to/my_compensation.csv")
+#' @examples \dontrun{compensations.upload_csv(cyto_session, 22, file_path="/path/to/my_compensation.csv")
 #' }
 #' @export
 setMethod("compensations.upload_csv", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, timeout=UserSession@long_timeout)
@@ -55,7 +60,7 @@ setGeneric("compensations.list", function(UserSession, experiment_id, output="de
 #'
 #' @details \code{compensations.list} List all compensations from an experiment. Outputs a formatted list [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# List of all compensations with all fields present, with a compensation matrix dataframe list item
+#' @examples \dontrun{# List of all compensations with all fields present, with a compensation matrix dataframe list item
 #' compensations.list(cyto_session, 22)
 #'
 #' # Raw list of all compensations with all fields present
@@ -93,7 +98,7 @@ setGeneric("compensations.show", function(UserSession, experiment_id, compensati
 #' @details \code{compensations.show} Show compensation details from an experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "dataframe", "raw")}}\cr
 #' \emph{- \code{dataframe}: converts the compensation matrix output to a dataframe}
-#' @examples \donttest{# List form of a compensation
+#' @examples \dontrun{# List form of a compensation
 #' compensations.show(cyto_session, 22, compensation_id=2)
 #'
 #' # Compensation dataframe only

@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' User Endpoints
 #'
 #' Interact with user endpoints. One should never analyze alone...
@@ -7,7 +12,7 @@
 #' @param timeout integer representing the request timeout time in seconds \strong{[optional]}
 #' @param user_id integer representing a user ID
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -24,7 +29,7 @@ setGeneric("users.list", function(UserSession, output="default", timeout=UserSes
 #'
 #' @details \code{users.list} List all users from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all users with all fields present
+#' @examples \dontrun{# Dataframe of all users with all fields present
 #' users.list(cyto_session)
 #'
 #' # Raw list of all useres with all fields present
@@ -60,7 +65,7 @@ setGeneric("users.show", function(UserSession, user_id, output="default", timeou
 #'
 #' @details \code{users.show} Show user details from an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{users.show(cyto_session, user_id=2)
+#' @examples \dontrun{users.show(cyto_session, user_id=2)
 #' }
 #' @export
 setMethod("users.show", signature(UserSession="UserSession"), function(UserSession, user_id, output="default", timeout=UserSession@short_timeout)

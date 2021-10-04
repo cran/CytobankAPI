@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' SPADE Endpoints
 #'
 #' Interact with SPADE advanced analyses using these endpoints.
@@ -12,7 +17,7 @@
 #' @param spade_name character representing a new SPADE name
 #' @param timeout integer representing the request timeout time in seconds  \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -36,7 +41,7 @@ setGeneric("spade.bubbles_export", function(UserSession, spade, bubbles, output=
 #' @aliases spade.bubbles_export
 #'
 #' @details \code{spade.bubbles_export} Export SPADE advanced analysis bubbles from an experiment to a new experiment.
-#' @examples \donttest{spade.bubbles_export(cyto_session, spade=cyto_spade, bubbles=c("bubble1", "bubble2"))
+#' @examples \dontrun{spade.bubbles_export(cyto_session, spade=cyto_spade, bubbles=c("bubble1", "bubble2"))
 #' }
 #' @export
 setMethod("spade.bubbles_export", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, bubbles, output="default", timeout=UserSession@long_timeout)
@@ -67,7 +72,7 @@ setGeneric("spade.bubbles_set", function(UserSession, spade, bubbles, output="de
 #' @aliases spade.bubbles_set
 #'
 #' @details \code{spade.bubbles_set} Set SPADE advanced analysis bubbles from an experiment.
-#' @examples \donttest{named_bubble_list_of_node_vectors <- list("bubble_1"=c(1,2,4), "bubble_2"=8, "bubble_4"=c(10,12))
+#' @examples \dontrun{named_bubble_list_of_node_vectors <- list("bubble_1"=c(1,2,4), "bubble_2"=8, "bubble_4"=c(10,12))
 #' spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_node_vectors)
 #' }
 #' @export
@@ -100,7 +105,7 @@ setGeneric("spade.bubbles_show", function(UserSession, spade, output="default", 
 #' @aliases spade.bubbles_show
 #'
 #' @details \code{spade.bubbles_show} Show SPADE advanced analysis bubbles from an experiment.
-#' @examples \donttest{spade.bubbles_show(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.bubbles_show(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.bubbles_show", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, output="default", timeout=UserSession@short_timeout)
@@ -130,7 +135,7 @@ setGeneric("spade.copy_results", function(UserSession, spade, output="default", 
 #' @aliases spade.copy_results
 #'
 #' @details \code{spade.copy_results} Copy SPADE advanced analysis results from an experiment to a new experiment.
-#' @examples \donttest{spade.copy_results(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.copy_results(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.copy_results", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, output="default", timeout=UserSession@short_timeout)
@@ -159,7 +164,7 @@ setGeneric("spade.copy_settings", function(UserSession, spade, output="default",
 #' @aliases spade.copy_settings
 #'
 #' @details \code{spade.copy_settings} Copy SPADE advanced analysis settings from an experiment.
-#' @examples \donttest{spade.copy_settings(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.copy_settings(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.copy_settings", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, output="default", timeout=UserSession@short_timeout)
@@ -188,7 +193,7 @@ setGeneric("spade.delete", function(UserSession, spade, timeout=UserSession@shor
 #' @aliases spade.delete
 #'
 #' @details \code{spade.delete} Delete a SPADE advanced analysis from an experiment.
-#' @examples \donttest{spade.delete(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.delete(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.delete", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, timeout=UserSession@short_timeout)
@@ -215,7 +220,8 @@ setGeneric("spade.download_all", function(UserSession, spade, directory=getwd(),
 #' @aliases spade.download_all
 #'
 #' @details \code{spade.download_all} Download a SPADE advanced analysis with all data included from an experiment.
-#' @examples \donttest{spade.download_all(cyto_session, spade=cyto_spade, directory="/my/new/download/directory/")
+#' @examples \dontrun{spade.download_all(cyto_session, spade=cyto_spade,
+#' directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_all", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
@@ -245,7 +251,7 @@ setGeneric("spade.download_clusters_table", function(UserSession, spade, directo
 #' @aliases spade.download_clusters_table
 #'
 #' @details \code{spade.download_clusters_table} Download a SPADE advanced analysis global clusters table from an experiment.
-#' @examples \donttest{spade.download_clusters_table(cyto_session, spade=cyto_spade,
+#' @examples \dontrun{spade.download_clusters_table(cyto_session, spade=cyto_spade,
 #'   directory="/my/new/download/directory/")
 #' }
 #' @export
@@ -276,7 +282,7 @@ setGeneric("spade.download_global_boundaries_table", function(UserSession, spade
 #' @aliases spade.download_global_boundaries_table
 #'
 #' @details \code{spade.download_global_boundaries_table} Download a SPADE advanced analysis global boundaries table from an experiment.
-#' @examples \donttest{spade.download_global_boundaries_table(cyto_session,
+#' @examples \dontrun{spade.download_global_boundaries_table(cyto_session,
 #'   spade=cyto_spade, directory="/my/new/download/directory/")
 #' }
 #' @export
@@ -307,7 +313,8 @@ setGeneric("spade.download_gml", function(UserSession, spade, directory=getwd(),
 #' @aliases spade.download_gml
 #'
 #' @details \code{spade.download_gml} Download a SPADE advanced analysis GML from an experiment.
-#' @examples \donttest{spade.download_gml(cyto_session, spade=cyto_spade, directory="/my/new/download/directory/")
+#' @examples \dontrun{spade.download_gml(cyto_session, spade=cyto_spade,
+#' directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_gml", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
@@ -337,7 +344,8 @@ setGeneric("spade.download_layout_table", function(UserSession, spade, directory
 #' @aliases spade.download_layout_table
 #'
 #' @details \code{spade.download_layout_table} Download a SPADE advanced analysis layout table from an experiment.
-#' @examples \donttest{spade.download_layout_table(cyto_session, spade=cyto_spade, directory="/my/new/download/directory/")
+#' @examples \dontrun{spade.download_layout_table(cyto_session, spade=cyto_spade,
+#' directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_layout_table", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
@@ -367,7 +375,7 @@ setGeneric("spade.download_statistics_tables", function(UserSession, spade, dire
 #' @aliases spade.download_statistics_tables
 #'
 #' @details \code{spade.download_statistics_tables} Download a SPADE advanced analysis statistics table from an experiment.
-#' @examples \donttest{spade.download_statistics_tables(cyto_session, spade=cyto_spade,
+#' @examples \dontrun{spade.download_statistics_tables(cyto_session, spade=cyto_spade,
 #'   directory="/my/new/download/directory/")
 #' }
 #' @export
@@ -399,7 +407,7 @@ setGeneric("spade.list", function(UserSession, experiment_id, output="default", 
 #'
 #' @details \code{spade.list} List all SPADE advanced analyses from an experiment. Outputs a dataframe [default] or list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all SPADE advanced analyses with all fields present
+#' @examples \dontrun{# Dataframe of all SPADE advanced analyses with all fields present
 #' spade.list(cyto_session, 22)
 #'
 #' # Raw list of all SPADE advanced analyses with all fields present
@@ -434,7 +442,7 @@ setGeneric("spade.new", function(UserSession, experiment_id, spade_name, timeout
 #' @aliases spade.new
 #'
 #' @details \code{spade.new} Create a new SPADE advanced analysis from an experiment and returns a SPADE object.
-#' @examples \donttest{spade.new(cyto_session, 22, spade_name="My new SPADE analysis")
+#' @examples \dontrun{spade.new(cyto_session, 22, spade_name="My new SPADE analysis")
 #' }
 #' @export
 setMethod("spade.new", signature(UserSession="UserSession"), function(UserSession, experiment_id, spade_name, timeout=UserSession@long_timeout)
@@ -458,7 +466,7 @@ setGeneric("spade.rename", function(UserSession, spade, spade_name, timeout=User
 #' @aliases spade.rename
 #'
 #' @details \code{spade.rename} Rename a SPADE advanced analysis from an experiment and returns a SPADE object.
-#' @examples \donttest{spade.rename(cyto_session, spade=cyto_spade, spade_name="My updated SPADE name")
+#' @examples \dontrun{spade.rename(cyto_session, spade=cyto_spade, spade_name="My updated SPADE name")
 #' }
 #' @export
 setMethod("spade.rename", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, spade_name, timeout=UserSession@short_timeout)
@@ -483,7 +491,7 @@ setGeneric("spade.run", function(UserSession, spade, output="default", timeout=U
 #' @aliases spade.run
 #'
 #' @details \code{spade.run} Run a SPADE advanced analysis from an experiment.
-#' @examples \donttest{spade.run(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.run(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.run", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, output="default", timeout=UserSession@long_timeout)
@@ -514,7 +522,7 @@ setGeneric("spade.show", function(UserSession, experiment_id, spade_id, timeout=
 #' @aliases spade.show
 #'
 #' @details \code{spade.show} Show SPADE advanced analysis details from an experiment and returns a SPADE object.
-#' @examples \donttest{spade.show(cyto_session, 22, spade_id=2)
+#' @examples \dontrun{spade.show(cyto_session, 22, spade_id=2)
 #' }
 #' @export
 setMethod("spade.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, spade_id, timeout=UserSession@short_timeout)
@@ -536,7 +544,7 @@ setGeneric("spade.status", function(UserSession, spade, output="default", timeou
 #' @aliases spade.status
 #'
 #' @details \code{spade.status} Show the status of a SPADE advanced analysis from an experiment.
-#' @examples \donttest{spade.status(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.status(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.status", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, output="default", timeout=UserSession@long_timeout)
@@ -567,7 +575,7 @@ setGeneric("spade.update", function(UserSession, spade, timeout=UserSession@long
 #' @aliases spade.update
 #'
 #' @details \code{spade.update} Update a SPADE advanced analysis from an experiment and returns the new SPADE object.
-#' @examples \donttest{spade.update(cyto_session, spade=cyto_spade)
+#' @examples \dontrun{spade.update(cyto_session, spade=cyto_spade)
 #' }
 #' @export
 setMethod("spade.update", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, timeout=UserSession@long_timeout)

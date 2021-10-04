@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Statistic Endpoints
 #'
 #' Interact with statistic endpoints. Gather data about event counts and general channel statistics. Create dataframes of statistics to help with visualization and downstream analysis.
@@ -16,7 +21,7 @@
 #' @param populations vector/list of integers representing a list of population IDs to calculate statistics for. This is the \strong{gateSetId} attribute of a \link[=populations]{population} object. Another term for a population is a "gate set". If not specified, all population statistics will be fetched \strong{[optional]}
 #' @param timeout integer representing the request timeout time in seconds
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -34,7 +39,7 @@ setGeneric("statistics.event_counts", function(UserSession, experiment_id, gate_
 #' @details \code{statistics.event_counts} Get event count statistics from an experiment. In the absence of channel information, only event count data are returned. If only event count data are needed, this approach can be faster than retrieving all statistics by avoiding unnecessary computation.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe" [default])}}\cr
 #' \emph{- \code{dataframe}: converts the output to a dataframe for the event count statistics}\cr
-#' @examples \donttest{statistics.event_counts(cyto_session, 22, compensation_id=-2,
+#' @examples \dontrun{statistics.event_counts(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 #' }
 #' @export
@@ -78,7 +83,7 @@ setGeneric("statistics.general", function(UserSession, experiment_id, gate_versi
 #' \emph{- Optional output parameter, specify one of the following: \code{("full", "dataframe_col", "dataframe_row" [default])}}\cr
 #' \emph{- \code{dataframe_col}: for statistics data on multiple channels, proliferate channel statistics as columns}\cr
 #' \emph{- \code{dataframe_row}: for statistics data on multiple channels, proliferate channel statistics as rows}
-#' @examples \donttest{# Full list with all fields present
+#' @examples \dontrun{# Full list with all fields present
 #' statistics.general(cyto_session, 22, compensation_id=-2,
 #'   fcs_files=c(12, 13, 14), channels=c(53, 54, 55), populations=c(32, 33, 34))
 #'

@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Population Endpoints
 #'
 #' Interact with population (aka gate sets) endpoints. A population is a set of \link[=gates]{gates} and can have parents and children. \href{https://support.cytobank.org/hc/en-us/articles/204765578-The-Difference-Between-a-Gate-and-a-Population-Using-the-Population-Manager-and-considerations-for-deleting-and-renaming-gates}{Learn more about gates and populations}.
@@ -8,7 +13,7 @@
 #' @param population_id integer representing a population ID
 #' @param timeout integer representing the request timeout time in seconds
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -25,7 +30,7 @@ setGeneric("populations.list", function(UserSession, experiment_id, output="defa
 #'
 #' @details \code{populations.list} List all populations from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all populations with all fields present
+#' @examples \dontrun{# Dataframe of all populations with all fields present
 #' populations.list(cyto_session, 22)
 #'
 #' # Raw list of all populations with all fields present
@@ -61,7 +66,7 @@ setGeneric("populations.show", function(UserSession, experiment_id, population_i
 #'
 #' @details \code{populations.show} Show population details from an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{populations.show(cyto_session, 22, population_id=2)
+#' @examples \dontrun{populations.show(cyto_session, 22, population_id=2)
 #' }
 #' @export
 setMethod("populations.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, population_id, output="default", timeout=UserSession@short_timeout)

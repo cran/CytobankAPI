@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Attachment Endpoints
 #'
 #' Interact with attachments using these endpoints. Only FCS files can be analyzed in Cytobank, but any file can be uploaded as an attachment. Exported PDFs, statistics, and files also automatically attach themselves to the Experiment they are exported from. \href{https://support.cytobank.org/hc/en-us/articles/206145297-Any-type-of-data-can-be-uploaded-and-stored-in-Cytobank}{Learn more about attachments in Cytobank}.
@@ -11,7 +16,7 @@
 #' \emph{- attachments.list, attachments.show, attachments.update : \code{("default", "raw")}}
 #' @param timeout integer representing the request timeout time in seconds  \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -26,8 +31,8 @@ setGeneric("attachments.delete", function(UserSession, experiment_id, attachment
 #' @rdname attachments
 #' @aliases attachments.delete
 #'
-#' @details \code{attachments.delete} Permenantly delete an attachment.
-#' @examples \donttest{attachments.delete(cyto_session, 22, attachment_id=2)
+#' @details \code{attachments.delete} Permanently delete an attachment.
+#' @examples \dontrun{attachments.delete(cyto_session, 22, attachment_id=2)
 #' }
 #' @export
 setMethod("attachments.delete", signature(UserSession="UserSession"), function(UserSession, experiment_id, attachment_id, timeout=UserSession@short_timeout)
@@ -54,7 +59,7 @@ setGeneric("attachments.download", function(UserSession, experiment_id, attachme
 #' @aliases attachments.download
 #'
 #' @details \code{attachments.download} Download an attachment from an experiment.
-#' @examples \donttest{# Download an attachment to the current working directory
+#' @examples \dontrun{# Download an attachment to the current working directory
 #' attachments.download(cyto_session, 22, attachment_id=2)
 #'
 #' # Download an attachment to a new directory
@@ -88,7 +93,7 @@ setGeneric("attachments.download_zip", function(UserSession, experiment_id, dire
 #' @aliases attachments.download_zip
 #'
 #' @details \code{attachments.download_zip} Download all attachments as a zip file from an experiment.
-#' @examples \donttest{# Download the attachment zip to the current working directory
+#' @examples \dontrun{# Download the attachment zip to the current working directory
 #' attachments.download_zip(cyto_session, 22, attachment_id=2)
 #'
 #' # Download the attachment zip to a new directory
@@ -123,7 +128,7 @@ setGeneric("attachments.list", function(UserSession, experiment_id, output="defa
 #'
 #' @details \code{attachments.list} List all attachments from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all attachments with all fields present
+#' @examples \dontrun{# Dataframe of all attachments with all fields present
 #' attachments.list(cyto_session, 22)
 #'
 #' # Raw list of all attachments with all fields present
@@ -159,7 +164,7 @@ setGeneric("attachments.show", function(UserSession, experiment_id, attachment_i
 #'
 #' @details \code{attachments.show} Show attachment details from an experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{attachments.show(cyto_session, 22, attachment_id=2)
+#' @examples \dontrun{attachments.show(cyto_session, 22, attachment_id=2)
 #' }
 #' @export
 setMethod("attachments.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, attachment_id, output="default", timeout=UserSession@short_timeout)
@@ -190,7 +195,7 @@ setGeneric("attachments.update", function(UserSession, attachment, timeout=UserS
 #' @aliases attachments.update
 #'
 #' @details \code{attachments.update} Update an attachment description from an experiment.
-#' @examples \donttest{attachments.update(cyto_session, attachment=cyto_attachment)
+#' @examples \dontrun{attachments.update(cyto_session, attachment=cyto_attachment)
 #' }
 #' @export
 setMethod("attachments.update", signature(UserSession="UserSession"), function(UserSession, attachment, timeout=UserSession@short_timeout)
@@ -223,7 +228,7 @@ setGeneric("attachments.upload", function(UserSession, experiment_id, file_path,
 #'
 #' @details \code{attachments.upload} Upload an attachment to an experiment.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{attachments.upload(cyto_session, 22, file_path="/path/to/my_attachment.txt")
+#' @examples \dontrun{attachments.upload(cyto_session, 22, file_path="/path/to/my_attachment.txt")
 #' }
 #' @export
 setMethod("attachments.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)

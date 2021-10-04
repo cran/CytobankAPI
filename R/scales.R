@@ -1,3 +1,8 @@
+# Copyright 2020 Beckman Coulter, Inc.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #' Scale Endpoints
 #'
 #' Interact with scale endpoints. Data are rarely presented exactly as they were acquired on the instrument. \href{https://support.cytobank.org/hc/en-us/categories/200260637-Data-Scaling-and-Transformation}{Learn more about data scaling}.
@@ -9,7 +14,7 @@
 #' @param scale_id integer representing a scale ID
 #' @param timeout integer representing the request timeout time in seconds
 #' @param UserSession Cytobank UserSession object
-#' @examples \donttest{# Authenticate via username/password
+#' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 #' # Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
@@ -26,7 +31,7 @@ setGeneric("scales.list", function(UserSession, experiment_id, output="default",
 #'
 #' @details \code{scales.list} List all scales from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Dataframe of all scales with all fields present
+#' @examples \dontrun{# Dataframe of all scales with all fields present
 #' scales.list(cyto_session, 22)
 #'
 #' # Raw list of all scales with all fields present
@@ -62,7 +67,7 @@ setGeneric("scales.show", function(UserSession, experiment_id, scale_id, output=
 #'
 #' @details \code{scales.show} Show scale details from an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{scales.show(cyto_session, 22, scale_id=2)
+#' @examples \dontrun{scales.show(cyto_session, 22, scale_id=2)
 #' }
 #' @export
 setMethod("scales.show", signature(UserSession="UserSession"), function(UserSession, experiment_id, scale_id, output="default", timeout=UserSession@short_timeout)
@@ -96,7 +101,7 @@ setGeneric("scales.update", function(UserSession, scale, output="default", timeo
 #' (all parameters are optional, except for experiment_id and scale_id)\cr
 #' \emph{- Scale Types -- }\code{1: Linear, 2: Log, 4: Arcsinh}\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
-#' @examples \donttest{# Update any number of parameters (scale_type, cofactor, minimum, maximum)
+#' @examples \dontrun{# Update any number of parameters (scale_type, cofactor, minimum, maximum)
 #' # Scale Types -- 1: Linear, 2: Log, 4: Arcsinh
 #' scales.update(cyto_session, scale=cyto_scale)
 #' }
