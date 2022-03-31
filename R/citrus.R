@@ -119,11 +119,37 @@ setMethod("citrus.download", signature(UserSession="UserSession", citrus="CITRUS
 
     temp_directory <- directory_file_join(directory, "tmp.part")
 
-    resp <- GET(paste(UserSession@site, "/experiments/", citrus@source_experiment, "/attachments/", citrus@attachment_id, "/download", sep=""),
-                add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                write_disk(temp_directory, overwrite=TRUE),
-                timeout(timeout)
+    # resp <- GET(paste(UserSession@site, "/experiments/", citrus@source_experiment, "/attachments/", citrus@attachment_id, "/download", sep=""),
+    #             add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
+    #             write_disk(temp_directory, overwrite=TRUE),
+    #             timeout(timeout)
+    # )
+
+    baseURL = get_base_url(UserSession)
+
+    citrus_info <- attachments.show(UserSession, citrus@source_experiment, citrus@attachment_id)
+    file_hashkey <- unlist(citrus_info$uniqueHash)
+    file_name <- unlist(citrus_info$filename)
+    file_type <- unlist(citrus_info$type)
+
+    resp <- GET(paste(baseURL,'/download/url?', "experimentId=", citrus@source_experiment, "&hashKey=", file_hashkey,
+                      "&fileName=", utils::URLencode(file_name),
+                      "&fileType=",determine_file_type(file_type), sep=""),
+                add_headers(Authorization=paste("Bearer", UserSession@auth_token))
     )
+
+    download_status<-utils::download.file(url=parse(resp)$downloadUrl,
+                                          destfile=file.path(directory,file_name),
+                                          method = 'auto', quiet = FALSE)
+
+
+    if(download_status!=0){
+        print('Can not download the file.')
+        return(FALSE)
+    }else{
+        print(paste('File has been downloaded and saved to: ',file.path(directory,file_name),sep=""))
+        return(TRUE)
+    }
 
     if (http_error(resp))
     {

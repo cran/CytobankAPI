@@ -17,7 +17,7 @@ NULL
 #' @param output character representing the output format \strong{[optional]}\cr
 #' \emph{- drop.upload : \code{("default", "raw")}}\cr
 #' \emph{- \code{dataframe}: converts the file internal compensation matrix output to a dataframe}
-#' @param skipped_columns integer vector representing the channels to skip within the DROP file(s)
+#' @param skipped_columns vector/list of integer(s) representing column(s) of the DROP file to skip
 #' @param timeout integer representing the request timeout time in seconds \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
 #' @examples \dontrun{# Authenticate via username/password
@@ -38,37 +38,23 @@ setGeneric("drop.upload", function(UserSession, experiment_id, file_path, data_m
 #' @details \code{drop.upload} Upload a DROP file (CSV, TSV, TXT, FCS) to an experiment.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 #' @examples \dontrun{drop.upload(cyto_session, 22, file_path="/path/to/my_drop_file.type",
-#'   data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(4,8))
+#'   data_matrix_start_row=2, data_matrix_start_column=1)
 #' }
 #' @export
 setMethod("drop.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(), output="default", timeout=UserSession@long_timeout)
 {
     output_check(output, "fcs_files", possible_outputs=c("raw"))
 
-    skipped_columns <- add_skipped_columns(skipped_columns)
-    form_data <- list(convertDelimitedFiles="true", dataMatrixStartRow=as.character(data_matrix_start_row), dataMatrixStartColumn=as.character(data_matrix_start_column))
-    form_data <- c(form_data, skipped_columns)
+    return(file_upload(UserSession,
+                       experiment_id,
+                       file_path,
+                       output = "default",
+                       timeout,
+                       upload_type = 'drop',
+                       drop_data_matrix_start_row=data_matrix_start_row,
+                       drop_data_matrix_start_column=data_matrix_start_column
+                      ))
 
-    options(warn=-1)
-    # Have to use lower level 'curl' package because httr cannot send both multipart form file AND form data
-    # - Set form directly via the curl::handle_setform function, which allows for adding form file and form data together (form file + json)
-    url <- paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/upload", sep="")
-    h <- curl::new_handle()
-    curl::handle_setheaders(h, "Authorization"=paste("Bearer", UserSession@auth_token))
-    curl::handle_setform(h, file=curl::form_file(file_path), .list=form_data)
-    con <- curl::curl(url, handle = h)
-    resp <- paste(readLines(con), sep = "\n")[[1]]
-    close(con)
-    options(warn=0)
-
-    if (output == "default")
-    {
-        return(jsonlite::fromJSON(resp[[1]])[[1]])
-    }
-    else # if (output == "raw")
-    {
-        return(resp[[1]])
-    }
 })
 
 

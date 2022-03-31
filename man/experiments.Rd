@@ -192,7 +192,7 @@ Interact with experiment endpoints. An Experiment is a container for data and an
 
 \code{experiments.list} Remove a full access user from an experiment. A full access user can be removed by a user ID, email, or username.
 
-\code{experiments.list} List all inbox experiments. Outputs a dataframe [default] or raw list with all fields present.\cr
+\code{experiments.list} List all inbox experiments. Outputs a data frame [default] or raw list with all fields present.\cr
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 
 \code{experiments.new} Create a new experiment.\cr

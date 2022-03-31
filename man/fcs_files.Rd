@@ -16,6 +16,8 @@
 \alias{fcs_files.upload}
 \alias{fcs_files.upload_zip,UserSession-method}
 \alias{fcs_files.upload_zip}
+\alias{fcs_files.status,UserSession-method}
+\alias{fcs_files.status}
 \title{FCS File Endpoints}
 \usage{
 \S4method{fcs_files.download}{UserSession}(
@@ -30,7 +32,6 @@
   UserSession,
   experiment_id,
   fcs_files,
-  directory = getwd(),
   timeout = UserSession@long_timeout
 )
 
@@ -72,6 +73,12 @@
   output = "default",
   timeout = UserSession@long_timeout
 )
+
+\S4method{fcs_files.status}{UserSession}(
+  UserSession,
+  experiment_id,
+  timeout = UserSession@long_timeout
+)
 }
 \arguments{
 \item{UserSession}{Cytobank UserSession object}
@@ -99,7 +106,7 @@ Interact with FCS file endpoints.
 \details{
 \code{fcs_files.download} Download an FCS file from an experiment.
 
-\code{fcs_files.download_zip} Download all or a select set of FCS files as a zip file from an experiment.
+\code{fcs_files.download_zip} Download all or a select set of FCS files as a zip file from an experiment. The download link of the zip file will be sent to the user's registered email address.
 
 \code{fcs_files.file_internal_comp_show} Show FCS file internal compensation (aka spillover matrix, spill matrix, spill string) details from an experiment.\cr
 \emph{- Optional output parameter, specify one of the following: \code{("default", "dataframe", "raw")}}
@@ -110,11 +117,13 @@ Interact with FCS file endpoints.
 \code{fcs_files.show} Show FCS file details from an experiment.
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 
-\code{fcs_files.upload} Upload an FCS file to an experiment.
+\code{fcs_files.upload} Upload an FCS file to an experiment. Cytobank User ID has to be attached to the UserSession object. See the help document of authenticate function for details.
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 
 \code{fcs_files.upload_zip} Upload a zip of FCS file(s) to an experiment.
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
+
+\code{fcs_files.status} Check status of file(s) in an experiment. Return FALSE and print out an warming message if it fail. Otherwise, return a R dataframe object with file status information.
 }
 \examples{
 \dontrun{# Authenticate via username/password
@@ -123,17 +132,17 @@ cyto_session <- authenticate(site="premium", username="cyril_cytometry", passwor
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 }
 \dontrun{# Download an FCS file to the current working directory
-fcs_files.download(cyto_session, 22, fcs_file_id=2)
+fcs_files.download(cyto_session, experiment_id = 22, fcs_file_id = 4)
 
 # Download an FCS file to a new directory
-fcs_files.download(cyto_session, 22, fcs_file_id=2, directory="/my/new/download/directory/")
+fcs_files.download(cyto_session, 22, experiment_id = 22, fcs_file_id = 4,
+directory="/my/new/download/directory/")
 }
-\dontrun{# Download all files, to the current directory
-fcs_files.download_zip(cyto_session, 22)
+\dontrun{# Download all FCS files as a zip file
+fcs_files.download_zip(cyto_session, experiment_id=22)
 
-# Download specific files, to a new directory
-fcs_files.download_zip(cyto_session, 22, fcs_files=c(22, 23, 24, 25),
-  directory="/my/new/download/directory/")
+# Download a select set of FCS files as a zip file
+fcs_files.download_zip(cyto_session, experiment_id=22, fcs_files=c(22, 23, 24, 25))
 }
 \dontrun{# List of a file internal compensation, containing a file internal compensation matrix
 fcs_files.file_internal_comp_show(cyto_session, 22, fcs_file_id=2)
@@ -155,5 +164,7 @@ fcs_files.list(cyto_session, 22, output="raw")
 \dontrun{fcs_files.upload(cyto_session, 22, file_path="/path/to/my_fcs_file.fcs")
 }
 \dontrun{fcs_files.upload_zip(cyto_session, 22, file_path="/path/to/my_fcs_files.zip")
+}
+\dontrun{fcs_files.status(cyto_session, 22)
 }
 }

@@ -36,7 +36,7 @@
 \S4method{attachments.download_zip}{UserSession}(
   UserSession,
   experiment_id,
-  directory = getwd(),
+  attachment_id,
   timeout = UserSession@long_timeout
 )
 
@@ -95,7 +95,7 @@ Interact with attachments using these endpoints. Only FCS files can be analyzed 
 
 \code{attachments.download} Download an attachment from an experiment.
 
-\code{attachments.download_zip} Download all attachments as a zip file from an experiment.
+\code{attachments.download_zip} Download all or a select set of attachments as a zip file from an experiment. The download link of the zip file will be sent to the user's registered email address.
 
 \code{attachments.list} List all attachments from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
@@ -111,22 +111,22 @@ Interact with attachments using these endpoints. Only FCS files can be analyzed 
 \examples{
 \dontrun{# Authenticate via username/password
 cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
-# Authenticate via auth_token
+Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 }
 \dontrun{attachments.delete(cyto_session, 22, attachment_id=2)
 }
 \dontrun{# Download an attachment to the current working directory
-attachments.download(cyto_session, 22, attachment_id=2)
+attachments.download(cyto_session, 22)
 
 # Download an attachment to a new directory
-attachments.download(cyto_session, 22, attachment_id=2, directory="/my/new/download/directory/")
+attachments.download(cyto_session, 22, directory="/my/new/download/directory/")
 }
-\dontrun{# Download the attachment zip to the current working directory
-attachments.download_zip(cyto_session, 22, attachment_id=2)
+\dontrun{# Download the all attachment files as a zip file
+attachments.download_zip(cyto_session, experiment_id=22)
 
-# Download the attachment zip to a new directory
-attachments.download_zip(cyto_session, 22, attachment_id=2, directory="/my/new/download/directory/")
+# Download a select set of attachment files as a zip file
+attachments.download_zip(cyto_session, experiment_id=22, attachment_id=2)
 }
 \dontrun{# Dataframe of all attachments with all fields present
 attachments.list(cyto_session, 22)

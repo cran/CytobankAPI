@@ -41,40 +41,44 @@ authenticate(
 
 \item{password}{character representing Cytobank user's password}
 
-\item{auth_token}{character representing Cytobank user's authentication token (expires in 8 hours)}
+\item{auth_token}{character representing Cytobank user's authentication token
+(expires in 8 hours)}
 
-\item{short_timeout}{numeric representing short request timeout times (default = 60s) \strong{[optional]}}
+\item{short_timeout}{numeric representing short request timeout times
+(default = 30s) \strong{[optional]}}
 
-\item{long_timeout}{numeric representing long request timeout times (default = 30s) \strong{[optional]}}
+\item{long_timeout}{numeric representing long request timeout times (default
+= 60s) \strong{[optional]}}
 
-\item{timeout}{integer representing the request timeout time in seconds \strong{[optional]}}
+\item{timeout}{integer representing the request timeout time in seconds
+\strong{[optional]}}
 
 \item{UserSession}{Cytobank UserSession object}
 
-\item{user_id}{integer representing a Cytobank user's ID}
+\item{user_id}{integer representing Cytobank user's ID}
 }
 \description{
-Interact with authentication endpoints. Every call to the Cytobank API must be accompanied by an authentication token. Tokens should be kept secure as they confer access to the data and analyses of an account. Tokens expire after 8 hours by default but this figure my change depending on custom configurations of an Enterprise Cytobank. Use the authentication.logout / authentication.revoke API endpoints to invalidate one or all tokens for a user account.
+Interact with authentication endpoints. Every call to the Cytobank API
+must be accompanied by an authentication token. Tokens should be kept secure
+as they confer access to the data and analyses of an account. Tokens expire
+after 8 hours by default but this figure my change depending on custom
+configurations of an Enterprise Cytobank.
 }
 \details{
-\code{authenticate} Authenticate a Cytobank user and returns a Cytobank UserSession object that is passed to all other Cytobank API endpoints.
+\code{authenticate} Authenticate a Cytobank user and return a
+  Cytobank UserSession object that is passed to all other Cytobank API
+  endpoints.
 
-\code{authentication.logout} Logout a Cytobank user.
+\code{authentication.logout} This function has been deprecated. Logout a Cytobank user.
 
-\code{authentication.revoke_all_tokens} Invalidate all existing tokens for the user making this call.
+\code{authentication.revoke_all_tokens} This function has been deprecated. Invalidate all existing tokens for the user making this call.
 
-\code{authentication.revoke_all_tokens_user} Revoke all tokens for a given user. This endpoint only works for admins of the Cytobank site being accessed.
+\code{authentication.revoke_all_tokens_user} This function has been deprecated. Revoke all tokens for a given user. This endpoint only works for admins of the Cytobank site being accessed.
 }
 \examples{
 \dontrun{# Authenticate via username/password
-cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
-# Authenticate via auth_token
+cyto_session <- authenticate(site="premium", username="cyril_cytometry",
+password="cytobank_rocks!") # Authenticate via auth_token
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
-}
-\dontrun{authentication.logout(cyto_session)
-}
-\dontrun{authentication.revoke_all_tokens(cyto_session)
-}
-\dontrun{authentication.revoke_all_tokens_user(cyto_session)
 }
 }

@@ -28,7 +28,7 @@
 
 \item{data_matrix_start_column}{integer representing the start column of the DROP file(s)}
 
-\item{skipped_columns}{integer vector representing the channels to skip within the DROP file(s)}
+\item{skipped_columns}{vector/list of integer(s) representing column(s) of the DROP file to skip}
 
 \item{output}{character representing the output format \strong{[optional]}\cr
 \emph{- drop.upload : \code{("default", "raw")}}\cr
@@ -50,6 +50,6 @@ cyto_session <- authenticate(site="premium", username="cyril_cytometry", passwor
 cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 }
 \dontrun{drop.upload(cyto_session, 22, file_path="/path/to/my_drop_file.type",
-  data_matrix_start_row=2, data_matrix_start_column=1, skipped_columns=c(4,8))
+  data_matrix_start_row=2, data_matrix_start_column=1)
 }
 }

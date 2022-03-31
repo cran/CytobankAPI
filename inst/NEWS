@@ -1,5 +1,24 @@
 ####################################################################################################
 
+# CytobankAPI 2.0
+
+* Authenticate endpoints:
+    * Deprecate authentication.logout, authentication.revoke_all_tokens, and authentication.revoke_all_tokens_user functions
+
+* fcs_files endpoints:
+    * Updates to fcs_files.download, fcs_files.download_zip, and fcs_files.upload_zip functions to reflect Cytobank back-end changes
+    * Add fcs_files.status function
+
+* Attachments endpoints:
+    * Updates to attachments.download, attachments.download_zip, and attachments.upload functions to reflect Cytobank back-end changes
+
+* Gates endpoints:
+    * Add gates.apply function
+
+* Advanced analysis vignette: adds additional detail to available advanced analysis arguments
+
+---
+
 # CytobankAPI 1.4.0
 
 * Adding new Dimensionality Reduction Analyses endpoints

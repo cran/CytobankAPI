@@ -469,14 +469,14 @@ The following example shows how to set up and launch a tSNE-CUDA analysis run.
 ```{.r}
 
 # create a new dimensionality reduction analysis object and set the analysis type to be tSNE-CUDA
-dimensionality_reduction_object <- dimensionality_reduction.new(cyto_session, experiment_id=22, analysis_name = 'use API to launch a tSNEcuda run', analysis_type = 'tSNE-CUDA')
+dimensionality_reduction_object<-dimensionality_reduction.new(cyto_session, experiment_id=22, analysis_name = 'use API to launch a tSNEcuda run', analysis_type = 'tSNE-CUDA')
 
-# select clustering channels  
-dimensionality_reduction_object@clustering_channels <- list('CD4','CD8','CD3')
+# select clustering channels
+dimensionality_reduction_object@clustering_channels<-list('CD4','CD8','CD3')
 
 # Bulk update the change
-dimensionality_reduction_object <- dimensionality_reduction.update(cyto_session,dimensionality_reduction_object)
-  
+dimensionality_reduction_object<-dimensionality_reduction.update(cyto_session,dimensionality_reduction_object)
+
 # Launch the configured analysis run
 dimensionality_reduction.run(cyto_session,dimensionality_reduction_object)
 
@@ -515,12 +515,12 @@ The following slots can be updated directly:
   - early_exaggeration
   - max_iterations
   - random_seed
-  
+
 - Additional slots for UMAP:
   - collapse_outliers
   - min_distance
   - num_neighbors
-  
+
 ``` {.r}
 # Set a new sampling target type, sampling total count, and compensation
 dimensionality_reduction_object@event_sampling_method <- "equal"

@@ -27,7 +27,7 @@ setGeneric("users.list", function(UserSession, output="default", timeout=UserSes
 #' @rdname users
 #' @aliases users.list
 #'
-#' @details \code{users.list} List all users from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
+#' @details \code{users.list} List all users on a Cytobank server (admin access only). Outputs a dataframe [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 #' @examples \dontrun{# Dataframe of all users with all fields present
 #' users.list(cyto_session)
@@ -63,7 +63,7 @@ setGeneric("users.show", function(UserSession, user_id, output="default", timeou
 #' @rdname users
 #' @aliases users.show
 #'
-#' @details \code{users.show} Show user details from an experiment.
+#' @details \code{users.show} Show user details (admin access only, except for self).
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 #' @examples \dontrun{users.show(cyto_session, user_id=2)
 #' }

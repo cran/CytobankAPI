@@ -14,9 +14,9 @@ This class should never be called explicitly. If a user would like to create a n
 \section{Slots}{
 
 \describe{
-\item{\code{iterations}}{numeric representing the number of times Dimensionality Reduction processes the dataset using its step-wise optimization algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis\%23tSNE-CUDA}{learn more about how iterations affect Dimensionality Reduction results}}
+\item{\code{iterations}}{numeric representing the number of times Dimensionality Reduction processes the dataset using its step-wise optimization algorithm, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis#tSNE-CUDA}{learn more about how iterations affect Dimensionality Reduction results}}
 
-\item{\code{perplexity}}{numeric representing a rough guess for the number of close neighbors any given cellular event will have, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis\%23tSNE-CUDA}{learn more about Dimensionality Reduction perplexity}}
+\item{\code{perplexity}}{numeric representing a rough guess for the number of close neighbors any given cellular event will have, \href{https://support.cytobank.org/hc/en-us/articles/206439707-How-to-Configure-and-Run-a-Dimensionality\%20Reduction-Analysis#tSNE-CUDA}{learn more about Dimensionality Reduction perplexity}}
 
 \item{\code{auto_iterations}}{logical representing whether or not to set auto interations}
 

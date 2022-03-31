@@ -119,11 +119,30 @@ setMethod("flowsom.download", signature(UserSession="UserSession", flowsom="Flow
 
     temp_directory <- directory_file_join(directory, "tmp.part")
 
-    resp <- GET(paste(UserSession@site, "/experiments/", flowsom@created_experiment, "/attachments/", flowsom@attachment_id, "/download", sep=""),
-                add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                write_disk(temp_directory, overwrite=TRUE),
-                timeout(timeout)
+    baseURL = get_base_url(UserSession)
+
+    fs_info <- attachments.show(UserSession, flowsom@created_experiment, flowsom@attachment_id)
+    file_hashkey <- unlist(fs_info$uniqueHash)
+    file_name <- unlist(fs_info$filename)
+    file_type <- sub('.*\\.', '', file_name)
+
+    resp <- GET(paste(baseURL,'/download/url?', "experimentId=", flowsom@created_experiment, "&hashKey=", file_hashkey,
+                      "&fileName=", utils::URLencode(file_name),
+                      "&fileType=",determine_file_type(file_type), sep=""),
+                add_headers(Authorization=paste("Bearer", UserSession@auth_token))
     )
+
+    download_status<-utils::download.file(url=parse(resp)$downloadUrl,
+                                          destfile=file.path(directory,file_name),
+                                          method = 'auto', quiet = FALSE)
+
+    if(download_status!=0){
+        print('Can not download the file.')
+        return(FALSE)
+    }else{
+        print(paste('File has been downloaded and saved to: ',file.path(directory,file_name),sep=""))
+        return(TRUE)
+    }
 
     if (http_error(resp))
     {
@@ -202,8 +221,8 @@ setGeneric("flowsom.rename", function(UserSession, flowsom, flowsom_name, timeou
 #' @aliases flowsom.rename
 #'
 #' @details \code{flowsom.rename} Rename a FlowSOM advanced analysis from an experiment and returns a FlowSOM object.
-#' @examples \dontrun{flowsom.rename(cyto_session, flowsom=cyto_flowsom, flowsom_name=
-#' "My updated FlowSOM name")
+#' @examples \dontrun{flowsom.rename(cyto_session, flowsom=cyto_flowsom,
+#'     flowsom_name="My updated FlowSOM name")
 #' }
 #' @export
 setMethod("flowsom.rename", signature(UserSession="UserSession", flowsom="FlowSOM"), function(UserSession, flowsom, flowsom_name, timeout=UserSession@short_timeout)

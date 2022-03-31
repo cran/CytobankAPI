@@ -35,10 +35,10 @@
 Interact with user endpoints. One should never analyze alone...
 }
 \details{
-\code{users.list} List all users from an experiment. Outputs a dataframe [default] or raw list with all fields present.\cr
+\code{users.list} List all users on a Cytobank server (admin access only). Outputs a dataframe [default] or raw list with all fields present.\cr
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 
-\code{users.show} Show user details from an experiment.
+\code{users.show} Show user details (admin access only, except for self).
 \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 }
 \examples{

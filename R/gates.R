@@ -23,7 +23,7 @@
 #' @param file_path character representing a file path
 #' @param gate_id integer representing a gate ID
 #' @param output character representing the output format \strong{[optional]}\cr
-#'   \emph{- gates.list, gates.show : \code{("default", "raw")}}
+#' \emph{- gates.list, gates.show : \code{("default", "raw")}}
 #' @param timeout integer representing the request timeout time in seconds
 #'   \strong{[optional]}
 #' @param UserSession Cytobank UserSession object
@@ -247,7 +247,7 @@ get_gate_version <- function(UserSession, experiment_id)
 check_gates_applied <- function(UserSession, experiment_id, gate_version)
 {
 
-    # Check if updated after applying gates
+        # Check if updated after applying gates
     gating_url <- paste0(gsub('/api/v1', '', UserSession@site), '/experiments/', experiment_id, '/gating')
     applied_gate_version <- unlist(experiments.show(UserSession, experiment_id, output = 'default')[['gateVersion']])
 
@@ -257,3 +257,6 @@ check_gates_applied <- function(UserSession, experiment_id, gate_version)
     )
 
 }
+
+
+

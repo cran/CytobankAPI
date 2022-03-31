@@ -2,12 +2,20 @@
 library(CytobankAPI)
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 
-## -----------------------------------------------------------------------------
-# Authenticate via authentication token
-cyto_session <- authenticate(site="premium", auth_token="secret_auth_token")
-
-## -----------------------------------------------------------------------------
-cyto_session
+## ----eval=FALSE---------------------------------------------------------------
+#  cyto_session
+#  #> An object of class "UserSession"
+#  #> Slot "auth_token":
+#  #> [1] "secret_auth_token"
+#  #>
+#  #> Slot "long_timeout":
+#  #> [1] 60
+#  #>
+#  #> Slot "short_timeout":
+#  #> [1] 30
+#  #>
+#  #> Slot "site":
+#  #> [1] "https://premium.cytobank.org/cytobank/api/v1"
 
 ## ---- echo=FALSE, message=FALSE-----------------------------------------------
 c1 <- c(1, 0.007, 0, 0.0023, 0, 0.0026)

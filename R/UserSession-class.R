@@ -14,25 +14,29 @@ NULL
 #' @slot long_timeout numeric representing long request timeout times
 #' @slot short_timeout numeric representing short request timeout times
 #' @slot site character representing Cytobank user's site
+#' @slot user_id integer representing a Cytobank user's ID
 #' @return A Cytobank UserSession object
 #' @examples cytobank_user <- new("UserSession", auth_token="my_auth_token", site="premium")
 setClass("UserSession",
          representation(auth_token="character",
                         long_timeout="numeric",
                         short_timeout="numeric",
-                        site="character"
+                        site="character",
+                        user_id='integer'
          ),
          prototype(auth_token=NA_character_,
                    long_timeout=NA_real_,
                    short_timeout=NA_real_,
-                   site=NA_character_
+                   site=NA_character_,
+                   user_id=NA_integer_
          ),
          validity=function(object)
          {
              if (typeof(object@auth_token) != "character" ||
                  typeof(object@long_timeout) != "double" ||
                  typeof(object@short_timeout) != "double" ||
-                 typeof(object@site) != "character"
+                 typeof(object@site) != "character" ||
+                 typeof(object@user_id) != 'integer'
                  )
              {
                  return(FALSE)

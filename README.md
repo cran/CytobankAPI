@@ -5,8 +5,6 @@
 
 [![CRAN
 version](https://CRAN.R-project.org/package=CytobankAPI)](https://CRAN.R-project.org/package=CytobankAPI)
-[![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/CytobankAPI)](https://CRAN.R-project.org/package=CytobankAPI)
 
 ## Overview
 
@@ -16,13 +14,10 @@ endpoints easy via R. View the [Cytobank API Endpoint
 Documentation](https://developer.cytobank.org/) for a comprehensive list
 of API endpoints for Cytobank.
 
-To find more general documentation on using the `CytobankAPI` package,
-view the [Cytobank quickstart
-guide](https://CRAN.R-project.org/package=CytobankAPI/vignettes/cytobank-quickstart.html).
+To find more general documentation on using the `CytobankAPI` package, view the following vignettes: 
 
-To learn how to run an Advanced Analysis in Cytobank, view the
-[CytobankAPI advanced analysis
-guide](https://CRAN.R-project.org/package=CytobankAPI/vignettes/cytobank-advanced-analyses.html).
+- [Cytobank quickstart guide](https://cran.r-project.org/package=CytobankAPI/vignettes/cytobank-quickstart.html)
+- [Cytobank advanced analysis guide](https://cran.r-project.org/package=CytobankAPI/vignettes/cytobank-advanced-analyses.html)
 
 ## Installation
 

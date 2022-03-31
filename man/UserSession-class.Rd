@@ -21,6 +21,8 @@ This class should never be called explicitly. If a user would like to create a n
 \item{\code{short_timeout}}{numeric representing short request timeout times}
 
 \item{\code{site}}{character representing Cytobank user's site}
+
+\item{\code{user_id}}{integer representing a Cytobank user's ID}
 }}
 
 \examples{

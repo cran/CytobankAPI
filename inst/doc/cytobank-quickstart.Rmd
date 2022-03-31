@@ -55,7 +55,7 @@ There are two ways to authenticate:
 
 1. **username/password**: username (or email) and password combination used to normally login to the site
 
-```r
+```r {eval=FALSE}
 # Authenticate via username/password combination
 cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
 ```
@@ -64,15 +64,27 @@ cyto_session <- authenticate(site="premium", username="cyril_cytometry", passwor
 
     * _SAML/SSO users **must** generate a token on the profile page after logging into Cytobank._
 
-```{r}
+```r {eval=FALSE}
 # Authenticate via authentication token
 cyto_session <- authenticate(site="premium", auth_token="secret_auth_token")
 ```
 
-The authentication object also holds two other variables that control default timeout length for API requests. These variables can be set when calling the authenticate function. [Read more about timeouts below](#timeouts).
+The authentication object also holds two variables that control default timeout length for API requests. These variables can be set when calling the authenticate function. [Read more about timeouts below](#timeouts).
 
-```{r}
+```{r eval=FALSE}
 cyto_session
+#> An object of class "UserSession"
+#> Slot "auth_token":
+#> [1] "secret_auth_token"
+#> 
+#> Slot "long_timeout":
+#> [1] 60
+#> 
+#> Slot "short_timeout":
+#> [1] 30
+#> 
+#> Slot "site":
+#> [1] "https://premium.cytobank.org/cytobank/api/v1"
 ```
 
 
@@ -82,14 +94,17 @@ cyto_session
 Interactions with the Cytobank API are mediated via requests through the `CytobankAPI` package. Individual requests are organized into different endpoint groups according to similar functionality within Cytobank. The general form of any request is `endpoint.method`. Current endpoint groups are as follows:
 
 * attachments
+* authenticate
 * CITRUS
 * compensations
 * DROP
 * experiments
 * FCS files
+* FlowSOM
 * gates
 * panels
 * populations
+* sample tags
 * scales
 * SPADE
 * statistics
@@ -130,7 +145,7 @@ knitr::kable(new_experiment_dataframe)
 
 The default return option within this package is a **formatted** response (usually in the form of a dataframe) that represents the endpoint response. [Read more about return types and output options below](#return-types-and-output-options).
 
-```r
+```r {eval=FALSE}
 # Raw list endpoint response
 new_experiment <- experiments.new(cyto_session, experiment_name="My New Experiment", purpose="For the CytobankAPI quickstart vignette", output="raw")
 
@@ -165,17 +180,10 @@ Functions within this package return output of dataframes, characters (strings),
 
 Generally, the default return type for most functions in this package is a dataframe object. This object is a **formatted** conversion from the JSON objects returned from the API over HTTP. Attributes of the dataframe can be accessed by name in typical fashion. An example of information returned by default can be seen directly above with the creation of a new experiment without any output option. 
 
-Some functions, such as for downloading an FCS file or attachment, will instead return a string representing the filepath of the downloaded file on the local computer.
+Some functions, such as for downloading an FCS file or attachment, will instead return a logical value if a file has been successfully downloaded. The function also prints out the file path of the downloaded file on the screen.
 
 In other cases, there are special return structures that provide better access to data such as complex lists (i.e. returned via panel endpoints) and class objects (i.e. returned via [advanced analyses endpoints](cytobank-advanced-analyses.html)).
 
-```r
-# Download an FCS file with ID 10, from experiment 22
-downloaded_fcs_file <- fcs_files.download(cyto_session, experiment_id=22, fcs_file_id=10, directory="/my/specified/directory")
-
-downloaded_fcs_file
-#> [1] "/my/specified/directory/my_file.fcs"
-```
 
 ### Dataframes
 ***
@@ -194,7 +202,7 @@ Dataframes representing compensation matrices allow for easier viewing and editi
 
 `compensations.show` and `fcs_files.file_internal_comp_show` are the two endpoints that can return dataframes of a compensation matrix. Use a value of 'dataframe' for the output argument in the function call:
 
-```r
+```r {eval=FALSE}
 # Dataframe representing compensation matrix 8 for experiment 22
 compensation_matrix_dataframe <- compensations.show(cyto_session, experiment_id=22, compensation_id=8, output="dataframe")
 

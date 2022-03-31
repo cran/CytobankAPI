@@ -38,80 +38,130 @@ setGeneric("fcs_files.download", function(UserSession, experiment_id, fcs_file_i
 #'
 #' @details \code{fcs_files.download} Download an FCS file from an experiment.
 #' @examples \dontrun{# Download an FCS file to the current working directory
-#' fcs_files.download(cyto_session, 22, fcs_file_id=2)
+#' fcs_files.download(cyto_session, experiment_id = 22, fcs_file_id = 4)
 #'
 #' # Download an FCS file to a new directory
-#' fcs_files.download(cyto_session, 22, fcs_file_id=2, directory="/my/new/download/directory/")
+#' fcs_files.download(cyto_session, 22, experiment_id = 22, fcs_file_id = 4,
+#' directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("fcs_files.download", signature(UserSession="UserSession"), function(UserSession, experiment_id, fcs_file_id, directory=getwd(), timeout=UserSession@long_timeout)
 {
-    temp_directory <- directory_file_join(directory, "tmp.part")
 
-    resp <- GET(paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/", fcs_file_id, "/download", sep=""),
-                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                 write_disk(temp_directory, overwrite=TRUE),
-                 timeout(timeout)
-    )
 
-    if (http_error(resp))
     {
-        error_parse(resp, "fcs_files")
+
+        temp_directory <- directory_file_join(directory, "tmp.part")
+
+        baseURL = get_base_url(UserSession)
+
+        file_info <- fcs_files.show(UserSession, experiment_id, fcs_file_id)
+        file_hashkey <- unlist(file_info$uniqueHash)
+        file_name <- unlist(file_info$filename)
+        file_type <- sub('.*\\.', '', file_name)
+
+        resp <- GET(paste(baseURL,'/download/url?', "experimentId=", experiment_id, "&hashKey=", file_hashkey,
+                          "&fileName=", utils::URLencode(file_name),
+                          "&fileType=",determine_file_type(file_type), sep=""),
+                    add_headers(Authorization=paste("Bearer", UserSession@auth_token))
+        )
+
+        download_status<-utils::download.file(url=parse(resp)$downloadUrl,
+                                              destfile=file.path(directory,file_name),
+                                              method = 'auto', quiet = FALSE)
+
+        if(download_status!=0){
+            print('Cannot download the file.')
+            return(FALSE)
+        }else{
+            print(paste('File has been downloaded and saved to: ',file.path(directory,file_name),sep=""))
+            return(TRUE)
+        }
+
+        return(rename_temp_file(resp, directory))
     }
 
-    return(rename_temp_file(resp, directory))
 })
 
-
-setGeneric("fcs_files.download_zip", function(UserSession, experiment_id, fcs_files, directory=getwd(), timeout=UserSession@long_timeout)
+setGeneric("fcs_files.download_zip", function(UserSession, experiment_id, fcs_files, timeout=UserSession@long_timeout)
 {
     standardGeneric("fcs_files.download_zip")
 })
 #' @rdname fcs_files
 #' @aliases fcs_files.download_zip
 #'
-#' @details \code{fcs_files.download_zip} Download all or a select set of FCS files as a zip file from an experiment.
-#' @examples \dontrun{# Download all files, to the current directory
-#' fcs_files.download_zip(cyto_session, 22)
+#' @details \code{fcs_files.download_zip} Download all or a select set of FCS files as a zip file from an experiment. The download link of the zip file will be sent to the user's registered email address.
+#' @examples \dontrun{# Download all FCS files as a zip file
+#' fcs_files.download_zip(cyto_session, experiment_id=22)
 #'
-#' # Download specific files, to a new directory
-#' fcs_files.download_zip(cyto_session, 22, fcs_files=c(22, 23, 24, 25),
-#'   directory="/my/new/download/directory/")
+#' # Download a select set of FCS files as a zip file
+#' fcs_files.download_zip(cyto_session, experiment_id=22, fcs_files=c(22, 23, 24, 25))
 #' }
 #' @export
-setMethod("fcs_files.download_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, fcs_files, directory=getwd(), timeout=UserSession@long_timeout)
+setMethod("fcs_files.download_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, fcs_files, timeout=UserSession@long_timeout)
 {
+
+    baseURL = get_base_url(UserSession)
+
+    # Create a file list
     if (missing(fcs_files))
     {
+        # download all files in a experiment
         fcs_files <- ""
-    }
-    else if (length(fcs_files) == 0)
-    {
+        file_info <- fcs_files.list(UserSession, experiment_id)
+
+        if(length(file_info$id)==0){stop("Error: Can't find any files in your experiment!")}
+
+        fcs_files <- file_info$id
+
+        fileList_body <- apply(file_info,1, function(x){
+            return(list(fileName = x$filename,
+                        keyPrefix = 'fcs_files',
+                        hashKey = x$uniqueHash))
+        })
+
+    }else if (length(fcs_files) == 0){
         stop(
             sprintf(
                 "Cytobank API 'fcs_files' request failed [client]\n    Please provide a vector/list of FCS file IDs or leave blank to download all FCS files as a zip.\n", sep=""),
             call. = FALSE
         )
-    }
-    else
-    {
-        fcs_files <- paste("?fcs_file_ids=", gsub(" ", "", toString(fcs_files)), sep="")
-    }
 
-    directory <- directory_file_join(directory, paste("experiment_", experiment_id, "_fcs_files.zip", sep=""))
+    }else{
+        #fcs_files <- paste("?fcs_file_ids=", gsub(" ", "", toString(fcs_files)), sep="")
+        file_info <- fcs_files.list(UserSession, experiment_id)
+        if(length(file_info$id)==0){stop("Error: Can't find any files in your experiment!")}
 
-    resp <- GET(paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/download_zip", fcs_files, sep=""),
+        fileList_body <- apply(file_info,1, function(x){
+           return(list(fileName = x$filename,
+                        keyPrefix = 'fcs_files',
+                        hashKey = x$uniqueHash))
+        })
+
+        file_index <- c(unlist(file_info$id) %in% fcs_files)
+        if(all(!file_index)){stop("Error: Can't find the FCS file in your experiment!")}
+        fileList_body<-fileList_body[file_index]
+}
+
+    resp <- POST(paste(baseURL, "/download/zip",sep=''),
                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                write_disk(directory, overwrite=TRUE),
+                body = list(zipFileName = paste("experiment_", experiment_id, "_fcs_files.zip", sep=""),
+                            experimentId = experiment_id,
+                            userId = UserSession@user_id,
+                            fileList = fileList_body),
+                encode="json",
                 timeout(timeout)
     )
 
     if (http_error(resp))
     {
         error_parse(resp, "fcs_files")
+    }else{
+        print('Your zip download request has been processed by the Cytobank server. Cytobank will send an email to your registered email address with a download link of the zip file. It may take several minutes for Cytobank to zip large data files. Thanks for your patience!')
+        return(TRUE)
     }
 
-    return(directory)
+
 })
 
 
@@ -233,30 +283,18 @@ setGeneric("fcs_files.upload", function(UserSession, experiment_id, file_path, o
 #' @rdname fcs_files
 #' @aliases fcs_files.upload
 #'
-#' @details \code{fcs_files.upload} Upload an FCS file to an experiment.
+#' @details \code{fcs_files.upload} Upload an FCS file to an experiment. Cytobank User ID has to be attached to the UserSession object. See the help document of authenticate function for details.
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 #' @examples \dontrun{fcs_files.upload(cyto_session, 22, file_path="/path/to/my_fcs_file.fcs")
 #' }
 #' @export
 setMethod("fcs_files.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)
 {
-    output_check(output, "fcs_files", possible_outputs=c("raw"))
 
-    resp <- POST(paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/upload", sep=""),
-                add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                body=list(file=upload_file(file_path)),
-                encode="multipart",
-                timeout(timeout)
-    )
+    if(!check_file(file_path,'FCS')){return(FALSE)}
 
-    if (output == "default")
-    {
-        return(cyto_dataframe(parse(resp, "fcs_files")[[1]]))
-    }
-    else # if (output == "raw")
-    {
-        return(parse(resp, "fcs_files"))
-    }
+    return(file_upload(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout))
+
 })
 
 
@@ -274,29 +312,37 @@ setGeneric("fcs_files.upload_zip", function(UserSession, experiment_id, file_pat
 #' @export
 setMethod("fcs_files.upload_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)
 {
-    output_check(output, "fcs_files", possible_outputs=c("raw"))
 
-    resp <- POST(paste(UserSession@site, "/experiments/", experiment_id, "/fcs_files/upload_zip", sep=""),
-                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                 body=list(file=upload_file(file_path)),
-                 encode="multipart",
-                 timeout(timeout)
-    )
+    if(!check_file(file_path,'ZIP')){return(FALSE)}
 
-    if (output == "default")
-    {
-        return(cyto_dataframe(parse(resp, "fcs_files")[[1]]))
-    }
-    else # if (output == "raw")
-    {
-        return(parse(resp, "fcs_files"))
-    }
+    return(file_upload(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout))
+
+})
+
+setGeneric("fcs_files.status", function(UserSession, experiment_id, timeout=UserSession@long_timeout)
+{
+    standardGeneric("fcs_files.status")
+})
+#' @rdname fcs_files
+#' @aliases fcs_files.status
+#'
+#' @details \code{fcs_files.status} Check status of file(s) in an experiment. Return FALSE and print out an warming message if it fail. Otherwise, return a R dataframe object with file status information.
+#' @examples \dontrun{fcs_files.status(cyto_session, 22)
+#' }
+#' @export
+setMethod("fcs_files.status", signature(UserSession="UserSession"), function(UserSession, experiment_id, timeout=UserSession@long_timeout)
+{
+
+    return(check_file_status(UserSession,experiment_id))
+
 })
 
 
 #############################
 # FCS FILES HELPER FUNCTIONS
 #############################
+
+
 
 
 ##########

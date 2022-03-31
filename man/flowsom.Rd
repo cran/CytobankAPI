@@ -154,8 +154,8 @@ flowsom.list(cyto_session, 22, output="raw")
 }
 \dontrun{flowsom.new(cyto_session, 22, flowsom_name="My new FlowSOM analysis")
 }
-\dontrun{flowsom.rename(cyto_session, flowsom=cyto_flowsom, flowsom_name=
-"My updated FlowSOM name")
+\dontrun{flowsom.rename(cyto_session, flowsom=cyto_flowsom,
+    flowsom_name="My updated FlowSOM name")
 }
 \dontrun{flowsom.run(cyto_session, flowsom=cyto_flowsom)
 }

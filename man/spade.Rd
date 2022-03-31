@@ -253,7 +253,7 @@ spade.bubbles_set(cyto_session, spade=cyto_spade, bubbles=named_bubble_list_of_n
 \dontrun{spade.delete(cyto_session, spade=cyto_spade)
 }
 \dontrun{spade.download_all(cyto_session, spade=cyto_spade,
-directory="/my/new/download/directory/")
+    directory="/my/new/download/directory/")
 }
 \dontrun{spade.download_clusters_table(cyto_session, spade=cyto_spade,
   directory="/my/new/download/directory/")
@@ -262,10 +262,10 @@ directory="/my/new/download/directory/")
   spade=cyto_spade, directory="/my/new/download/directory/")
 }
 \dontrun{spade.download_gml(cyto_session, spade=cyto_spade,
-directory="/my/new/download/directory/")
+    directory="/my/new/download/directory/")
 }
 \dontrun{spade.download_layout_table(cyto_session, spade=cyto_spade,
-directory="/my/new/download/directory/")
+    directory="/my/new/download/directory/")
 }
 \dontrun{spade.download_statistics_tables(cyto_session, spade=cyto_spade,
   directory="/my/new/download/directory/")

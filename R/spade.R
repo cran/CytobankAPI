@@ -221,7 +221,7 @@ setGeneric("spade.download_all", function(UserSession, spade, directory=getwd(),
 #'
 #' @details \code{spade.download_all} Download a SPADE advanced analysis with all data included from an experiment.
 #' @examples \dontrun{spade.download_all(cyto_session, spade=cyto_spade,
-#' directory="/my/new/download/directory/")
+#'     directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_all", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
@@ -314,7 +314,7 @@ setGeneric("spade.download_gml", function(UserSession, spade, directory=getwd(),
 #'
 #' @details \code{spade.download_gml} Download a SPADE advanced analysis GML from an experiment.
 #' @examples \dontrun{spade.download_gml(cyto_session, spade=cyto_spade,
-#' directory="/my/new/download/directory/")
+#'     directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_gml", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)
@@ -345,7 +345,7 @@ setGeneric("spade.download_layout_table", function(UserSession, spade, directory
 #'
 #' @details \code{spade.download_layout_table} Download a SPADE advanced analysis layout table from an experiment.
 #' @examples \dontrun{spade.download_layout_table(cyto_session, spade=cyto_spade,
-#' directory="/my/new/download/directory/")
+#'     directory="/my/new/download/directory/")
 #' }
 #' @export
 setMethod("spade.download_layout_table", signature(UserSession="UserSession", spade="SPADE"), function(UserSession, spade, directory=getwd(), timeout=UserSession@long_timeout)

@@ -325,7 +325,7 @@ setGeneric("experiments.list", function(UserSession, output="default", timeout=U
 #' @rdname experiments
 #' @aliases experiments.list
 #'
-#' @details \code{experiments.list} List all inbox experiments. Outputs a dataframe [default] or raw list with all fields present.\cr
+#' @details \code{experiments.list} List all inbox experiments. Outputs a data frame [default] or raw list with all fields present.\cr
 #' \emph{- Optional output parameter, specify one of the following: \code{("default", "raw")}}
 #' @examples \dontrun{# Dataframe of all inbox experiments with all fields present
 #' experiments.list(cyto_session)

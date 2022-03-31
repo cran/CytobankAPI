@@ -18,11 +18,10 @@
 #' @param UserSession Cytobank UserSession object
 #' @examples \dontrun{# Authenticate via username/password
 #' cyto_session <- authenticate(site="premium", username="cyril_cytometry", password="cytobank_rocks!")
-#' # Authenticate via auth_token
+#' Authenticate via auth_token
 #' cyto_session <- authenticate(site="premium", auth_token="my_secret_auth_token")
 #' }
 NULL
-
 
 setGeneric("attachments.delete", function(UserSession, experiment_id, attachment_id, timeout=UserSession@short_timeout)
 {
@@ -60,62 +59,120 @@ setGeneric("attachments.download", function(UserSession, experiment_id, attachme
 #'
 #' @details \code{attachments.download} Download an attachment from an experiment.
 #' @examples \dontrun{# Download an attachment to the current working directory
-#' attachments.download(cyto_session, 22, attachment_id=2)
+#' attachments.download(cyto_session, 22)
 #'
 #' # Download an attachment to a new directory
-#' attachments.download(cyto_session, 22, attachment_id=2, directory="/my/new/download/directory/")
+#' attachments.download(cyto_session, 22, directory="/my/new/download/directory/")
 #' }
 #' @export
-setMethod("attachments.download", signature(UserSession="UserSession"), function(UserSession, experiment_id, attachment_id, directory=getwd(), timeout=UserSession@long_timeout)
+setMethod("attachments.download", signature(UserSession="UserSession"),
+          function(UserSession, experiment_id, attachment_id, directory=getwd(), timeout=UserSession@long_timeout)
+
 {
     temp_directory <- directory_file_join(directory, "tmp.part")
 
-    resp <- GET(paste(UserSession@site, "/experiments/", experiment_id, "/attachments/", attachment_id, "/download", sep=""),
-                add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                write_disk(temp_directory, overwrite=TRUE),
-                timeout(timeout)
+    baseURL = get_base_url(UserSession)
+
+    attachment_info <- attachments.show(UserSession, experiment_id, attachment_id)
+    file_hashkey <- unlist(attachment_info$uniqueHash)
+    file_name <- unlist(attachment_info$filename)
+    file_type <- unlist(attachment_info$type)
+
+    resp <- GET(paste(baseURL,'/download/url?', "experimentId=", experiment_id, "&hashKey=", file_hashkey,
+                      "&fileName=", utils::URLencode(file_name),
+                      "&fileType=",determine_file_type(file_type), sep=""),
+                add_headers(Authorization=paste("Bearer", UserSession@auth_token))
     )
 
-    if (http_error(resp))
-    {
-        error_parse(resp, "attachments")
+    download_status<-utils::download.file(url=parse(resp)$downloadUrl,
+                                          destfile=file.path(directory,file_name),
+                                          method = 'auto', quiet = FALSE)
+
+    if(download_status!=0){
+        print('Can not download the file.')
+        return(FALSE)
+    }else{
+        print(paste('File has been downloaded and saved to: ',file.path(directory,file_name),sep=""))
+        return(TRUE)
     }
 
     return(rename_temp_file(resp, directory))
 })
 
 
-setGeneric("attachments.download_zip", function(UserSession, experiment_id, directory=getwd(), timeout=UserSession@long_timeout)
+setGeneric("attachments.download_zip", function(UserSession, experiment_id, attachment_id, timeout=UserSession@long_timeout)
 {
     standardGeneric("attachments.download_zip")
 })
 #' @rdname attachments
 #' @aliases attachments.download_zip
 #'
-#' @details \code{attachments.download_zip} Download all attachments as a zip file from an experiment.
-#' @examples \dontrun{# Download the attachment zip to the current working directory
-#' attachments.download_zip(cyto_session, 22, attachment_id=2)
+#' @details \code{attachments.download_zip} Download all or a select set of attachments as a zip file from an experiment. The download link of the zip file will be sent to the user's registered email address.
+#' @examples \dontrun{# Download the all attachment files as a zip file
+#' attachments.download_zip(cyto_session, experiment_id=22)
 #'
-#' # Download the attachment zip to a new directory
-#' attachments.download_zip(cyto_session, 22, attachment_id=2, directory="/my/new/download/directory/")
+#' # Download a select set of attachment files as a zip file
+#' attachments.download_zip(cyto_session, experiment_id=22, attachment_id=2)
 #' }
 #' @export
-setMethod("attachments.download_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, directory=getwd(), timeout=UserSession@long_timeout)
+setMethod("attachments.download_zip", signature(UserSession="UserSession"), function(UserSession, experiment_id, attachment_id, timeout=UserSession@long_timeout)
 {
-    directory <- directory_file_join(directory, paste("experiment_", experiment_id, "_attachments.zip", sep=""))
+    baseURL = get_base_url(UserSession)
 
-    resp <- GET(paste(UserSession@site, "/experiments/", experiment_id, "/attachments/download_zip", sep=""),
+    # Create a file list
+    if (missing(attachment_id))
+{
+        # download all files in a experiment
+        attachment_files <- ""
+        file_info <- attachments.list(UserSession, experiment_id)
+
+        if(length(file_info$id)==0){stop("Error: Can't find any attachment files in your experiment!")}
+
+        fileList_body <- apply(file_info,1, function(x){
+            return(list(fileName = x$filename,
+                        keyPrefix = 'attachments',
+                        hashKey = x$uniqueHash))
+        })
+
+    }else if (length(attachment_id) == 0){
+        stop(
+            sprintf(
+                "Cytobank API 'fcs_files' request failed [client]\n    Please provide a vector/list of attachment file IDs or leave blank to download all FCS files as a zip.\n", sep=""),
+            call. = FALSE
+        )
+
+    }else{
+
+        file_info <- attachments.list(UserSession, experiment_id)
+        if(length(file_info$id)==0){stop("Error: Can't find any attachment files in your experiment!")}
+        fileList_body <- apply(file_info,1, function(x){
+            return(list(fileName = x$filename,
+                        keyPrefix = 'attachments',
+                        hashKey = x$uniqueHash))
+        })
+
+        file_index <- c(unlist(file_info$id) %in% attachment_id)
+        if(all(!file_index)){stop("Error: Can't find the attachment file in your experiment!")}
+        fileList_body<-fileList_body[file_index]
+    }
+
+    resp <- POST(paste(baseURL, "/download/zip",sep=''),
                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                write_disk(directory, overwrite=TRUE),
+                 body = list(zipFileName = paste("experiment_", experiment_id, "_attachments.zip", sep=""),
+                             experimentId = experiment_id,
+                             userId = UserSession@user_id,
+                             fileList = fileList_body),
+                 encode="json",
                 timeout(timeout)
     )
 
     if (http_error(resp))
     {
         error_parse(resp, "attachments")
+    }else{
+        print('Your zip download request has been processed by the Cytobank server. Cytobank will send an email to your registered email address with a download link of the zip file. It may take several minutes for Cytobank to zip large files. Thanks for your patience!')
+        return(TRUE)
     }
-
-    return(directory)
 })
 
 
@@ -186,7 +243,6 @@ setMethod("attachments.show", signature(UserSession="UserSession"), function(Use
     }
 })
 
-
 setGeneric("attachments.update", function(UserSession, attachment, timeout=UserSession@short_timeout)
 {
     standardGeneric("attachments.update")
@@ -233,22 +289,24 @@ setGeneric("attachments.upload", function(UserSession, experiment_id, file_path,
 #' @export
 setMethod("attachments.upload", signature(UserSession="UserSession"), function(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)
 {
-    output_check(output, "attachments", possible_outputs=c("raw"))
 
-    resp <- POST(paste(UserSession@site, "/experiments/", experiment_id, "/attachments/upload", sep=""),
-                 add_headers(Authorization=paste("Bearer", UserSession@auth_token)),
-                 body=list(file=upload_file(file_path)),
-                 encode="multipart",
-                 timeout(timeout)
-    )
+    file_upload(UserSession, experiment_id, file_path, output="default", timeout=UserSession@long_timeout)
 
-    if (output == "default")
-    {
-        return(cyto_dataframe(parse(resp, "attachments")))
-    }
-    else # if (output == "raw")
-    {
-        return(parse(resp, "attachments"))
-    }
 })
+
+
+#############################
+# ATTACHMENT HELPER FUNCTIONS
+#############################
+
+get_attachment_hashkey <- function(UserSession, experiment_id, attachment_id){
+   return(unlist(attachments.show(UserSession, experiment_id, attachment_id)$uniqueHash))
+}
+
+##########
+# PRIVATE
+##########
+
+
+
 
