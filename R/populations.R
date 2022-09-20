@@ -105,7 +105,11 @@ build_population_list <- function(population_list_info)
     population_list <- list()
 
     # **Requires the Ungated population -- WEIRD HACK REQUIRED, SHOULD BE RETURNED FORMALLY VIA API INSTEAD**
-    ungated <- cyto_dataframe(list(list(id=NA_character_, name="Ungated", version=as.integer(-1), experimentId=NA_character_, gateSetId=as.integer(0), createdAt=NA_character_, updatedAt=NA_character_)))
+    # Population is gateSetDefinition in cytobank app.
+    # AutoCompensation project add a new colmun "compensationId", there are two cases:
+    #   - When the gateSet is a cleanup gateSet:        compensationId > 0
+    #   - When the gateSet is a none cleanup gateset:   compensationId = 0
+    ungated <- cyto_dataframe(list(list(id=NA_character_, name="Ungated", version=as.integer(-1), experimentId=NA_character_, compensationId=0, gateSetId=as.integer(0), createdAt=NA_character_, updatedAt=NA_character_)))
     ungated$definition <- apply(ungated, 1, function(row) list(gates=list(), negGates=list(), tailoredPerPopulation=list()))
     population_list <- c(population_list, list(ungated))
 
@@ -122,6 +126,12 @@ build_population_list <- function(population_list_info)
 # Build population info in R
 build_population <- function(population_info)
 {
+    # Check if population_info havs compensationId, give a default value 0 when compensationId not in population_info
+    # Make the populations before cytobank 9.4 have a dummy compensationId, to make all population has some columns
+    if (!("compensationId" %in% names(population_info))) {
+        population_info$compensationId <- 0
+    }
+
     # Create dataframe without definition
     population <- cyto_dataframe(list(population_info[-which(names(population_info) == "definition")]))
     # Add definition as a list

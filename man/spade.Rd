@@ -179,7 +179,7 @@
 
 \item{timeout}{integer representing the request timeout time in seconds  \strong{[optional]}}
 
-\item{directory}{character representing a specific directory (optional ending directory slash), default will be current working directory \strong{\strong{[optional]}}}
+\item{directory}{character representing a specific directory (optional ending directory slash), default will be current working directory \strong{[optional]}}
 
 \item{experiment_id}{integer representing an \link[=experiments]{experiment} ID}
 

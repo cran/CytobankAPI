@@ -1,8 +1,9 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 2.0.0
+Version: 2.1.0
 Authors@R: c(
-    person("Qihao", "Qi", email="qqi@beckman.com", role=c("aut", "cre")),
+    person("Angel", "Figueroa", email="afigueroa03@beckman.com", role=c("aut", "cre")),
+    person("Qihao", "Qi", email="qqi@beckman.com", role=c("aut")),
     person("Stefanie", "Trop", email="strop@beckman.com", role="aut"),
     person("Louis", "Liu", email="ZLIU011@beckman.com", role="aut"),
     person("Preston", "Ng", role="aut"),
@@ -16,17 +17,18 @@ Depends: R (>= 3.5.0), curl (>= 2.7), httr (>= 1.2.1)
 Imports: jsonlite, methods, stats, aws.s3, uuid, jose
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 Copyright: 2020 Beckman Coulter, Inc.
 NeedsCompilation: no
-Packaged: 2022-03-31 04:20:00 UTC; sgao
-Author: Qihao Qi [aut, cre],
+Packaged: 2022-09-19 03:50:15 UTC; sgao
+Author: Angel Figueroa [aut, cre],
+  Qihao Qi [aut],
   Stefanie Trop [aut],
   Louis Liu [aut],
   Preston Ng [aut],
   Chris Ciccolella [aut],
   Katherine Drake [aut]
-Maintainer: Qihao Qi <qqi@beckman.com>
+Maintainer: Angel Figueroa <afigueroa03@beckman.com>
 Repository: CRAN
-Date/Publication: 2022-03-31 18:00:02 UTC
+Date/Publication: 2022-09-20 22:30:18 UTC

@@ -8,7 +8,7 @@
 #' Interact with SPADE advanced analyses using these endpoints.
 #' @name spade
 #' @param bubbles vector/list of characters representing bubbles within a SPADE analysis, \href{https://support.cytobank.org/hc/en-us/articles/115000600148-Analysis-and-Interpretation-of-SPADE-Results#Consolidate-Similar-Clusters-into-Bubbles}{learn more about SPADE bubbles}
-#' @param directory character representing a specific directory (optional ending directory slash), default will be current working directory \strong{\strong{[optional]}}
+#' @param directory character representing a specific directory (optional ending directory slash), default will be current working directory \strong{[optional]}
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID
 #' @param output character representing the output format  \strong{[optional]}\cr
 #' \emph{- spade.list, spade.run, spade.status : \code{("default", "raw")}}
