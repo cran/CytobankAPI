@@ -1,6 +1,6 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: c(
     person("Angel", "Figueroa", email="afigueroa03@beckman.com", role=c("aut", "cre")),
     person("Qihao", "Qi", email="qqi@beckman.com", role=c("aut")),
@@ -21,7 +21,7 @@ RoxygenNote: 7.2.1
 Encoding: UTF-8
 Copyright: 2020 Beckman Coulter, Inc.
 NeedsCompilation: no
-Packaged: 2022-09-19 03:50:15 UTC; sgao
+Packaged: 2022-12-24 08:43:06 UTC; sgao
 Author: Angel Figueroa [aut, cre],
   Qihao Qi [aut],
   Stefanie Trop [aut],
@@ -31,4 +31,4 @@ Author: Angel Figueroa [aut, cre],
   Katherine Drake [aut]
 Maintainer: Angel Figueroa <afigueroa03@beckman.com>
 Repository: CRAN
-Date/Publication: 2022-09-20 22:30:18 UTC
+Date/Publication: 2023-01-06 09:40:14 UTC
