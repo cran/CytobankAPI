@@ -22,8 +22,7 @@
 \alias{autogating.run_autogating_analysis}
 \alias{autogating.show_autogating_analysis_status,UserSession-method}
 \alias{autogating.show_autogating_analysis_status}
-\title{Automatic gating Endpoints
-, , , , , , , ,}
+\title{Automatic gating Endpoints}
 \usage{
 \S4method{autogating.list_autogating_analyses_of_type}{UserSession}(
   UserSession,
@@ -189,7 +188,6 @@ the inference run will use.}
 }
 \description{
 Automatic gating Endpoints
-, , , , , , , ,
 }
 \details{
 \code{autogating.list_autogating_analyses_of_type}

@@ -1,8 +1,8 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 2.1.1
+Version: 2.2.0
 Authors@R: c(
-    person("Angel", "Figueroa", email="afigueroa03@beckman.com", role=c("aut", "cre")),
+    person("Stu", "Blair", email="sblair@beckman.com", role=c("aut", "cre")),
     person("Qihao", "Qi", email="qqi@beckman.com", role=c("aut")),
     person("Stefanie", "Trop", email="strop@beckman.com", role="aut"),
     person("Louis", "Liu", email="ZLIU011@beckman.com", role="aut"),
@@ -15,20 +15,21 @@ Description: Tools to interface with Cytobank's API via R, organized by
 License: GPL-3
 Depends: R (>= 3.5.0), curl (>= 2.7), httr (>= 1.2.1)
 Imports: jsonlite, methods, stats, aws.s3, uuid, jose
-Suggests: knitr, rmarkdown, testthat
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
 Encoding: UTF-8
 Copyright: 2020 Beckman Coulter, Inc.
+Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-12-24 08:43:06 UTC; sgao
-Author: Angel Figueroa [aut, cre],
+Packaged: 2023-02-09 05:10:53 UTC; moyongfeng
+Author: Stu Blair [aut, cre],
   Qihao Qi [aut],
   Stefanie Trop [aut],
   Louis Liu [aut],
   Preston Ng [aut],
   Chris Ciccolella [aut],
   Katherine Drake [aut]
-Maintainer: Angel Figueroa <afigueroa03@beckman.com>
+Maintainer: Stu Blair <sblair@beckman.com>
 Repository: CRAN
-Date/Publication: 2023-01-06 09:40:14 UTC
+Date/Publication: 2023-02-10 09:30:14 UTC

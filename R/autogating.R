@@ -4,7 +4,7 @@
 # You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #' Automatic gating Endpoints
-#' , , , , , , , ,
+#'
 #' @name autogating
 #' @param experiment_id integer representing an \link[=experiments]{experiment} ID
 #' @param analysis_type character representing the type of ananlysis: auto_gate_train or auto_gate_inference
