@@ -1,6 +1,6 @@
 Package: CytobankAPI
 Title: Cytobank API Wrapper for R
-Version: 2.2.0
+Version: 2.2.1
 Authors@R: c(
     person("Stu", "Blair", email="sblair@beckman.com", role=c("aut", "cre")),
     person("Qihao", "Qi", email="qqi@beckman.com", role=c("aut")),
@@ -22,7 +22,7 @@ Encoding: UTF-8
 Copyright: 2020 Beckman Coulter, Inc.
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-02-09 05:10:53 UTC; moyongfeng
+Packaged: 2023-04-21 02:24:29 UTC; fli05
 Author: Stu Blair [aut, cre],
   Qihao Qi [aut],
   Stefanie Trop [aut],
@@ -32,4 +32,4 @@ Author: Stu Blair [aut, cre],
   Katherine Drake [aut]
 Maintainer: Stu Blair <sblair@beckman.com>
 Repository: CRAN
-Date/Publication: 2023-02-10 09:30:14 UTC
+Date/Publication: 2023-04-21 08:32:30 UTC

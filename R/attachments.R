@@ -86,7 +86,7 @@ setMethod("attachments.download", signature(UserSession="UserSession"),
 
     download_status<-utils::download.file(url=parse(resp)$downloadUrl,
                                           destfile=file.path(directory,file_name),
-                                          method = 'auto', quiet = FALSE)
+                                          method = 'auto', quiet = FALSE, mode = 'wb')
 
     if(download_status!=0){
         print('Can not download the file.')

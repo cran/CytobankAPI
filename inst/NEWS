@@ -1,5 +1,10 @@
 ####################################################################################################
 
+# CytobankAPI 2.2.1
+* Bugfix:
+  * Download FlowSOM zip files on windows operating system properly
+
+
 # CytobankAPI 2.2.0
 
 * Support Cytobank PeacoQC data QC feature
